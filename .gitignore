@@ -2,6 +2,6 @@ node_modules
 bundle.js
 *.DS_Store
 .AppleDouble
-.LSOverride 
-iisnode.yml 
+.LSOverride
+iisnode.yml
 npm-debug.log
