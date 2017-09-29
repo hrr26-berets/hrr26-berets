@@ -7,6 +7,7 @@ mongoose.Promise = require('bluebird');
 
 const User = new Schema({
   shoppingList: Schema.Types.Mixed
+
 });
 
 User.plugin(passportLocalMongoose);
