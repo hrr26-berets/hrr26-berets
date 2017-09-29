@@ -40,7 +40,10 @@ app.listen(PORT, (req, res) => {
   console.log('listening on port ', PORT);
 });
 
+
+//lookupItem
 // handle signup, login, and lgout
+app.get('/search',handler.search);
 app.post('/signup', handler.signUpUser);
 app.post('/login', handler.logInUser);
 app.post('/logout', handler.logOutUser);

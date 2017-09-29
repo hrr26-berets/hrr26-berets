@@ -3,6 +3,8 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 
 const User = require('../db/models/user');
+const walmartKey = require('./api-keys')
+const walmartReq = require('walmart')(walmartKey.walmartKey);
 
 passport.use(User.createStrategy());
 
@@ -31,3 +33,31 @@ exports.logOutUser = (req, res) => {
   req.logout();
   res.redirect('/');
 };
+
+let filterWords = (name) => {
+ return name.split(' ').reduce( (acc,el) => {
+    if(el.toLowerCase() === 'refurbished' || el.toLowerCase() === 'used') {
+      acc = false;
+    }
+    return acc;
+ }, true);
+}
+
+exports.search = (req,res) => {
+  var test = 'ipod'
+  walmartReq.search(test).then(function(products) {
+    var arr = products.items.reduce(function(acc,el) {
+        var obj = {}
+        if (filterWords(el.name)) {
+        obj[el.name] = el.salePrice;
+        acc.push(obj);
+        }
+        return acc;
+    },[]);
+    console.log('Array -- > ',arr.slice(0,5));
+    res.json(arr.slice(0,5));
+  })
+};
+
+
+
