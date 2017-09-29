@@ -1,0 +1,11 @@
+#login {
+  height: 100px;
+  width: 150px;
+  padding: 30px;
+  border: 1px solid black;
+}
+
+#submit {
+  position: relative;
+  left: 163px;
+}
