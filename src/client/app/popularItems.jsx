@@ -12,3 +12,4 @@ var PopularItems = (props) => (
 //onClick passed from parent component allows user to follow url link to walmart product page
 
 
+export default PopularItems;
