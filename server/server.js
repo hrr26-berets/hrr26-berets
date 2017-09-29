@@ -10,6 +10,7 @@ const LocalStrategy = require('passport-local').Strategy
 const handler = require('request-handler');
 
 const User = require('../db/models/user');
+const Product = require('../db/models/product');
 
 app.use(bodyParser.json());
 bodyParser.urlencoded({extended: true});
@@ -33,6 +34,7 @@ app.use((req, res, next) => {
  res.setHeader('Access-Control-Allow-Headers', 'Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers');
  next();
 });
+
 
 app.listen(PORT, (req, res) => {
   console.log('listening on port ', PORT);

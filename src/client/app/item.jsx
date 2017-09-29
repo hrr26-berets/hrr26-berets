@@ -16,3 +16,4 @@ var Item = (props) => (
 //box name = props.product.name
 //box price = props.product.salePrice
 //do we want an additional 'add to list onClick function?'
+export default Item;
