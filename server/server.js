@@ -7,7 +7,7 @@ const session = require('express-session');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy
 
-const handler = require('request-handler');
+const handler = require('./request-handler');
 
 const User = require('../db/models/user');
 const Product = require('../db/models/product');
