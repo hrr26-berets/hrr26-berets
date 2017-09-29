@@ -13,7 +13,7 @@ const User = require('../db/models/user');
 const Product = require('../db/models/product');
 
 app.use(bodyParser.json());
-bodyParser.urlencoded({extended: true});
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // authentication using passport local
 app.use(session({
