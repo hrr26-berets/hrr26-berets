@@ -16,6 +16,8 @@ class ShoppingList extends Component {
 
   //App view should include saveList function that saves the current 'items' list in app state to the database.
 
+  //When styling <Item/> component here, make sure items are vertically stacked.
+
 
   render() {
     //<button className="exit" onClick={props.renderList}></button>
