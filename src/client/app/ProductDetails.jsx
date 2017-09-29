@@ -17,7 +17,7 @@ class ProductDetails extends Component {
   render() {
     <div>
       <h3 className="product-name">{this.props.product.name}</h3>
-      <img src={this.props.imageEntities[0].largeImage} />
+      <img src={this.props.product.imageEntities[0].largeImage} />
       <div className="sale-price">{this.props.product.salePrice}</div>
       <div>Price history can go here</div>
       <div>{this.props.product.longDescription}</div>
