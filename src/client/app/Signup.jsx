@@ -6,14 +6,18 @@ class Signup extends React.Component {
   }
 
   render() {
+
     return (
       <div>
-        Name
-          <input> </input>
-        Password
-          <input></input>
-          <button type="submit"> Submit </button>
-       </div>
+        <h2> Signup </h2>
+        <div id="login">
+          username &emsp;
+          <input type="text"></input> <br /><br />
+          password &emsp;
+          <input type="text"></input> <br /><br />
+          <button type="submit" id="submit"> Submit </button>
+        </div>
+      </div>
     );
   }
 }
