@@ -20,7 +20,7 @@ exports.signUpUser = (req, res) => {
 };
 
 exports.logInUser = (req, res) => {
-  let username = req.body.email;
+  let username = req.body.username;
   let password = req.body.password;
   passport.authenticate('local')(req, res, () => {
     res.redirect('/');
