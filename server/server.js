@@ -7,11 +7,10 @@ const passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy
 
 var User = require('../db/models/user');
-
+var Product = require('../db/models/product');
 app.use(bodyParser.json());
 bodyParser.urlencoded({extended: true});
 
-app.use(passport);
 app.use(passport.initialize());
 app.use(express.static('public'));
 
