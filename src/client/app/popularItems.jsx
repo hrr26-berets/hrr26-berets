@@ -1,7 +1,10 @@
+import React from 'react';
+import Item from './Item.jsx';
+
 var PopularItems = (props) => (
   <div className="popular-items">
     {props.products.map(product =>
-      <Item onClick={props.onClick} product={product}/>
+      <Item onClick={props.onClick} product={product} key={product._id}/>
       )}
   </div>
   )

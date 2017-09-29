@@ -1,3 +1,5 @@
+import React from 'react';
+
 var Item = (props) => (
   <div className="popular-item">
       <div className="item-title">
