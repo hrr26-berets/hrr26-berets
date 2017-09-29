@@ -41,8 +41,8 @@ app.listen(PORT, (req, res) => {
 });
 
 
-//lookupItem
-// handle signup, login, and lgout
+
+app.get('/lookupItem',handler.lookUp);
 app.get('/search',handler.search);
 app.post('/signup', handler.signUpUser);
 app.post('/login', handler.logInUser);

@@ -44,13 +44,18 @@ let filterWords = (name) => {
 }
 
 exports.search = (req,res) => {
-  var test = 'ipod'
-  walmartReq.search(test).then(function(products) {
-    var arr = products.items.reduce(function(acc,el) {
-        var obj = {}
+  let test = 'ipod'
+  walmartReq.search(test).then((products) => {
+    let arr = products.items.reduce((acc,el) => {
+        let obj = {}
         if (filterWords(el.name)) {
-        obj[el.name] = el.salePrice;
+        obj.name = el.name;
+        obj.price = el.salePrice;
+        obj.itemId = el.itemId;
         acc.push(obj);
+        }
+        if(acc.length === 1) {
+          console.log('El --> ',el);
         }
         return acc;
     },[]);
@@ -58,6 +63,24 @@ exports.search = (req,res) => {
     res.json(arr.slice(0,5));
   })
 };
+//42608121
+
+exports.lookUp = (req,res) => {
+  let test = 42608121;
+  walmartReq.search(test).then((products) => { 
+    let desc = products.items.reduce((acc,el) => {
+      if (el.itemId === test) {
+        acc.images = el.imageEntities[0];
+        acc.url = el.productUrl;
+        acc.description = el.longDescription;
+        acc.name = el.name;
+        acc.price = el.salePrice;
+      }
+      return acc;
+    },{})
+    res.json(desc);
+  });
+}
 
 
 
