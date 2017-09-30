@@ -10,7 +10,7 @@ $.ajax({
   contentType: 'application/json',
   success:(res) => {
     console.log('Response -> ',res);
-  }, 
+  },
   error: (err) => {
     console.log('Error -> ',err);
   }
