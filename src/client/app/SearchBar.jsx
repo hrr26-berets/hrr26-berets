@@ -22,12 +22,12 @@ class SearchBar extends Component{
   }
   render() {
     return (
-      <div className="search">
+      <span className="search">
         <input id={this.state.query} type="text" />
         <button id={this.state.query} onClick={this.props.productSearch} className="searchBtn">
           Search
         </button>
-      </div>
+      </span>
     );
   }
 }

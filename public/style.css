@@ -9,3 +9,8 @@
   position: relative;
   left: 80px;
 }
+
+.popular-item {
+  padding-left: 50px;
+  text-align: center;
+}
