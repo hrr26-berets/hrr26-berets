@@ -10,7 +10,33 @@
   left: 80px;
 }
 
-.popular-item {
-  padding-left: 50px;
-  text-align: center;
+#FL-Container {
+  width: 1000px;
+  padding: 5px;
+  margin: 20px auto;
+}
+
+#FL-col1 {
+  width: 200px;
+  float: left;
+  padding: 5px 15px;
+}
+
+#FL-col2 {
+  width: 200px;
+  float: left;
+  padding: 5px 15px;
+  margin: 0px 5px 5px 5px;
+}
+
+#FL-col3 {
+  width: 200px;
+  float: left;
+  padding: 5px 15px;
+}
+
+#FL-col4 {
+  width: 20px;
+  float: left;
+  padding: 5px 10px;
 }
