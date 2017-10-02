@@ -17,52 +17,40 @@ Once the project moves into development, the press release can be used as a touc
  -->
 
 ## Heading ##
-  > Name the product in a way the reader (i.e. your target customers) will understand.
 
   wishList
 
 
 ## Sub-Heading ##
-  > Describe who the market for the product is and what benefit they get. One sentence only underneath the title.
-
-
-
 
   Helping smart shoppers and bargain seekers make informed decisions about whether to buy a product now or save it for later.
 
 ## Summary ##
-  > Give a summary of the product and the benefit. Assume the reader will not read anything else so make this paragraph good.
 
   Our application collects price data from multiple vendors to give users a clear idea of the average cost of a product they're interested in purchasing. Based on the cost of an item, users can decide whether to purchase the item or add it to a wish list. They can set a price point on items on their list and receive alerts if a vendor's price for the item matches that price point. Users can also access the price history for an item, giving them an idea of how that item's price may change in the future.
 
 ## Problem ##
-  > Describe the problem your product solves.
 
   When shopping online, consumers often don't have a way of aggregating all their desired products into a single list.
 
 ## Solution ##
-  > Describe how your product elegantly solves the problem.
 
   Our app offers an interactive wish list where users can view all their current must-have products.  We provide the additional convenience of price comparison across common vendors to assist users in deciding when to buy a product.
 
 ## Quote from You ##
-  > A quote from a spokesperson in your company.
 
   We're here to provide customers an organized, informed, stress-free online shopping experience.
 
 
 
 ## How to Get Started ##
-  > Describe how easy it is to get started.
 
   Search for what you want.  If you want to buy it, simply click through to buy it from a vendor's main page.  If you want to save it for later, add it to your wish list with a click of a button.  You can even set a desired price point for an item and recieve notifications when the item's price drops.
 
 ## Customer Quote ##
-  > Provide a quote from a hypothetical customer that describes how they experienced the benefit.
 
   "Whenever the holidays come around, I get so stressed trying to keep all my gifts straight.  WishList helped me keep track of what to buy - and when!"
 
 ## Closing and Call to Action ##
-  > Wrap it up and give pointers where the reader should go next.
 
   That's everything you need to know to simplify your shopping with wishList!  Check it out at {{deployed link here}}

@@ -1,11 +1,11 @@
 import React from 'react';
 
 var Item = (props) => (
-  <div className="popular-item">
+  <div className="popular-item col-xs-2 container row">
       <div className="item-title">
         {props.product.name}
       </div>
-      <div onClick={props.onClick}>
+      <div className="item-image" onClick={props.onClick}>
         <img src={props.product.thumbnailImage} alt=""/>
       </div>
       <div className="item-price">
