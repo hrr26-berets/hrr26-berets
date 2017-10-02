@@ -5,7 +5,7 @@ var Item = (props) => (
       <div className="item-title">
         {props.product.name}
       </div>
-      <div onClick={props.onClick}>
+      <div className="item-image" onClick={props.onClick}>
         <img src={props.product.thumbnailImage} alt=""/>
       </div>
       <div className="item-price">
