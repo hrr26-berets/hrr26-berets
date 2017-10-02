@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 
 class SearchBar extends Component{
   constructor(props) {
@@ -9,24 +10,31 @@ class SearchBar extends Component{
   }
 
   onSearch(e) {
-    console.log(this.state)
     this.setState({
       'query': e.target.value
     })
-    console.log(this.state)
-
-    //this.props.productSearch(e)
-    //function passed from parent component that grabs search text to make api calls
-    //change this.state on text input change
-    //set search button id to this.state.query
-    //in productSearch, the search button is e.target
-    //and e.target.value is the value of the search button id
   }
+
+  searchProducts() {
+    var handleSearch = this.props.handleSearch
+    axios.get('http://localhost:3000/search')
+    .then(function(response) {
+    handleSearch(response.data);
+    })
+    .catch(function(error) {
+      console.log(error)
+    })
+  }
+
+  onClick() {
+    console.log(this.state.query)
+  }
+
   render() {
     return (
       <span className="search">
-        <input id={this.state.query} type="text"/>
-        <button id={this.state.query} onClick={this.props.productSearch} className="searchBtn">
+        <input id={this.state.query} onChange={this.onSearch.bind(this)} type="text"/>
+        <button id={this.state.query} onClick={this.searchProducts.bind(this)} className="searchBtn">
           Search
         </button>
       </span>
