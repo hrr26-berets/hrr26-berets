@@ -16,7 +16,7 @@ import axios from 'axios';
 //   }
 // }
 
-var FeaturedList = (props) => (
+var FeaturedLists = (props) => (
   <div>
    <h2> Featured Wishlists </h2> <br/>
     <div id="FL-Container">
@@ -61,4 +61,4 @@ var FeaturedList = (props) => (
   </div>
   )
 
-export default FeaturedList;
+export default FeaturedLists;
