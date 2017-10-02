@@ -3,11 +3,11 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 
 const User = require('../db/models/user');
+const Product = require('../db/models/product');
 const walmartKey = require('./api-keys')
 const walmartReq = require('walmart')(walmartKey.walmartKey);
 
 passport.use(User.createStrategy());
-
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
@@ -44,7 +44,7 @@ let filterWords = (name) => {
 }
 
 exports.search = (req,res) => {
-  let test = 'ipod'
+  let test = 'DVD'
   walmartReq.search(test).then((products) => {
     let arr = products.items.reduce((acc,el) => {
         let obj = {}
@@ -63,7 +63,7 @@ exports.search = (req,res) => {
     res.json(arr.slice(0,5));
   })
 };
-//42608121
+
 
 exports.lookUp = (req,res) => {
   let test = 42608121;
@@ -81,6 +81,35 @@ exports.lookUp = (req,res) => {
     res.json(desc);
   });
 }
+// {"name":"Apple iPod touch 16GB","price":225,"itemId":42608121},
+//{"name":"Xbox One S Battlefield 1 500 GB Bundle","price":279,"itemId":54791566}
+// {"name":"LG DVD Player with USB Direct Recording (DP132)","price":27.88,"itemId":33396346}
 
+// exports.saveList = (req,res) => {
+  
+// }
 
+exports.storeProduct = (req,res,next) => {
+  let now = new Date();
+  let storingItem = req.body;
 
+  Product.findOne({itemId : storingItem ,name: storingItem.name}).exec((err,found) => {
+    if(found) {
+      res.json({message:'It is already exist'});
+    } else {
+      let newProduct = new Product({
+          name:storingItem.name,
+          itemId: storingItem.id,
+          price: storingItem.price,
+          updatedAt: now      
+      });
+      newProduct.save((err,newProuct) =>  {
+        if (err) {
+          req.status(500).send(err);
+        } 
+        // res.status(200).send(newProduct);
+        next()
+      })
+    }
+  })
+}
