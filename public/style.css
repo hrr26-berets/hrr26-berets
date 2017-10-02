@@ -1,7 +1,7 @@
 #login {
   height: 180px;
   width: 280px;
-  text-align: center;
+  text-align: right;
   padding: 10px;
 }
 
@@ -33,10 +33,14 @@
   width: 200px;
   float: left;
   padding: 5px 15px;
-}
 
 #FL-col4 {
   width: 20px;
   float: left;
   padding: 5px 10px;
+}
+  
+  .popular-item {
+  padding-left: 50px;
+  text-align: center;
 }
