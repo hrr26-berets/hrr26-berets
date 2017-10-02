@@ -3,6 +3,7 @@ import Modal from 'react-modal';
 import axios from 'axios';
 import PopularItems from './PopularItems.jsx';
 import SearchBar from './SearchBar.jsx';
+import FeaturedLists from './FeaturedLists.jsx';
 import Login from './Login.jsx';
 import Signup from './Signup.jsx';
 
@@ -135,6 +136,7 @@ class Main extends Component {
         <div className="col-xs-12 container">
           <h3>Popular Items</h3>
           <PopularItems products={this.state.popular}/>
+          <FeaturedLists />
         </div>
       </div>
       )
