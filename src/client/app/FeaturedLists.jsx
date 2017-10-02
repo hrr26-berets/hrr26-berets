@@ -18,7 +18,6 @@ import axios from 'axios';
 
 var FeaturedLists = (props) => (
   <div>
-   <h2> Featured Wishlists </h2> <br/>
     <div id="FL-Container">
       <section id="FL-col1">
           PRO GAMER <br/>

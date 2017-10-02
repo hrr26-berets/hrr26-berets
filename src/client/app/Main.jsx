@@ -6,6 +6,7 @@ import SearchBar from './SearchBar.jsx';
 import FeaturedLists from './FeaturedLists.jsx';
 import Login from './Login.jsx';
 import Signup from './Signup.jsx';
+import SearchResults from './SearchResults.jsx';
 
 class Main extends Component {
   constructor(props) {
@@ -127,8 +128,7 @@ class Main extends Component {
           {
             (this.state.loggedIn)
               ? <span> Welcome, <strong>{this.state.user}</strong>!&nbsp;&nbsp;<a href="#" onClick={this.handleLogOut.bind(this)}>Log Out</a>&nbsp;&nbsp;</span>
-              :
-              <span><a href="#" onClick={this.handleLoggingIn.bind(this)}>Log In</a>&nbsp;&nbsp;
+              : <span><a href="#" onClick={this.handleLoggingIn.bind(this)}>Log In</a>&nbsp;&nbsp;
                 <a href="#" onClick={this.handleSigningUp.bind(this)}>Sign Up</a>&nbsp;&nbsp;</span>
           }
           <SearchBar handleSearch={this.handleSearch.bind(this)}/>
@@ -136,8 +136,17 @@ class Main extends Component {
         <div className="col-xs-12 container">
           <h3>Popular Items</h3>
           <PopularItems products={this.state.popular}/>
-          <FeaturedLists />
         </div>
+        {
+          (this.state.searchResults.length !== 0)
+            ? <div className="col-xs-12 container">
+              <SearchResults results={this.state.searchResults}/>
+            </div>
+            : <div className="col-xs-12 container">
+              <h3>Featured WishLists</h3>
+              <FeaturedLists />
+            </div>
+        }
       </div>
       )
   }
