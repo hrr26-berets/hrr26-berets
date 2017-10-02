@@ -1,7 +1,7 @@
 import React from 'react';
 
 var Item = (props) => (
-  <div className="popular-item">
+  <div className="popular-item col-xs-2 container row">
       <div className="item-title">
         {props.product.name}
       </div>
