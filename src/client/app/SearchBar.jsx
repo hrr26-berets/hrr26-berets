@@ -9,11 +9,13 @@ class SearchBar extends Component{
   }
 
   onSearch(e) {
+    console.log(this.state)
     this.setState({
       'query': e.target.value
     })
+    console.log(this.state)
 
-    this.props.productSearch(e)
+    //this.props.productSearch(e)
     //function passed from parent component that grabs search text to make api calls
     //change this.state on text input change
     //set search button id to this.state.query
@@ -23,7 +25,7 @@ class SearchBar extends Component{
   render() {
     return (
       <span className="search">
-        <input id={this.state.query} type="text" />
+        <input id={this.state.query} type="text"/>
         <button id={this.state.query} onClick={this.props.productSearch} className="searchBtn">
           Search
         </button>
