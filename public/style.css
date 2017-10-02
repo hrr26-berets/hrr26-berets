@@ -1,13 +1,8 @@
 #login {
   height: 180px;
   width: 280px;
-  text-align: center;
+  text-align: right;
   padding: 10px;
-}
-
-#submit {
-  position: relative;
-  left: 80px;
 }
 
 .popular-item {
