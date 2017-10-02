@@ -6,7 +6,7 @@ const app = express();
 const session = require('express-session');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy
-
+var nodemailer = require('nodemailer');
 const handler = require('./request-handler');
 
 const User = require('../db/models/user');
@@ -35,13 +35,36 @@ app.use((req, res, next) => {
  next();
 });
 
+var smtTransport = nodemailer.createTransport({
+  service:'gmail',
+  host:'beretsberet@gmail.com',
+  auth: ({
+    user:'beretsberet@gmail.com',
+    pass:'dummy123'
+  })
+})
+
+var mailOptions = {
+  from:'Admin <beretsberet@gmail.com',
+  to:'bois.bb18@gmail.com',
+  subject:'Hello World!',
+  text:'Hello World!'
+}
+
 
 app.listen(PORT, (req, res) => {
   console.log('listening on port ', PORT);
 });
 
+app.get('/message', (req,res) => {
+  smtTransport.sendMail(mailOptions,(err,response) => {
+    if(err) { throw err}
+      console.log('It works');
+    res.status(200)
+  });
+})
 
-
+// app.post('/save',handler.save_shopping);
 app.get('/lookupItem',handler.lookUp);
 app.get('/search',handler.search);
 app.post('/signup', handler.signUpUser);
