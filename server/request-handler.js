@@ -44,7 +44,7 @@ let filterWords = (name) => {
 }
 
 exports.search = (req, res) => {
-  let test = 'ipod'
+  let test = req.query.query
   walmartReq.search(test).then((products) => {
     let arr = products.items.reduce((acc, el) => {
         let obj = {}
