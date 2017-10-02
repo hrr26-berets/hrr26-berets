@@ -43,10 +43,10 @@ let filterWords = (name) => {
  }, true);
 }
 
-exports.search = (req,res) => {
+exports.search = (req, res) => {
   let test = 'ipod'
   walmartReq.search(test).then((products) => {
-    let arr = products.items.reduce((acc,el) => {
+    let arr = products.items.reduce((acc, el) => {
         let obj = {}
         if (filterWords(el.name)) {
         obj.name = el.name;
@@ -65,10 +65,10 @@ exports.search = (req,res) => {
 };
 //42608121
 
-exports.lookUp = (req,res) => {
+exports.lookUp = (req, res) => {
   let test = 42608121;
-  walmartReq.search(test).then((products) => { 
-    let desc = products.items.reduce((acc,el) => {
+  walmartReq.search(test).then((products) => {
+    let desc = products.items.reduce((acc, el) => {
       if (el.itemId === test) {
         acc.images = el.imageEntities[0];
         acc.url = el.productUrl;
