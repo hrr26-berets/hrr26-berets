@@ -46,4 +46,4 @@ app.get('/lookupItem',handler.lookUp);
 app.get('/search',handler.search);
 app.post('/signup', handler.signUpUser);
 app.post('/login', handler.logInUser);
-app.post('/logout', handler.logOutUser);
+app.get('/logout', handler.logOutUser);
