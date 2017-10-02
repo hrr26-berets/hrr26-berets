@@ -1,11 +1,16 @@
 #login {
-  height: 100px;
-  width: 150px;
-  padding: 30px;
-  border: 1px solid black;
+  height: 180px;
+  width: 280px;
+  text-align: center;
+  padding: 10px;
 }
 
 #submit {
   position: relative;
-  left: 163px;
+  left: 80px;
+}
+
+.popular-item {
+  padding-left: 50px;
+  text-align: center;
 }
