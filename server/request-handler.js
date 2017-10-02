@@ -60,14 +60,13 @@ exports.search = (req, res) => {
         }
         return acc;
     },[]);
-    console.log('Array -- > ',arr.slice(0,5));
     res.json(arr.slice(0,5));
   })
 };
 
 
 exports.lookUp = (req, res) => {
-  let test = 42608121;
+  let test = req.query.itemId;
   walmartReq.search(test).then((products) => {
     let desc = products.items.reduce((acc, el) => {
       if (el.itemId === test) {
@@ -87,7 +86,7 @@ exports.lookUp = (req, res) => {
 // {"name":"LG DVD Player with USB Direct Recording (DP132)","price":27.88,"itemId":33396346}
 
 // exports.saveList = (req,res) => {
-  
+
 // }
 
 exports.storeProduct = (req,res,next) => {
@@ -102,12 +101,12 @@ exports.storeProduct = (req,res,next) => {
           name:storingItem.name,
           itemId: storingItem.id,
           price: storingItem.price,
-          updatedAt: now      
+          updatedAt: now
       });
       newProduct.save((err,newProuct) =>  {
         if (err) {
           req.status(500).send(err);
-        } 
+        }
         // res.status(200).send(newProduct);
         next()
       })
