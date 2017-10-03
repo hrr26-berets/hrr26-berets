@@ -17,6 +17,7 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+
 exports.signUpUser = (req, res) => {
   User.register(new User({ username: req.body.username }), req.body.password, (err, user) => {
     if (err) { return res.send(err); }
@@ -27,6 +28,7 @@ exports.signUpUser = (req, res) => {
   });
 };
 
+
 exports.logInUser = (req, res) => {
   let username = req.body.username;
   let password = req.body.password;
@@ -35,6 +37,7 @@ exports.logInUser = (req, res) => {
     res.redirect('/');
     })
 };
+
 
 exports.logOutUser = (req, res) => {
   req.logout();
@@ -48,7 +51,7 @@ let filterWords = (name) => {
     }
     return acc;
  }, true);
-}
+};
 
 
 exports.search = (req, res) => {
@@ -78,9 +81,6 @@ exports.search = (req, res) => {
 };
 
 
-
-
-
 exports.lookUp = (req, res) => {
   let options = {
     uri: 'http://api.walmartlabs.com/v1/items/' + req.query.query,
@@ -101,8 +101,27 @@ exports.lookUp = (req, res) => {
     })
     .catch((err) => {
       console.log(err);
+    });
+};
+
+
+exports.getTrending = (req, res) => {
+  let options = {
+    uri: 'http://api.walmartlabs.com/v1/trends',
+    qs: {
+      apiKey: walmartKey.walmartKey,
+      format: 'json'
+    },
+    json: true
+  };
+  rp(options)
+    .then((result) => {
+      res.json(result.items.slice(0, 5));
     })
-}
+    .catch((err) => {
+      console.log(err)
+    });
+};
 
 
 exports.storeProduct = (req,res,next) => {
@@ -129,9 +148,7 @@ exports.storeProduct = (req,res,next) => {
       })
     }
   })
-} 
-
-
+};
 
 
 exports.save_shopping = function(req,res,next) {
@@ -152,12 +169,12 @@ if (req.session.passport.user) {
     if(user) {
       if (user.shoppingList) {
         obj = user.shoppingList;
-      } 
+      }
       for(let key in list) {
         obj[key] = list[key].reduce((acc,el) => {
           acc.push({ name: el['name'], itemId: el['itemId']});
           return acc;
-        },[]); 
+        },[]);
       }
       User.findOneAndUpdate({username:username},{"$set":{shoppingList: obj}},{upsert: true, new: true, runValidators: true,strict:false,overwrite:true}).exec((err,newUser) =>  {
       if(err) {
@@ -167,10 +184,10 @@ if (req.session.passport.user) {
         res.status(200).json(newUser);
        }
      })
-    } 
+    }
   })
  }
-}
+};
 
 let smtTransport = nodemailer.createTransport({
   service:'gmail',
@@ -198,7 +215,7 @@ let handleRequests = (product,callback) => {
       }
     })
   }
-}
+};
 
 
 exports.updateProducts = (req,res) => {
@@ -234,4 +251,4 @@ exports.updateProducts = (req,res) => {
       })
     }
   })
- }
+};
