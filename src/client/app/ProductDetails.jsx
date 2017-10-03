@@ -46,11 +46,11 @@ class ProductDetails extends Component {
                 <img src={this.state.details.imageUrl} />
                 <h4 className="sale-price">${this.state.details.price}</h4>
                 <div>
-                  {Parser(''+this.state.details.desc)}
+                  {Parser(Parser(''+this.state.details.desc))}
                 </div>
                 <div style={{ marginTop: '15px' }}>
-                  <a className="btn btn-default" onClick={this.handleAddToList.bind(this)}>Add to wishList</a>
-                  <a href={this.props.itemUrl} target="_blank" className="btn btn-primary">Buy it Now</a>
+                  <a className="btn btn-default" onClick={this.handleAddToList.bind(this)}>Add to List</a>
+                  <a href={this.props.itemUrl} target="_blank" className="btn btn-primary">Buy it Now!</a>
                 </div>
               </div>
               : <div>Loading...</div>

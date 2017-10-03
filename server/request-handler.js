@@ -1,3 +1,7 @@
+const express = require('express');
+const router = express.Router();
+const request = require('request');
+const rp = require('request-promise');
 const session = require('express-session');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
@@ -73,16 +77,36 @@ exports.search = (req, res) => {
 
 
 exports.lookUp = (req, res) => {
-  console.log("query", req.query.query);
-  let itemId = req.query.query;
-  walmartReq.getItem(itemId)
+  // console.log("query", req.query.query);
+  // let itemId = req.query.query;
+  // walmartReq.getItem(itemId)
+  //   .then((item) => {
+  //     let details = {};
+  //     details.name = item.product.productName;
+  //     details.desc = item.product.longDescription;
+  //     details.imageUrl = item.product.primaryImageUrl;
+  //     details.price = item.product.buyingOptions.price.currencyAmount;
+  //     res.json(details);
+  //   })
+  let options = {
+    uri: 'http://api.walmartlabs.com/v1/items/' + req.query.query,
+    qs: {
+      apiKey: walmartKey.walmartKey,
+      format: 'json'
+    },
+    json: true
+  };
+  rp(options)
     .then((item) => {
       let details = {};
-      details.name = item.product.productName;
-      details.desc = item.product.longDescription;
-      details.imageUrl = item.product.primaryImageUrl;
-      details.price = item.product.buyingOptions.price.currencyAmount;
+      details.name = item.name;
+      details.desc = item.longDescription;
+      details.imageUrl = item.largeImage;
+      details.price = item.salePrice;
       res.json(details);
+    })
+    .catch((err) => {
+      console.log(err);
     })
 }
 
