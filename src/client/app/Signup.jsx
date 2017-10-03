@@ -33,7 +33,7 @@ class Signup extends React.Component {
             <input type="email" placeholder="name@example.com" onChange={this.handleUsername.bind(this)} required></input> <br /><br />
             <label>password</label>&nbsp;&nbsp;
             <input type="password" onChange={this.handlePassword.bind(this)} required></input> <br /><br />
-            <button type="submit" id="submit"> Submit </button>
+            <button type="submit"> Submit </button>
           </form>
         </div>
       </div>

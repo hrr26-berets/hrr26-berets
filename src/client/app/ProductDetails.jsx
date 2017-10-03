@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
+import Parser from 'html-react-parser';
 
 class ProductDetails extends Component {
   constructor(props) {
     super(props);
 
+    this.details = this.props.details;
   }
 
   handleAddToList() {
@@ -17,11 +19,10 @@ class ProductDetails extends Component {
   render() {
     return (
       <div>
-        <h3 className="product-name">{this.props.product.name}</h3>
-        <img src={this.props.product.imageEntities[0].largeImage} />
-        <div className="sale-price">{this.props.product.salePrice}</div>
-        <div>Price history can go here</div>
-        <div>{this.props.product.longDescription}</div>
+        <h3 className="product-name">{this.details.name}</h3>
+        <img src={this.details.images.largeImage} />
+        <h4 className="sale-price">${this.details.price}</h4>
+        {Parser(Parser(this.details.description))}
         <div>
           <button className="add-to-list" onClick={this.handleAddToList.bind(this)}>Add to wishList</button>
           <button className="buy-now" onClick={this.handleBuyNow.bind(this)}>Buy it Now</button>

@@ -65,8 +65,8 @@ app.get('/message', (req,res) => {
 })
 
 // app.post('/save',handler.save_shopping);
-app.get('/lookupItem',handler.lookUp);
-app.get('/search',handler.search);
+app.get('/lookupItem', handler.lookUp);
+app.get('/search', handler.search);
 app.post('/signup', handler.signUpUser);
 app.post('/login', handler.logInUser);
 app.get('/logout', handler.logOutUser);
