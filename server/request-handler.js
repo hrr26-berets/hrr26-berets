@@ -55,9 +55,9 @@ exports.search = (req, res) => {
         obj.itemId = el.itemId;
         acc.push(obj);
         }
-        if(acc.length === 1) {
-          console.log('El --> ',el);
-        }
+        // if(acc.length === 1) {
+        //   console.log('El --> ',el);
+        // }
         return acc;
     },[]);
     res.json(arr.slice(0,5));
@@ -66,7 +66,8 @@ exports.search = (req, res) => {
 
 
 exports.lookUp = (req, res) => {
-  let test = req.query.itemId;
+  console.log("query", req.query.query);
+  let test = 49920630;
   walmartReq.search(test).then((products) => {
     let desc = products.items.reduce((acc, el) => {
       if (el.itemId === test) {

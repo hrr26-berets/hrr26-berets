@@ -77,9 +77,7 @@ class Main extends Component {
   }
 
   handleSearch(products) {
-    console.log(products)
     this.setState({ searchResults: products })
-    console.log(this.state.searchResults)
   }
 
   render() {

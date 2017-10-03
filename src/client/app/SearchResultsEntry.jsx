@@ -1,14 +1,20 @@
 import React, { Component } from 'react';
-import ProductDetails from './ProductDetails.jsx';
+import axios from 'axios';
 import Modal from 'react-modal';
+import ProductDetails from './ProductDetails.jsx';
 
 class SearchResultsEntry extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      showDetails: false
+      showDetails: false,
+      details: {}
     }
     this.item = this.props.item;
+  }
+
+  componentDidMount() {
+    this.getItemDetails();
   }
 
   handleAddItem(e) {
@@ -27,30 +33,41 @@ class SearchResultsEntry extends Component {
     })
   }
 
+  getItemDetails() {
+    axios.get('/lookupItem', {
+      params: {
+        query: this.item.itemId
+      }
+    })
+      .then((res) => {
+        this.setState({
+          details: res.data
+        })
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
   render() {
     return(
       <div className="list row col-md-9">
-        {/* <Modal
+        <Modal
           isOpen={this.state.showDetails}
           onRequestClose={this.handleItemClick.bind(this)}
           contentLabel="ItemDetails"
           style={{
             content: {
-          position: 'absolute',
-          height: '720',
-          width: '940',
-          left: '15%',
-          right: '15%'
+              position: 'absolute',
+              height: '720px',
+              width: '940px',
+              left: '15%',
+              right: '15%'
             }
           }}
-        > */}
-        {
-          (this.state.showDetails)
-            ? <ProductDetails itemId={this.item.itemId}/>
-            : null
-              }
-
-              {/* </Modal> */}
+        >
+          <ProductDetails details={this.state.details}/>
+        </Modal>
         <div className="col-md-3">
           <a href="#" onClick={this.handleItemClick.bind(this)}><strong>{this.item.name.substring(0, 40)}</strong></a>
         </div>
