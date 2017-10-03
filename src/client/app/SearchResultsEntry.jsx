@@ -26,7 +26,8 @@ class SearchResultsEntry extends Component {
   //   // TODO: redirect to item on merchant website
   // }
 
-  handleItemClick() {
+  handleItemClick(e) {
+    e.preventDefault();
     this.setState({
       showDetails: !this.state.showDetails
     });
@@ -70,7 +71,7 @@ class SearchResultsEntry extends Component {
           <ProductDetails details={this.state.details}/>
         </Modal>
         <div className="col-sm-3">
-          <a onClick={this.handleItemClick.bind(this)}><strong>{item.name.substring(0, 40)}</strong></a>
+          <a href="#" onClick={this.handleItemClick.bind(this)}><strong>{item.name.substring(0, 40)}</strong></a>
         </div>
         <div className="col-sm-3">
           <img src={item.image} alt=""/>

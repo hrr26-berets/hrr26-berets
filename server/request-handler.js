@@ -74,20 +74,16 @@ exports.search = (req, res) => {
 
 exports.lookUp = (req, res) => {
   console.log("query", req.query.query);
-  let test = 49920630;
-  walmartReq.search(test).then((products) => {
-    let desc = products.items.reduce((acc, el) => {
-      if (el.itemId === test) {
-        acc.images = el.imageEntities[0];
-        acc.url = el.productUrl;
-        acc.description = el.longDescription;
-        acc.name = el.name;
-        acc.price = el.salePrice;
-      }
-      return acc;
-    },{})
-    res.json(desc);
-  });
+  let itemId = req.query.query;
+  walmartReq.getItem(itemId)
+    .then((item) => {
+      let details = {};
+      details.name = item.product.productName;
+      details.desc = item.product.longDescription;
+      details.imageUrl = item.product.primaryImageUrl;
+      details.price = item.product.buyingOptions.price.currencyAmount;
+      res.json(details);
+    })
 }
 
 
@@ -134,12 +130,12 @@ if (req.session.user) {
     if(user) {
       if (user.shoppingList) {
         obj = user.shoppingList;
-      } 
+      }
       for(let key in list) {
         obj[key] = list[key].reduce((acc,el) => {
           acc.push({ name: el['name'], itemId: el['itemId']});
           return acc;
-        },[]); 
+        },[]);
       }
       User.findOneAndUpdate({username:username},{"$set":{shoppingList: obj}},{upsert: true, new: true, runValidators: true,strict:false,overwrite:true}).exec(function(err,newUser) {
       if(err) {
@@ -149,7 +145,7 @@ if (req.session.user) {
         res.status(200).json(newUser);
       }
      })
-    } 
+    }
   })
 }
 
