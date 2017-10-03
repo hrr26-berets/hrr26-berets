@@ -15,7 +15,8 @@ class SearchBar extends Component{
     })
   }
 
-  searchProducts() {
+  searchProducts(e) {
+    e.preventDefault();
     var handleSearch = this.props.handleSearch
     var query = this.state.query
     axios.get('http://localhost:3000/search', {
@@ -23,12 +24,12 @@ class SearchBar extends Component{
         query: query
       }
     })
-    .then(function(response) {
-    handleSearch(response.data);
+    .then((res) => {
+    handleSearch(res.data);
     })
-    .catch(function(error) {
-      console.log(error)
-    })
+    .catch((err) => {
+      console.log(err);
+    });
   }
 
   onClick() {
