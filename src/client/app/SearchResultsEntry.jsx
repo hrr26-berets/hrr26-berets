@@ -9,8 +9,7 @@ class SearchResultsEntry extends Component {
     this.state = {
       showDetails: false,
       details: {}
-    }
-    this.item = this.props.item;
+    };
   }
 
   componentDidMount() {
@@ -30,19 +29,19 @@ class SearchResultsEntry extends Component {
   handleItemClick() {
     this.setState({
       showDetails: !this.state.showDetails
-    })
+    });
   }
 
   getItemDetails() {
     axios.get('/lookupItem', {
       params: {
-        query: this.item.itemId
+        query: this.props.item.itemId
       }
     })
       .then((res) => {
         this.setState({
           details: res.data
-        })
+        });
       })
       .catch((err) => {
         console.log(err);
@@ -50,8 +49,10 @@ class SearchResultsEntry extends Component {
   }
 
   render() {
+    const { item } = this.props;
+
     return(
-      <div className="list row col-md-9">
+      <div className="list row">
         <Modal
           isOpen={this.state.showDetails}
           onRequestClose={this.handleItemClick.bind(this)}
@@ -68,20 +69,23 @@ class SearchResultsEntry extends Component {
         >
           <ProductDetails details={this.state.details}/>
         </Modal>
-        <div className="col-md-3">
-          <a href="#" onClick={this.handleItemClick.bind(this)}><strong>{this.item.name.substring(0, 40)}</strong></a>
+        <div className="col-sm-3">
+          <a onClick={this.handleItemClick.bind(this)}><strong>{item.name.substring(0, 40)}</strong></a>
         </div>
-        <div className="col-md-2">
-          ${this.item.price}
+        <div className="col-sm-3">
+          <img src={item.image} alt=""/>
         </div>
-        <div className="col-md-2">
-          <a href="#" onClick={this.handleAddItem.bind(this)}>Add to List</a>&nbsp;&nbsp;
+        <div className="col-sm-2">
+          ${item.price}
         </div>
-        <div className="col-md-2">
-          <a href="#" onClick={this.handleBuyItem.bind(this)}>Buy it Now!</a>&nbsp;&nbsp;
+        <div className="col-sm-2">
+          <a href="#" className="btn btn-default" onClick={this.handleAddItem.bind(this)}>Add to List</a>
+        </div>
+        <div className="col-sm-2">
+          <a href="#" className="btn btn-primary" onClick={this.handleBuyItem.bind(this)}>Buy it Now!</a>
         </div>
       </div>
-    )
+    );
   }
 }
 

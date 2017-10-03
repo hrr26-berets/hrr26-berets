@@ -8,7 +8,7 @@ class SearchResults extends Component {
 
   render() {
     return(
-      <div className="container">
+      <div>
         <h3>Search Results</h3>
         {
           this.props.results.map(result =>
