@@ -110,12 +110,16 @@ exports.storeProduct = (req,res,next) => {
 }
 
 exports.save_shopping = function(req,res,next) {
-  var test = {christmasShopping: [{"name":"Apple iPod touch 16GB","price":225,"itemId":42608121},
-  {"name":"Xbox One S Battlefield 1 500 GB Bundle","price":279,"itemId":54791566},
-  {"name":"LG DVD Player with USB Direct Recording (DP132)","price":27.88,"itemId":33396346}]}
+  // var test = {christmasShopping: [{"name":"Apple iPod touch 16GB","price":225,"itemId":42608121},
+  // {"name":"Xbox One S Battlefield 1 500 GB Bundle","price":279,"itemId":54791566},
+  // {"name":"LG DVD Player with USB Direct Recording (DP132)","price":27.88,"itemId":33396346}]}
+if (req.session.user) {
   test.christmasShopping.forEach((item) => {
     req.body = item;
     exports.storeProduct(req,res,next);
-  });
-
+   });
+  let username = req.session.user.username;
+  let password = req.session.user.password;
+  console.log('req.session.user -> ',req.session.user);
+  }
 }
