@@ -82,35 +82,44 @@ exports.lookUp = (req, res) => {
     res.json(desc);
   });
 }
-// {"name":"Apple iPod touch 16GB","price":225,"itemId":42608121},
-//{"name":"Xbox One S Battlefield 1 500 GB Bundle","price":279,"itemId":54791566}
-// {"name":"LG DVD Player with USB Direct Recording (DP132)","price":27.88,"itemId":33396346}
 
-// exports.saveList = (req,res) => {
-
-// }
 
 exports.storeProduct = (req,res,next) => {
   let now = new Date();
   let storingItem = req.body;
-
-  Product.findOne({itemId : storingItem ,name: storingItem.name}).exec((err,found) => {
+  Product.findOne({itemId : storingItem.itemId ,name: storingItem.name}).exec((err,found) => {
     if(found) {
-      res.json({message:'It is already exist'});
+     res.status(200);     
+      next();
     } else {
       let newProduct = new Product({
           name:storingItem.name,
-          itemId: storingItem.id,
+          itemId: storingItem.itemId,
           price: storingItem.price,
           updatedAt: now
       });
       newProduct.save((err,newProuct) =>  {
         if (err) {
           req.status(500).send(err);
-        }
-        // res.status(200).send(newProduct);
-        next()
+        } 
+        res.status(200);
+        next();
       })
     }
   })
+}
+
+exports.save_shopping = function(req,res,next) {
+  // var test = {christmasShopping: [{"name":"Apple iPod touch 16GB","price":225,"itemId":42608121},
+  // {"name":"Xbox One S Battlefield 1 500 GB Bundle","price":279,"itemId":54791566},
+  // {"name":"LG DVD Player with USB Direct Recording (DP132)","price":27.88,"itemId":33396346}]}
+if (req.session.user) {
+  test.christmasShopping.forEach((item) => {
+    req.body = item;
+    exports.storeProduct(req,res,next);
+   });
+  let username = req.session.user.username;
+  let password = req.session.user.password;
+  console.log('req.session.user -> ',req.session.user);
+  }
 }
