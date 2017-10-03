@@ -1,3 +1,7 @@
+const express = require('express');
+const router = express.Router();
+const request = require('request');
+const rp = require('request-promise');
 const session = require('express-session');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
@@ -6,6 +10,7 @@ const User = require('../db/models/user');
 const Product = require('../db/models/product');
 const walmartKey = require('./api-keys')
 const walmartReq = require('walmart')(walmartKey.walmartKey);
+const nodemailer = require('nodemailer');
 
 passport.use(User.createStrategy());
 passport.use(new LocalStrategy(User.authenticate()));
@@ -16,7 +21,7 @@ exports.signUpUser = (req, res) => {
   User.register(new User({ username: req.body.username }), req.body.password, (err, user) => {
     if (err) { return res.send(err); }
     passport.authenticate('local')(req, res, () => {
-      console.log('I\'s signed up');
+      console.log('Req.user -> ',req.session);
       res.json({ message: 'signup success' });
     });
   });
@@ -26,8 +31,9 @@ exports.logInUser = (req, res) => {
   let username = req.body.username;
   let password = req.body.password;
   passport.authenticate('local')(req, res, () => {
+
     res.redirect('/');
-  });
+    })
 };
 
 exports.logOutUser = (req, res) => {
@@ -72,31 +78,40 @@ exports.search = (req, res) => {
 };
 
 
+
+
+
 exports.lookUp = (req, res) => {
-  console.log("query", req.query.query);
-  let test = 49920630;
-  walmartReq.search(test).then((products) => {
-    let desc = products.items.reduce((acc, el) => {
-      if (el.itemId === test) {
-        acc.images = el.imageEntities[0];
-        acc.url = el.productUrl;
-        acc.description = el.longDescription;
-        acc.name = el.name;
-        acc.price = el.salePrice;
-      }
-      return acc;
-    },{})
-    res.json(desc);
-  });
+  let options = {
+    uri: 'http://api.walmartlabs.com/v1/items/' + req.query.query,
+    qs: {
+      apiKey: walmartKey.walmartKey,
+      format: 'json'
+    },
+    json: true
+  };
+  rp(options)
+    .then((item) => {
+      let details = {};
+      details.name = item.name;
+      details.desc = item.longDescription;
+      details.imageUrl = item.largeImage;
+      details.price = item.salePrice;
+      res.json(details);
+    })
+    .catch((err) => {
+      console.log(err);
+    })
 }
 
 
 exports.storeProduct = (req,res,next) => {
   let now = new Date();
   let storingItem = req.body;
-  Product.findOne({itemId : storingItem.itemId ,name: storingItem.name}).exec((err,found) => {
+  Product.findOne({itemId : storingItem.itemId, name : storingItem.name }).exec((err,found) => {
     if(found) {
      res.status(200);
+     console.log('It exists');
       next();
     } else {
       let newProduct = new Product({
@@ -114,21 +129,25 @@ exports.storeProduct = (req,res,next) => {
       })
     }
   })
-}
+} 
+
+
+
 
 exports.save_shopping = function(req,res,next) {
-  let test = {techShopping: [{"name":"Apple iPod touch 16GB","price":225,"itemId":42608121},
-  {"name":"Xbox One S Battlefield 1 500 GB Bundle","price":279,"itemId":54791566},
-  {"name":"LG DVD Player with USB Direct Recording (DP132)","price":27.88,"itemId":33396346}]}
+  let test = {techShopping: [{"name":"Apples iPod touch 16GB","price":225,"itemId":42608132},
+  {"name":"Xbox Ones S Battlefield 1 500 GB Bundle","price":279,"itemId":54791579},
+  {"name":"LG DVD Player with USBs Direct Recording (DP132)","price":27.88,"itemId":333963490}]}
+
 let list = req.body.shoppingList || test
-if (req.session.user) {
+if (req.session.passport.user) {
   for (let key in list) {
     list[key].forEach((item) => {
       req.body = item;
       exports.storeProduct(req,res,next);
    });
   }
-  let username = 'Bois';
+  let username = req.session.passport.user;
   let obj = {};
   User.findOne({username: username}).exec((err,user) => {
     if(user) {
@@ -141,16 +160,78 @@ if (req.session.user) {
           return acc;
         },[]); 
       }
-      User.findOneAndUpdate({username:username},{"$set":{shoppingList: obj}},{upsert: true, new: true, runValidators: true,strict:false,overwrite:true}).exec(function(err,newUser) {
+      User.findOneAndUpdate({username:username},{"$set":{shoppingList: obj}},{upsert: true, new: true, runValidators: true,strict:false,overwrite:true}).exec((err,newUser) =>  {
       if(err) {
         console.log('Error --> ',err);
       } else {
         console.log('It saved a user -> ',newUser);
         res.status(200).json(newUser);
-      }
+       }
      })
     } 
   })
+ }
 }
 
+let smtTransport = nodemailer.createTransport({
+  service:'gmail',
+  host:'beretsberet@gmail.com',
+  auth: ({
+    user:'beretsberet@gmail.com',
+    pass:'dummy123'
+  })
+})
+
+let mailOptions = {
+  from:'Admin <beretsberet@gmail.com',
+  to:'bois.bb18@gmail.com',
+  subject:'Hello World!',
+  text:'Hello World!'
 }
+
+let handleRequests = (product,callback) => {
+  console.log(' Products --> ',product);
+  if (product) {
+    walmartReq.getItem(product.itemId).then((item) => {
+
+      if(product.price !== item.product.buyingOptions.price.currencyAmount) {
+        callback(item)
+      }
+    })
+  }
+}
+
+exports.updateProducts = (req,res) => {
+  Product.find({}, (err,items) => {
+    if (err) {
+      console.log('Error --> ',err);
+    } else {
+        res.json(items);
+      let hour = 3 * 60 * 60 * 1000;
+       items.forEach((item) => {
+         if (((new Date) - item.updatedAt) < hour) {
+            handleRequests(item,(newItem) => {
+            item.price = newItem.product.buyingOptions.price.currencyAmount;
+            item.updatedAt = new Date();
+
+
+             mailOptions.subject = 'Price changed!';
+             mailOptions.text = 'New price is $' + item.price + ' for ' + item.name;
+             mailOptions.to = req.session.passport.user
+
+              smtTransport.sendMail(mailOptions,(err,response) => {
+                if(err) { throw err}
+                item.save((err, newProduct) =>  {
+                  if (err) {
+                    console.log('Error --> ',err);
+                    req.status(500).send(err);
+                  }
+                  console.log('Product is saved');
+                })
+              });
+            })
+          }
+      })
+    }
+  })
+ }
