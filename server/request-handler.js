@@ -10,6 +10,7 @@ const User = require('../db/models/user');
 const Product = require('../db/models/product');
 const walmartKey = require('./api-keys')
 const walmartReq = require('walmart')(walmartKey.walmartKey);
+const nodemailer = require('nodemailer');
 
 passport.use(User.createStrategy());
 passport.use(new LocalStrategy(User.authenticate()));
@@ -77,8 +78,10 @@ exports.search = (req, res) => {
 };
 
 
-exports.lookUp = (req, res) => {
 
+
+
+exports.lookUp = (req, res) => {
   let options = {
     uri: 'http://api.walmartlabs.com/v1/items/' + req.query.query,
     qs: {
@@ -134,12 +137,7 @@ exports.storeProduct = (req,res,next) => {
 exports.save_shopping = function(req,res,next) {
   let test = {techShopping: [{"name":"Apples iPod touch 16GB","price":225,"itemId":42608132},
   {"name":"Xbox Ones S Battlefield 1 500 GB Bundle","price":279,"itemId":54791579},
-  {"name":"LG DVD Player with USBs Direct Recording (DP132)","price":27.88,"itemId":333963490}]}
-      // test['techShopping'].forEach((item) => {
-      // console.log('It is inside of foreach');
-      // req.body = item;
-      // exports.storeProduct(req,res,next);
-     // });
+  {"name":"LG DVD Player with USBs Direct Recording (DP132)","price":27.88,"itemId":333963490}]};
 let list = req.body.shoppingList || test
 if (req.session.passport.user) {
   for (let key in list) {
@@ -174,24 +172,64 @@ if (req.session.passport.user) {
  }
 }
 
-let handleRequests = (product) => {
+let smtTransport = nodemailer.createTransport({
+  service:'gmail',
+  host:'beretsberet@gmail.com',
+  auth: ({
+    user:'beretsberet@gmail.com',
+    pass:'dummy123'
+  })
+})
 
-   walmartReq.getItem(product.itemId).then((product) => {
-        console.log('products -- > ',products);
-   });
+let mailOptions = {
+  from:'Admin <beretsberet@gmail.com',
+  to:'bois.bb18@gmail.com',
+  subject:'Hello World!',
+  text:'Hello World!'
 }
+
+let handleRequests = (product,callback) => {
+  console.log(' Products --> ',product);
+  if (product) {
+    walmartReq.getItem(product.itemId).then((item) => {
+
+      if(product.price !== item.product.buyingOptions.price.currencyAmount) {
+        callback(item)
+      }
+    })
+  }
+}
+
 
 exports.updateProducts = (req,res) => {
   Product.find({}, (err,items) => {
     if (err) {
       console.log('Error --> ',err);
     } else {
-      let hour = 60 * 60 * 1000;
+        res.json(items);
+      let hour = 3 * 60 * 60 * 1000;
        items.forEach((item) => {
          if (((new Date) - item.updatedAt) < hour) {
-          //console.log('Item --> ',item)
-            handleRequests(item);
-            //acc.push(el);
+            handleRequests(item,(newItem) => {
+            item.price = newItem.product.buyingOptions.price.currencyAmount;
+            item.updatedAt = new Date();
+
+
+             mailOptions.subject = 'Price changed!';
+             mailOptions.text = 'New price is $' + item.price + ' for ' + item.name;
+             mailOptions.to = req.session.passport.user
+
+              smtTransport.sendMail(mailOptions,(err,response) => {
+                if(err) { throw err}
+                item.save((err, newProduct) =>  {
+                  if (err) {
+                    console.log('Error --> ',err);
+                    req.status(500).send(err);
+                  }
+                  console.log('Product is saved');
+                })
+              });
+            })
           }
       })
     }
