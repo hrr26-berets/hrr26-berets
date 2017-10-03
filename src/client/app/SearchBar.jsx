@@ -38,10 +38,14 @@ class SearchBar extends Component{
   render() {
     return (
       <form onSubmit={this.searchProducts.bind(this)} className="search">
-        <input id={this.state.query} onChange={this.onSearch.bind(this)} type="text"/>
-        <button type="submit" id={this.state.query} onClick={this.searchProducts.bind(this)} className="searchBtn">
-          Search
-        </button>
+        <div className="input-group">
+          <input id={this.state.query} className="form-control" onChange={this.onSearch.bind(this)} type="text"/>
+          <span className="input-group-btn">
+            <button type="submit" id={this.state.query} onClick={this.searchProducts.bind(this)} className="searchBtn btn btn-primary">
+              Search
+            </button>
+          </span>
+        </div>
       </form>
     );
   }

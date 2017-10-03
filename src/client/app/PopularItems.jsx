@@ -4,14 +4,14 @@ import Item from './Item.jsx';
 var PopularItems = (props) => {
   if (props.products) {
     return (
-      <div className="popular-items container">
+      <div className="popular-items">
         {props.products.map(product =>
           <Item onClick={props.onClick} product={product} key={product._id}/>
         )}
       </div>)
   }
     return (
-      <div classname="popular-items container">
+      <div classname="popular-items">
         No products here!
       </div>
       )
