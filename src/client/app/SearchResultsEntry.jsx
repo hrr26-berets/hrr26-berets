@@ -12,41 +12,16 @@ class SearchResultsEntry extends Component {
     };
   }
 
-  componentDidMount() {
-    this.getItemDetails();
-  }
-
   handleAddItem(e) {
     e.preventDefault();
     // TODO: add item to current list in memory
   }
-
-  // handleBuyItem(e) {
-  //   e.preventDefault();
-  //   // TODO: redirect to item on merchant website
-  // }
 
   handleItemClick(e) {
     e.preventDefault();
     this.setState({
       showDetails: !this.state.showDetails
     });
-  }
-
-  getItemDetails() {
-    axios.get('/lookupItem', {
-      params: {
-        query: this.props.item.itemId
-      }
-    })
-      .then((res) => {
-        this.setState({
-          details: res.data
-        });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
   }
 
   render() {
@@ -68,7 +43,7 @@ class SearchResultsEntry extends Component {
             }
           }}
         >
-          <ProductDetails details={this.state.details}/>
+          <ProductDetails itemId={item.itemId} itemUrl={item.url}/>
         </Modal>
         <div className="col-sm-3">
           <a className="btn btn-link" onClick={this.handleItemClick.bind(this)}><strong>{item.name.substring(0, 40)}</strong></a>
