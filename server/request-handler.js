@@ -77,17 +77,6 @@ exports.search = (req, res) => {
 
 
 exports.lookUp = (req, res) => {
-  // console.log("query", req.query.query);
-  // let itemId = req.query.query;
-  // walmartReq.getItem(itemId)
-  //   .then((item) => {
-  //     let details = {};
-  //     details.name = item.product.productName;
-  //     details.desc = item.product.longDescription;
-  //     details.imageUrl = item.product.primaryImageUrl;
-  //     details.price = item.product.buyingOptions.price.currencyAmount;
-  //     res.json(details);
-  //   })
   let options = {
     uri: 'http://api.walmartlabs.com/v1/items/' + req.query.query,
     qs: {
