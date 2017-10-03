@@ -47,6 +47,10 @@ let filterWords = (name) => {
 exports.search = (req, res) => {
   let test = req.query.query
   walmartReq.search(test).then((products) => {
+    if (products.totalResults === 0) {
+      //If no products match the search query, the response has no products.items property and reduce will fail.  Here's a fallback to handle that case.
+      return res.json([]);
+    }
     let arr = products.items.reduce((acc, el) => {
         let obj = {}
         if (filterWords(el.name)) {
