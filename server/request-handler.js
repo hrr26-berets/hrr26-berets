@@ -1,3 +1,7 @@
+const express = require('express');
+const router = express.Router();
+const request = require('request');
+const rp = require('request-promise');
 const session = require('express-session');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
@@ -74,22 +78,27 @@ exports.search = (req, res) => {
 
 
 exports.lookUp = (req, res) => {
-  console.log("query", req.query.query);
-  let test = 49920630;
-  walmartReq.search(test).then((products) => {
-    let desc = products.items.reduce((acc, el) => {
-      if (el.itemId === test) {
-        acc.images = el.imageEntities[0];
-        acc.url = el.productUrl;
-        acc.description = el.longDescription;
-        acc.name = el.name;
-        acc.price = el.salePrice;
-      }
-      return acc;
-    },{})
-   // console.log('Desc --> ',desc);
-    res.json(desc);
-  });
+
+  let options = {
+    uri: 'http://api.walmartlabs.com/v1/items/' + req.query.query,
+    qs: {
+      apiKey: walmartKey.walmartKey,
+      format: 'json'
+    },
+    json: true
+  };
+  rp(options)
+    .then((item) => {
+      let details = {};
+      details.name = item.name;
+      details.desc = item.longDescription;
+      details.imageUrl = item.largeImage;
+      details.price = item.salePrice;
+      res.json(details);
+    })
+    .catch((err) => {
+      console.log(err);
+    })
 }
 
 
