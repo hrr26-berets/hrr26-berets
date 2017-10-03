@@ -21,10 +21,10 @@ class SearchResultsEntry extends Component {
     // TODO: add item to current list in memory
   }
 
-  handleBuyItem(e) {
-    e.preventDefault();
-    // TODO: redirect to item on merchant website
-  }
+  // handleBuyItem(e) {
+  //   e.preventDefault();
+  //   // TODO: redirect to item on merchant website
+  // }
 
   handleItemClick() {
     this.setState({
@@ -82,7 +82,7 @@ class SearchResultsEntry extends Component {
           <a href="#" className="btn btn-default" onClick={this.handleAddItem.bind(this)}>Add to List</a>
         </div>
         <div className="col-sm-2">
-          <a href="#" className="btn btn-primary" onClick={this.handleBuyItem.bind(this)}>Buy it Now!</a>
+          <a href={item.url} target="_blank" className="btn btn-primary" /*onClick={this.handleBuyItem.bind(this)}*/>Buy it Now!</a>
         </div>
       </div>
     );
