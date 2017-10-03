@@ -124,7 +124,7 @@ class Main extends Component {
             </Modal>
             {
               (this.state.loggedIn)
-                ? <span> Welcome, <strong>{this.state.user}</strong>!&nbsp;&nbsp;<a href="#" onClick={this.handleLogOut.bind(this)}>Log Out</a>&nbsp;&nbsp;</span>
+                ? <span> Welcome, <strong>{this.state.user}</strong>!&nbsp;&nbsp;<a className="btn btn-link" onClick={this.handleLogOut.bind(this)}>Log Out</a>&nbsp;&nbsp;</span>
                 : <span><a className="btn btn-link" onClick={this.handleLoggingIn.bind(this)}>Log In</a>&nbsp;&nbsp;
                   <a className="btn btn-link" onClick={this.handleSigningUp.bind(this)}>Sign Up</a>&nbsp;&nbsp;</span>
             }
