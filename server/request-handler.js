@@ -16,6 +16,7 @@ exports.signUpUser = (req, res) => {
   User.register(new User({ username: req.body.username }), req.body.password, (err, user) => {
     if (err) { return res.send(err); }
     passport.authenticate('local')(req, res, () => {
+      console.log('I\'s signed up');
       res.json({ message: 'signup success' });
     });
   });
@@ -114,16 +115,40 @@ exports.storeProduct = (req,res,next) => {
 }
 
 exports.save_shopping = function(req,res,next) {
-  // var test = {christmasShopping: [{"name":"Apple iPod touch 16GB","price":225,"itemId":42608121},
-  // {"name":"Xbox One S Battlefield 1 500 GB Bundle","price":279,"itemId":54791566},
-  // {"name":"LG DVD Player with USB Direct Recording (DP132)","price":27.88,"itemId":33396346}]}
+  let test = {techShopping: [{"name":"Apple iPod touch 16GB","price":225,"itemId":42608121},
+  {"name":"Xbox One S Battlefield 1 500 GB Bundle","price":279,"itemId":54791566},
+  {"name":"LG DVD Player with USB Direct Recording (DP132)","price":27.88,"itemId":33396346}]}
+let list = req.body.shoppingList || test
 if (req.session.user) {
-  test.christmasShopping.forEach((item) => {
-    req.body = item;
-    exports.storeProduct(req,res,next);
+  for (let key in list) {
+    list[key].forEach((item) => {
+      req.body = item;
+      exports.storeProduct(req,res,next);
    });
-  let username = req.session.user.username;
-  let password = req.session.user.password;
-  console.log('req.session.user -> ',req.session.user);
   }
+  let username = 'Bois';
+  let obj = {};
+  User.findOne({username: username}).exec((err,user) => {
+    if(user) {
+      if (user.shoppingList) {
+        obj = user.shoppingList;
+      } 
+      for(let key in list) {
+        obj[key] = list[key].reduce((acc,el) => {
+          acc.push({ name: el['name'], itemId: el['itemId']});
+          return acc;
+        },[]); 
+      }
+      User.findOneAndUpdate({username:username},{"$set":{shoppingList: obj}},{upsert: true, new: true, runValidators: true,strict:false,overwrite:true}).exec(function(err,newUser) {
+      if(err) {
+        console.log('Error --> ',err);
+      } else {
+        console.log('It saved a user -> ',newUser);
+        res.status(200).json(newUser);
+      }
+     })
+    } 
+  })
+}
+
 }
