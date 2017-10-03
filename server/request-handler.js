@@ -26,7 +26,7 @@ exports.logInUser = (req, res) => {
   let username = req.body.username;
   let password = req.body.password;
   passport.authenticate('local')(req, res, () => {
-      console.log('Session --> ',req.session);
+
     res.redirect('/');
     })
 };
@@ -75,25 +75,31 @@ exports.search = (req, res) => {
 
 exports.lookUp = (req, res) => {
   console.log("query", req.query.query);
-  let itemId = req.query.query;
-  walmartReq.getItem(itemId)
-    .then((item) => {
-      let details = {};
-      details.name = item.product.productName;
-      details.desc = item.product.longDescription;
-      details.imageUrl = item.product.primaryImageUrl;
-      details.price = item.product.buyingOptions.price.currencyAmount;
-      res.json(details);
-    })
+  let test = 49920630;
+  walmartReq.search(test).then((products) => {
+    let desc = products.items.reduce((acc, el) => {
+      if (el.itemId === test) {
+        acc.images = el.imageEntities[0];
+        acc.url = el.productUrl;
+        acc.description = el.longDescription;
+        acc.name = el.name;
+        acc.price = el.salePrice;
+      }
+      return acc;
+    },{})
+   // console.log('Desc --> ',desc);
+    res.json(desc);
+  });
 }
 
 
 exports.storeProduct = (req,res,next) => {
   let now = new Date();
   let storingItem = req.body;
-  Product.findOne({itemId : storingItem.itemId ,name: storingItem.name}).exec((err,found) => {
+  Product.findOne({itemId : storingItem.itemId, name : storingItem.name }).exec((err,found) => {
     if(found) {
      res.status(200);
+     console.log('It exists');
       next();
     } else {
       let newProduct = new Product({
@@ -117,9 +123,14 @@ exports.storeProduct = (req,res,next) => {
 
 
 exports.save_shopping = function(req,res,next) {
-  let test = {techShopping: [{"name":"Apple iPod touch 16GB","price":225,"itemId":42608121},
-  {"name":"Xbox One S Battlefield 1 500 GB Bundle","price":279,"itemId":54791566},
-  {"name":"LG DVD Player with USB Direct Recording (DP132)","price":27.88,"itemId":33396346}]}
+  let test = {techShopping: [{"name":"Apples iPod touch 16GB","price":225,"itemId":42608132},
+  {"name":"Xbox Ones S Battlefield 1 500 GB Bundle","price":279,"itemId":54791579},
+  {"name":"LG DVD Player with USBs Direct Recording (DP132)","price":27.88,"itemId":333963490}]}
+      // test['techShopping'].forEach((item) => {
+      // console.log('It is inside of foreach');
+      // req.body = item;
+      // exports.storeProduct(req,res,next);
+     // });
 let list = req.body.shoppingList || test
 if (req.session.passport.user) {
   for (let key in list) {
@@ -134,12 +145,12 @@ if (req.session.passport.user) {
     if(user) {
       if (user.shoppingList) {
         obj = user.shoppingList;
-      }
+      } 
       for(let key in list) {
         obj[key] = list[key].reduce((acc,el) => {
           acc.push({ name: el['name'], itemId: el['itemId']});
           return acc;
-        },[]);
+        },[]); 
       }
       User.findOneAndUpdate({username:username},{"$set":{shoppingList: obj}},{upsert: true, new: true, runValidators: true,strict:false,overwrite:true}).exec((err,newUser) =>  {
       if(err) {
@@ -149,7 +160,31 @@ if (req.session.passport.user) {
         res.status(200).json(newUser);
        }
      })
-    }
+    } 
   })
  }
 }
+
+let handleRequests = (product) => {
+
+   walmartReq.getItem(product.itemId).then((product) => {
+        console.log('products -- > ',products);
+   });
+}
+
+exports.updateProducts = (req,res) => {
+  Product.find({}, (err,items) => {
+    if (err) {
+      console.log('Error --> ',err);
+    } else {
+      let hour = 60 * 60 * 1000;
+       items.forEach((item) => {
+         if (((new Date) - item.updatedAt) < hour) {
+          //console.log('Item --> ',item)
+            handleRequests(item);
+            //acc.push(el);
+          }
+      })
+    }
+  })
+ }

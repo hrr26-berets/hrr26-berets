@@ -63,7 +63,7 @@ app.get('/message', (req,res) => {
     res.status(200)
   });
 })
-
+app.get('/update',handler.updateProducts);
 app.post('/save',handler.save_shopping);
 app.get('/lookupItem', handler.lookUp);
 app.get('/search', handler.search);
