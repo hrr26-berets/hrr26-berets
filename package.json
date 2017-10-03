@@ -46,6 +46,7 @@
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
     "request": "^2.82.0",
+    "request-promise": "^4.2.2",
     "walmart": "0.0.4",
     "webpack": "^3.6.0"
   },
