@@ -57,6 +57,8 @@ exports.search = (req, res) => {
         if (filterWords(el.name)) {
         obj.name = el.name;
         obj.price = el.salePrice;
+        obj.image = el.thumbnailImage;
+        obj.url = el.productUrl;
         obj.itemId = el.itemId;
         acc.push(obj);
         }
@@ -94,7 +96,7 @@ exports.storeProduct = (req,res,next) => {
   let storingItem = req.body;
   Product.findOne({itemId : storingItem.itemId ,name: storingItem.name}).exec((err,found) => {
     if(found) {
-     res.status(200);     
+     res.status(200);
       next();
     } else {
       let newProduct = new Product({
@@ -103,10 +105,10 @@ exports.storeProduct = (req,res,next) => {
           price: storingItem.price,
           updatedAt: now
       });
-      newProduct.save((err,newProuct) =>  {
+      newProduct.save((err, newProduct) =>  {
         if (err) {
           req.status(500).send(err);
-        } 
+        }
         res.status(200);
         next();
       })
