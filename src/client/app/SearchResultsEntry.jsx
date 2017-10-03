@@ -71,7 +71,7 @@ class SearchResultsEntry extends Component {
           <ProductDetails details={this.state.details}/>
         </Modal>
         <div className="col-sm-3">
-          <a href="#" onClick={this.handleItemClick.bind(this)}><strong>{item.name.substring(0, 40)}</strong></a>
+          <a className="btn btn-link" onClick={this.handleItemClick.bind(this)}><strong>{item.name.substring(0, 40)}</strong></a>
         </div>
         <div className="col-sm-3">
           <img src={item.image} alt=""/>
@@ -80,7 +80,7 @@ class SearchResultsEntry extends Component {
           ${item.price}
         </div>
         <div className="col-sm-2">
-          <a href="#" className="btn btn-default" onClick={this.handleAddItem.bind(this)}>Add to List</a>
+          <a className="btn btn-default" onClick={this.handleAddItem.bind(this)}>Add to List</a>
         </div>
         <div className="col-sm-2">
           <a href={item.url} target="_blank" className="btn btn-primary" /*onClick={this.handleBuyItem.bind(this)}*/>Buy it Now!</a>
