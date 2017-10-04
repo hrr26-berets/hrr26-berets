@@ -1,13 +1,13 @@
 const express = require('express');
-const path = require('path');
-const bodyParser = require('body-parser');
-const PORT = process.env.port || 3000;
 const app = express();
+const path = require('path');
+const PORT = process.env.port || 3000;
 const session = require('express-session');
 const passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy
-var nodemailer = require('nodemailer');
 const handler = require('./request-handler');
+const bodyParser = require('body-parser');
+const nodemailer = require('nodemailer');
+const LocalStrategy = require('passport-local').Strategy
 
 const User = require('../db/models/user');
 const Product = require('../db/models/product');
@@ -50,7 +50,6 @@ var mailOptions = {
   subject:'Hello World!',
   text:'Hello World!'
 }
-
 
 app.listen(PORT, (req, res) => {
   console.log('listening on port ', PORT);
