@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import Item from 'item.jsx';
+import ListItem from './ListItem.jsx';
 
-class ShoppingList extends Component {
+export default class ShoppingList extends Component {
   constructor(props) {
     super(props);
   }
@@ -20,14 +20,35 @@ class ShoppingList extends Component {
 
 
   render() {
-    return (
-      //<button className="exit" onClick={props.renderList}></button>
-      //<button className="save" onClick={props.saveList}</button>
-      <h1>{props.list.name}<h1/>
-      {props.list.items.map(listItem =>
-        <Item onClick={props.onClick} product={listItem}/>
-        )}
+    const { props } = this.props
+    if (this.props.list.length) {
+    return(
+      <div>
+      <h1>{this.props.name}</h1>
+      <div>
+        {this.props.list.map(product =>
+          <ListItem product={product} key={product.itemId} removeItem={this.props.removeItem}/>
+          )}
+      </div>
+      </div>
     )
-
+  }
+  return (
+    <div>There's nothing in your list yet!</div>
+    )
   }
 }
+
+    //       <Item onClick={props.onClick} product={listItem} key={listItem.itemId}/>
+    //     )}
+    //   </div>)
+    // return (
+    //   //<button className="exit" onClick={props.renderList}></button>
+    //   //<button className="save" onClick={props.saveList}</button>
+    //   <h1>{props.name}<h1/>
+    //   <button className="btn btn-primary">Save</button>
+    //   <div>
+    //   {props.list.map(listItem =>
+    //     <Item product={listItem} />
+    //     )}
+    //   </div>
