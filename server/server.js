@@ -63,10 +63,17 @@ app.get('/message', (req,res) => {
     res.status(200)
   });
 })
+
+// handle product information in db
 app.get('/update',handler.updateProducts);
 app.post('/save',handler.save_shopping);
+
+// handle data fetch from Walmart API
 app.get('/lookupItem', handler.lookUp);
 app.get('/search', handler.search);
+app.get('/trending', handler.getTrending);
+
+// handle user authentication
 app.post('/signup', handler.signUpUser);
 app.post('/login', handler.logInUser);
 app.get('/logout', handler.logOutUser);

@@ -2,15 +2,15 @@ import React from 'react';
 
 var Item = (props) => (
   <div className="popular-item col-xs-2">
-      <div className="item-title">
-        {props.product.name}
-      </div>
-      <div className="item-image" onClick={props.onClick}>
-        <img src={props.product.thumbnailImage} alt=""/>
-      </div>
-      <div className="item-price">
-        {props.product.salePrice}
-      </div>
+    <div className="item-title">
+      {props.product.name.substring(0, 40)}
+    </div>
+    <div className="item-image" onClick={props.onClick}>
+      <img src={props.product.thumbnailImage} alt=""/>
+    </div>
+    <div className="item-price">
+      ${props.product.salePrice}
+    </div>
   </div>
   )
 
