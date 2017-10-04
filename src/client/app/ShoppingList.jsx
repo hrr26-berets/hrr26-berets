@@ -20,16 +20,28 @@ class ShoppingList extends Component {
 
 
   render() {
+    if (props.list.length) {
     return (
-      //<button className="exit" onClick={props.renderList}></button>
-      //<button className="save" onClick={props.saveList}</button>
-      <h1>{props.currentListName}<h1/>
-      {props.list.items.map(listItem =>
-        <Item onClick={props.onClick} product={listItem}/>
-        <span><a href={listItem.url} target="_blank" className="btn btn-primary">Buy it Now!</a></span>
-        )}
-      <button className="btn btn-primary">Save</button>
+      <h1>{props.name}</h1>
+      <div>List renders here</div>
+    //   <div className="shopping-list">
+    //     {props.list.map(listItem =>
+    //       <Item onClick={props.onClick} product={listItem} key={listItem.itemId}/>
+    //     )}
+    //   </div>)
+    // return (
+    //   //<button className="exit" onClick={props.renderList}></button>
+    //   //<button className="save" onClick={props.saveList}</button>
+    //   <h1>{props.name}<h1/>
+    //   <button className="btn btn-primary">Save</button>
+    //   <div>
+    //   {props.list.map(listItem =>
+    //     <Item product={listItem} />
+    //     )}
+    //   </div>
     )
-
   }
+  return (
+    <div>There's nothing in your list yet!</div>
+    )
 }

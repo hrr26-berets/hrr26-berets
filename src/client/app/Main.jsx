@@ -7,6 +7,7 @@ import FeaturedLists from './FeaturedLists.jsx';
 import Login from './Login.jsx';
 import Signup from './Signup.jsx';
 import SearchResults from './SearchResults.jsx';
+import ShoppingList from './ShoppingList.jsx';
 
 class Main extends Component {
   constructor(props) {
@@ -16,7 +17,7 @@ class Main extends Component {
       popular: [],
     searchResults: [],
     currentList: [],
-    currentListName: 'Untitled'
+    currentListName: 'Untitled',
     loggingIn: false,
     signingUp: false,
     loggedIn: false,
@@ -161,6 +162,9 @@ class Main extends Component {
             <h3>Popular Items</h3>
           </div>
           <PopularItems products={this.state.popular}/>
+          <div>
+          <ShoppingList name={this.state.currentListName} list={this.state.currentList}/>
+          </div>
         </div>
         <div className="row">
           {
