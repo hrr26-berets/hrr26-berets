@@ -154,7 +154,8 @@ exports.storeProduct = (req,res,next) => {
 exports.save_shopping = function(req,res,next) {
   let test = {techShopping: [{"name":"Apples iPod touch 16GB","price":225,"itemId":42608132},
   {"name":"Xbox Ones S Battlefield 1 500 GB Bundle","price":279,"itemId":54791579},
-  {"name":"LG DVD Player with USBs Direct Recording (DP132)","price":27.88,"itemId":333963490}]};
+  {"name":"LG DVD Player with USBs Direct Recording (DP132)","price":27.88,"itemId":333963490}]}
+
 let list = req.body.shoppingList || test
 if (req.session.passport.user) {
   for (let key in list) {
@@ -216,7 +217,6 @@ let handleRequests = (product,callback) => {
     })
   }
 };
-
 
 exports.updateProducts = (req,res) => {
   Product.find({}, (err,items) => {
