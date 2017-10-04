@@ -154,7 +154,8 @@ exports.storeProduct = (req,res,next) => {
 exports.save_shopping = function(req,res,next) {
   let test = {techShopping: [{"name":"Apples iPod touch 16GB","price":225,"itemId":42608132},
   {"name":"Xbox Ones S Battlefield 1 500 GB Bundle","price":279,"itemId":54791579},
-  {"name":"LG DVD Player with USBs Direct Recording (DP132)","price":27.88,"itemId":333963490}]};
+  {"name":"LG DVD Player with USBs Direct Recording (DP132)","price":27.88,"itemId":333963490}]}
+
 let list = req.body.shoppingList || test
 if (req.session.passport.user) {
   for (let key in list) {
@@ -216,6 +217,30 @@ let handleRequests = (product,callback) => {
     })
   }
 };
+// Please pass one of these categoryIds when making feature wishlist
+//Beaty ----->  '1085666'
+//Clothing --> '5438'
+//Electronics  ---> '3944'
+//Helth ---> '976760'
+exports.popularCategories = (req,res) => {
+  var categoryid = req.body.id || 976760
+  console.log(categoryid);
+  walmartReq.feeds.bestSellers(categoryid).then((items) => { 
+   let arr = items.items.reduce((acc, el) => {
+     let obj = {}
+      if (filterWords(el.name)) {
+      obj.name = el.name;
+      obj.desc = el.longDescription;
+      obj.imageUrl = el.largeImage;
+      obj.price = el.salePrice;
+      acc.push(obj);
+     }
+        return acc;
+    },[]);
+  res.json(arr.slice(0,5));
+  })
+};
+
 
 
 exports.updateProducts = (req,res) => {
