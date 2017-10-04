@@ -13,6 +13,7 @@ class Main extends Component {
   constructor(props) {
     super(props);
     this.handleAddToList = this.handleAddToList.bind(this)
+    this.handleRemoveFromList = this.handleRemoveFromList.bind(this)
     this.state = {
       popular: [],
     searchResults: [],
@@ -96,12 +97,19 @@ class Main extends Component {
   }
 
   handleAddToList(item) {
-    console.log(item)
-    console.log(this.state.currentList)
     var list = this.state.currentList.slice()
     list.push(item)
     this.setState({ currentList: list })
-    console.log(this.state.currentList)
+  }
+
+  handleRemoveFromList(item) {
+    var list = this.state.currentList.slice()
+    var filtered = list.filter(product => product.itemId !== item.itemId)
+    this.setState({ currentList: filtered })
+  }
+
+  handleNameChange(name) {
+    this.setState({ currentListName: name })
   }
 
   render() {
@@ -162,9 +170,7 @@ class Main extends Component {
             <h3>Popular Items</h3>
           </div>
           <PopularItems products={this.state.popular}/>
-          <div>
-          <ShoppingList name={this.state.currentListName} list={this.state.currentList}/>
-          </div>
+
         </div>
         <div className="row">
           {
@@ -177,6 +183,11 @@ class Main extends Component {
                 <FeaturedLists />
               </div>
           }
+        </div>
+        <div className="row">
+          <div className="col-xs-12">
+          <ShoppingList name={this.state.currentListName} list={this.state.currentList} removeItem={this.handleRemoveFromList}/>
+          </div>
         </div>
       </div>
       );
