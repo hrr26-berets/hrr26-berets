@@ -11,9 +11,11 @@ import SearchResults from './SearchResults.jsx';
 class Main extends Component {
   constructor(props) {
     super(props);
+    this.handleAddToList = this.handleAddToList.bind(this)
     this.state = {
       popular: [],
     searchResults: [],
+    currentList: [],
     loggingIn: false,
     signingUp: false,
     loggedIn: false,
@@ -91,6 +93,15 @@ class Main extends Component {
     this.setState({ searchResults: products })
   }
 
+  handleAddToList(item) {
+    console.log(item)
+    console.log(this.state.currentList)
+    var list = this.state.currentList.slice()
+    list.push(item)
+    this.setState({ currentList: list })
+    console.log(this.state.currentList)
+  }
+
   render() {
     return (
       <div className="container">
@@ -154,7 +165,7 @@ class Main extends Component {
           {
             (this.state.searchResults.length !== 0)
               ? <div className="col-xs-12">
-                <SearchResults results={this.state.searchResults}/>
+                <SearchResults results={this.state.searchResults} addToList={this.handleAddToList}/>
               </div>
               : <div className="col-xs-12">
                 <h3>Featured WishLists</h3>

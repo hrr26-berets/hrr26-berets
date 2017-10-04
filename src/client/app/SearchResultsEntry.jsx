@@ -6,6 +6,7 @@ import ProductDetails from './ProductDetails.jsx';
 class SearchResultsEntry extends Component {
   constructor(props) {
     super(props);
+    this.handleAddItem = this.handleAddItem.bind(this)
     this.state = {
       showDetails: false,
       details: {}
@@ -13,7 +14,9 @@ class SearchResultsEntry extends Component {
   }
 
   handleAddItem(e) {
-    e.preventDefault();
+    //e.preventDefault();
+    var item = this.props.item
+    this.props.addToList(item)
     // TODO: add item to current list in memory
   }
 
@@ -55,7 +58,7 @@ class SearchResultsEntry extends Component {
           ${item.price}
         </div>
         <div className="col-sm-2">
-          <a className="btn btn-default" onClick={this.handleAddItem.bind(this)}>Add to List</a>
+          <a className="btn btn-default" onClick={this.handleAddItem}>Add to List</a>
         </div>
         <div className="col-sm-2">
           <a href={item.url} target="_blank" className="btn btn-primary" /*onClick={this.handleBuyItem.bind(this)}*/>Buy it Now!</a>
