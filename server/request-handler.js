@@ -217,6 +217,31 @@ let handleRequests = (product,callback) => {
     })
   }
 };
+// Please pass one of these categoryIds when making feature wishlist
+//Beaty ----->  '1085666'
+//Clothing --> '5438'
+//Electronics  ---> '3944'
+//Helth ---> '976760'
+exports.popularCategories = (req,res) => {
+  var categoryid = req.body.id || 976760
+  console.log(categoryid);
+  walmartReq.feeds.bestSellers(categoryid).then((items) => { 
+   let arr = items.items.reduce((acc, el) => {
+     let obj = {}
+      if (filterWords(el.name)) {
+      obj.name = el.name;
+      obj.desc = el.longDescription;
+      obj.imageUrl = el.largeImage;
+      obj.price = el.salePrice;
+      acc.push(obj);
+     }
+        return acc;
+    },[]);
+  res.json(arr.slice(0,5));
+  })
+};
+
+
 
 exports.updateProducts = (req,res) => {
   Product.find({}, (err,items) => {
