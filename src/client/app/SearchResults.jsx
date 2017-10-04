@@ -12,7 +12,7 @@ class SearchResults extends Component {
         <h3>Search Results</h3>
         {
           this.props.results.map(result =>
-            <SearchResultsEntry item={result} key={result.itemId}/>
+            <SearchResultsEntry item={result} key={result.itemId} addToList={this.props.addToList}/>
             )
         }
       </div>
