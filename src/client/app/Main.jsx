@@ -159,7 +159,7 @@ class Main extends Component {
           <div className="col-xs-12">
             <h3>Popular Items</h3>
           </div>
-          <PopularItems products={this.state.popular}/>
+          <PopularItems products={this.state.popular} addToList={this.handleAddToList}/>
         </div>
         <div className="row">
           {
