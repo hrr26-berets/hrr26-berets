@@ -23,10 +23,12 @@ class ShoppingList extends Component {
     return (
       //<button className="exit" onClick={props.renderList}></button>
       //<button className="save" onClick={props.saveList}</button>
-      <h1>{props.list.name}<h1/>
+      <h1>{props.currentListName}<h1/>
       {props.list.items.map(listItem =>
         <Item onClick={props.onClick} product={listItem}/>
+        <span><a href={listItem.url} target="_blank" className="btn btn-primary">Buy it Now!</a></span>
         )}
+      <button className="btn btn-primary">Save</button>
     )
 
   }

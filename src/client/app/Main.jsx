@@ -16,6 +16,7 @@ class Main extends Component {
       popular: [],
     searchResults: [],
     currentList: [],
+    currentListName: 'Untitled'
     loggingIn: false,
     signingUp: false,
     loggedIn: false,
