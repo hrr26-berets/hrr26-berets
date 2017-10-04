@@ -5,8 +5,8 @@ var PopularItems = (props) => {
   if (props.products) {
     return (
       <div className="popular-items">
-        {props.products.map(product =>
-          <Item onClick={props.onClick} product={product} key={product.itemId}/>
+        {props.products.map(item =>
+          <Item addToList={props.addToList} item={item} key={item.itemId}/>
         )}
       </div>)
   }
