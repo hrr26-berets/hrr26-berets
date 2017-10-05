@@ -11,6 +11,8 @@ class SearchResultsEntry extends Component {
       showDetails: false,
       details: {}
     };
+    this.handleAddItem = this.handleAddItem.bind(this);
+    this.handleItemClick = this.handleItemClick.bind(this);
   }
 
   handleAddItem(e) {
@@ -33,7 +35,7 @@ class SearchResultsEntry extends Component {
       <div className="list row">
         <Modal
           isOpen={this.state.showDetails}
-          onRequestClose={this.handleItemClick.bind(this)}
+          onRequestClose={this.handleItemClick}
           contentLabel="ItemDetails"
           style={{
             content: {
@@ -48,7 +50,7 @@ class SearchResultsEntry extends Component {
           <ProductDetails itemId={item.itemId} itemUrl={item.url} addToList={this.props.addToList}/>
         </Modal>
         <div className="col-sm-3 item-title">
-          <a className="btn btn-link" onClick={this.handleItemClick.bind(this)}><strong>{item.name.substring(0, 40)}</strong></a>
+          <a className="btn btn-link" onClick={this.handleItemClick}><strong>{item.name.substring(0, 40)}</strong></a>
         </div>
         <div className="col-sm-3 item-image">
           <img src={item.image} alt=""/>
@@ -60,7 +62,7 @@ class SearchResultsEntry extends Component {
           <a className="btn btn-default" onClick={this.handleAddItem}>Add to List</a>
         </div>
         <div className="col-sm-2">
-          <a href={item.url} target="_blank" className="btn btn-primary" /*onClick={this.handleBuyItem.bind(this)}*/>Buy it Now!</a>
+          <a href={item.url} target="_blank" className="btn btn-primary">Buy it Now!</a>
         </div>
       </div>
     );

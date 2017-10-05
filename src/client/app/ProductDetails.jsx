@@ -8,7 +8,9 @@ class ProductDetails extends Component {
     this.state = {
       details: {},
       doneLoading: false
-    }
+    };
+
+    this.handleAddToList = this.handleAddToList.bind(this);
 
   }
   componentDidMount() {
@@ -56,7 +58,7 @@ class ProductDetails extends Component {
                   {Parser(Parser(''+this.state.details.desc))}
                 </div>
                 <div style={{ marginTop: '15px' }}>
-                  <a className="btn btn-default" onClick={this.handleAddToList.bind(this)}>Add to List</a>
+                  <a className="btn btn-default" onClick={this.handleAddToList}>Add to List</a>
                   <a href={this.props.itemUrl} target="_blank" className="btn btn-primary">Buy it Now!</a>
                 </div>
               </div>

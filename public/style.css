@@ -26,7 +26,11 @@
   padding: 30px;
 }
 
-  .popular-item {
+.popular-item {
   padding-left: 50px;
   text-align: center;
+}
+
+.text-link {
+  cursor: pointer;
 }

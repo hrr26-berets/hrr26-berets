@@ -12,9 +12,6 @@ import ShoppingList from './ShoppingList.jsx';
 class Main extends Component {
   constructor(props) {
     super(props);
-    this.handleAddToList = this.handleAddToList.bind(this)
-    this.handleRemoveFromList = this.handleRemoveFromList.bind(this)
-    this.saveList = this.saveList.bind(this)
     this.state = {
       popular: [],
     searchResults: [],
@@ -24,14 +21,23 @@ class Main extends Component {
     signingUp: false,
     loggedIn: false,
     user: null,
-    catalog:{}
+    catalog: {}
     };
+    this.handleAddToList = this.handleAddToList.bind(this);
+    this.handleRemoveFromList = this.handleRemoveFromList.bind(this);
+    this.saveList = this.saveList.bind(this);
+    this.handleLoggingIn = this.handleLoggingIn.bind(this);
+    this.handleSigningUp = this.handleSigningUp.bind(this);
+    this.handleLogIn = this.handleLogIn.bind(this);
+    this.handleSignUp = this.handleSignUp.bind(this);
+    this.handleLogOut = this.handleLogOut.bind(this);
+    this.handleSearch = this.handleSearch.bind(this);
+
   }
 
   componentDidMount() {
     this.getTrendingItems();
     this.getCatalog();
-   // this.getFeaturedList();
   }
 
   getCatalog() {
@@ -124,7 +130,6 @@ class Main extends Component {
 
 
   getFeaturedList(id) {
-  //console.log('Id --> ',id);
   axios.get('/feature', {
     params: {
       query: id
@@ -132,19 +137,18 @@ class Main extends Component {
 
   })
     .then((res) => {
-     // this.catalog[id] = res.data;
-    // console.log('Res --> ',res.data);
      this.state.catalog[id] = res.data;
     })
     .catch((err) => {
       console.log('Error ---> ', err);
   })
  }
+
   saveList() {
     var saved = {}
     saved[this.state.currentListName] = this.state.currentList;
     console.log(saved)
-    axios.post('http://localhost:3000/save', saved)
+    axios.post('/save', saved)
     .then(function(response) {
       console.log(response)
     })
@@ -163,7 +167,7 @@ class Main extends Component {
           <div className="col-xs-3 text-right">
             <Modal
               isOpen={this.state.loggingIn}
-              onRequestClose={this.handleLoggingIn.bind(this)}
+              onRequestClose={this.handleLoggingIn}
               contentLabel="Login"
               style={{
                 content: {
@@ -176,11 +180,11 @@ class Main extends Component {
                 }
               }}
             >
-              <Login onLoginSubmit={this.handleLogIn.bind(this)}/>
+              <Login onLoginSubmit={this.handleLogIn}/>
             </Modal>
             <Modal
               isOpen={this.state.signingUp}
-              onRequestClose={this.handleSigningUp.bind(this)}
+              onRequestClose={this.handleSigningUp}
               contentLabel="Signup"
               style={{
                 content: {
@@ -193,17 +197,17 @@ class Main extends Component {
                 }
               }}
             >
-              <Signup onSignupSubmit={this.handleSignUp.bind(this)}/>
+              <Signup onSignupSubmit={this.handleSignUp}/>
             </Modal>
             {
               (this.state.loggedIn)
-                ? <span> Welcome, <strong>{this.state.user}</strong>!&nbsp;&nbsp;<a className="btn btn-link" onClick={this.handleLogOut.bind(this)}>Log Out</a>&nbsp;&nbsp;</span>
+                ? <span> Welcome, <strong>{this.state.user}</strong>!&nbsp;&nbsp;<a className="btn btn-link" onClick={this.handleLogOut}>Log Out</a>&nbsp;&nbsp;</span>
                 : <span><a className="btn btn-link" onClick={this.handleLoggingIn.bind(this)}>Log In</a>&nbsp;&nbsp;
-                  <a className="btn btn-link" onClick={this.handleSigningUp.bind(this)}>Sign Up</a>&nbsp;&nbsp;</span>
+                  <a className="btn btn-link" onClick={this.handleSigningUp}>Sign Up</a>&nbsp;&nbsp;</span>
             }
           </div>
           <div className="col-xs-5">
-            <SearchBar handleSearch={this.handleSearch.bind(this)}/>
+            <SearchBar handleSearch={this.handleSearch}/>
           </div>
         </div>
         <div className="row">
@@ -218,16 +222,20 @@ class Main extends Component {
               ? <div className="col-xs-12">
                 <SearchResults results={this.state.searchResults} addToList={this.handleAddToList}/>
               </div>
-              :
-              (Object.keys(this.state.catalog).length !== 0)
-                ?  <div className="col-xs-12">
-                  <h3>Featured WishLists</h3>
-                  <FeaturedLists list={this.state.catalog} addToList={this.handleAddToList}/>
-                </div>
-                : <div className="col-xs-12">
-                  <div> This is a test </div>
-                </div>
+              : null
 
+          }
+        </div>
+        <div className="row">
+          {
+            (Object.keys(this.state.catalog).length !== 0)
+              ?  <div className="col-xs-12">
+                <h3>Featured WishLists</h3>
+                <FeaturedLists list={this.state.catalog} addToList={this.handleAddToList}/>
+              </div>
+              : <div className="col-xs-12">
+                <div> Loading Featured Lists... </div>
+              </div>
           }
         </div>
         <div className="row">
