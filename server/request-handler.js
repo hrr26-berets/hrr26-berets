@@ -148,7 +148,7 @@ exports.storeProduct = (product) => {
         }
         // res.status(200);
         // next();
-        console.log('Saved:', newProduct)
+      //  console.log('Saved:', newProduct)
       })
     }
   })
@@ -176,10 +176,28 @@ if (req.session.passport.user) {
         obj = user.shoppingList;
       }
       for(let key in list) {
+        if(obj[key]) {
+          let i = 2;
+          let newName;
+          while (true) {
+            let temp = key + i;
+            if (!obj[temp]) {
+              newName = temp;
+              break;
+              }
+            i++;
+          }
+          console.log('It found duplicate key --> ',newName);
+          obj[newName] = list[key].reduce((acc,el) => {
+          acc.push({ name: el['name'], itemId: el['itemId']});
+          return acc;
+          },[]);
+        } else {
         obj[key] = list[key].reduce((acc,el) => {
           acc.push({ name: el['name'], itemId: el['itemId']});
           return acc;
         },[]);
+        }
       }
       User.findOneAndUpdate({username:username},{"$set":{shoppingList: obj}},{upsert: true, new: true, runValidators: true,strict:false,overwrite:true}).exec((err,newUser) =>  {
       if(err) {
