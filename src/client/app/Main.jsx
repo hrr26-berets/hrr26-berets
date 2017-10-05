@@ -21,7 +21,7 @@ class Main extends Component {
     currentListName: 'Untitled',
     loggingIn: false,
     signingUp: false,
-    loggedIn: false,
+    // loggedIn: false,
     user: null,
     catalog: {}
     };

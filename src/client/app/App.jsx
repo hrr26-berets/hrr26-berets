@@ -9,6 +9,10 @@ import Login from './Login.jsx';
 class App extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      loggedIn: false,
+      username: ''
+    };
   }
 
   render() {
@@ -17,10 +21,8 @@ class App extends React.Component {
         <Router>
           <Switch>
             <Route exact path="/" render={(props) => (<Main {...props}/>)} />
-            <Route exact path="/signup" render={(props) => (<Signup {...props}/>)} />
-            <Route exact path="/login" render={(props) => (<Signup {...props}/>)} />
-
-
+            <Route exact path="/signup" loggedIn={this.state.loggedIn} username={this.state.username} render={(props) => (<Signup {...props}/>)} />
+            <Route exact path="/login" render={(props) => (<Login {...props}/>)} />
           </Switch>
         </Router>
       </div>
