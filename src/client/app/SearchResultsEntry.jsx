@@ -16,7 +16,7 @@ class SearchResultsEntry extends Component {
   }
 
   handleAddItem(e) {
-    //e.preventDefault();
+    e.preventDefault();
     var item = this.props.item
     this.props.addToList(item)
     // TODO: add item to current list in memory

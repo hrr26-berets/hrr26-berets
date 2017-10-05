@@ -4,34 +4,46 @@ import ListItem from './ListItem.jsx';
 export default class ShoppingList extends Component {
   constructor(props) {
     super(props);
+    this.handleChange = this.handleChange.bind(this);
+    this.setName = this.setName.bind(this);
+    this.state = {
+      listName: ''
+    }
   }
-  //the app view will include a user's current list under 'items' in state
-  //'items' starts out as an empty array/object
-  //if a user changes to one of their old lists from the database we can setState ({'items': list from database}) and re-render this component
 
-  //Item onClick should pop out product details
+  handleChange(e) {
+    this.setState({
+      listName: e.target.value
+    })
 
-  //App view should include renderList function that toggles shopping list state
-  //to conditionally render list
+  }
 
-  //App view should include saveList function that saves the current 'items' list in app state to the database.
-
-  //When styling <Item/> component here, make sure items are vertically stacked.
+  setName() {
+    var name = this.state.listName;
+    this.props.handleNameChange(name);
+  }
 
 
   render() {
     const { list } = this.props;
-    // const list = this.props.list;
     if (this.props.list.length) {
     return(
       <div>
-      <h1>{this.props.name}</h1>
-      <button className="btn btn-primary" onClick={this.props.saveList}>Save</button>
-      <div>
-        {this.props.list.map(product =>
-          <ListItem product={product} key={product.itemId} removeItem={this.props.removeItem}/>
-          )}
-      </div>
+        <h1>{this.props.name}</h1>
+          <div className="list-tools">
+            <input onChange={this.handleChange} type="text"/>
+              <span>
+                <button className="btn button-name" type="submit" onClick={this.setName}>Change List Name</button>
+              </span>
+              <span>
+                <button className="btn btn-primary button-save" onClick={this.props.saveList}>Save</button>
+              </span>
+          </div>
+        <div>
+            {this.props.list.map(product =>
+              <ListItem product={product} key={product.itemId} removeItem={this.props.removeItem}/>
+            )}
+        </div>
       </div>
     )
   }
@@ -41,16 +53,3 @@ export default class ShoppingList extends Component {
   }
 }
 
-    //       <Item onClick={props.onClick} product={listItem} key={listItem.itemId}/>
-    //     )}
-    //   </div>)
-    // return (
-    //   //<button className="exit" onClick={props.renderList}></button>
-    //   //<button className="save" onClick={props.saveList}</button>
-    //   <h1>{props.name}<h1/>
-    //   <button className="btn btn-primary">Save</button>
-    //   <div>
-    //   {props.list.map(listItem =>
-    //     <Item product={listItem} />
-    //     )}
-    //   </div>

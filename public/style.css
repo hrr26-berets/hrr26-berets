@@ -34,3 +34,15 @@
 .text-link {
   cursor: pointer;
 }
+
+.button-name {
+  margin-left: 20px;
+}
+
+.button-save {
+  margin-left: 20px;
+}
+
+.list-tools {
+  margin-bottom: 20px;
+}
