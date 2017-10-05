@@ -51,7 +51,7 @@ class Item extends Component {
           <ProductDetails itemId={item.itemId} itemUrl={item.productUrl} addToList={this.props.addToList}/>
         </Modal>
         <div className="item-title">
-          <a className="btn-link btn-block" onClick={this.handleItemClick}><strong>{item.name.substring(0, 40)}</strong></a>
+          <a className="btn-link btn-block" onClick={this.handleItemClick}><strong>{item.name.substring(0, 30)}</strong></a>
         </div>
         <div className="item-image">
           <img src={item.thumbnailImage} onClick={this.handleItemClick}/>
