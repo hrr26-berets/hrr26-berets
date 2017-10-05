@@ -6,10 +6,11 @@ import Adapter from 'enzyme-adapter-react-15';
 Enzyme.configure({ adapter: new Adapter() });
 
 const testProps = {
-  product: {
+  item: {
     name: 'cookies',
     thumbnailImage: 'cookies.jpeg',
-    salePrice: '$5.00'
+    salePrice: '5.00',
+    itemId: 1
   },
   onClick: jest.fn()
 }
@@ -21,19 +22,19 @@ describe('Item component', () => {
   });
 
   it('should have the product name', () => {
-    expect(item.find('.item-title').text()).toBe(testProps.product.name)
+    expect(item.find('.item-title').text()).toBe(testProps.item.name)
   });
 
   it('should have the product image', () => {
-    expect(item.find('img').prop('src')).toBe(testProps.product.thumbnailImage)
+    expect(item.find('img').prop('src')).toBe(testProps.item.thumbnailImage)
   });
 
   it('should have the product price', () => {
-    expect(item.find('.item-price').text()).toBe(testProps.product.salePrice)
+    expect(item.find('.item-price').text()).toBe('$' + testProps.item.salePrice)
   });
 
-  it('should call onClick when product image is clicked', () => {
-    item.find('.item-image').simulate('click')
-    expect(testProps.onClick.mock.calls.length).toBe(1)
+  it('should show ProductDetails when product image is clicked', () => {
+    item.find('img').simulate('click')
+    expect(item.state('showDetails')).toBe(true);
   });
 });

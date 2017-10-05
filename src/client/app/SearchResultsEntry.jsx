@@ -20,8 +20,7 @@ class SearchResultsEntry extends Component {
     // TODO: add item to current list in memory
   }
 
-  handleItemClick(e) {
-    e.preventDefault();
+  handleItemClick() {
     this.setState({
       showDetails: !this.state.showDetails
     });
@@ -48,13 +47,13 @@ class SearchResultsEntry extends Component {
         >
           <ProductDetails itemId={item.itemId} itemUrl={item.url} addToList={this.props.addToList}/>
         </Modal>
-        <div className="col-sm-3">
+        <div className="col-sm-3 item-title">
           <a className="btn btn-link" onClick={this.handleItemClick.bind(this)}><strong>{item.name.substring(0, 40)}</strong></a>
         </div>
-        <div className="col-sm-3">
+        <div className="col-sm-3 item-image">
           <img src={item.image} alt=""/>
         </div>
-        <div className="col-sm-2">
+        <div className="col-sm-2 item-price">
           ${item.price}
         </div>
         <div className="col-sm-2">

@@ -12,17 +12,17 @@ const testProps = {
     name: 'marshmallow',
     thumbnailImage: 'm.jpeg',
     salePrice: '$3.00',
-    _id: 1
+    itemId: 1
   }, {
     name: 'chocolate',
     thumbnailImage: 'choc.jpeg',
     salePrice: '$4.00',
-    _id: 2
+    itemId: 2
   }, {
     name: 'graham crackers',
     thumbnailImage: 'gc.jpeg',
     salePrice: '$3.50',
-    _id: 3
+    itemId: 3
   }],
   onClick: jest.fn()
 };
