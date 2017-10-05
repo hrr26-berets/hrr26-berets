@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const path = require('path');
-const PORT = process.env.port || 3000;
+let port = process.env.PORT || 3000;
 const session = require('express-session');
 const passport = require('passport');
 const handler = require('./request-handler');
@@ -51,8 +51,8 @@ var mailOptions = {
   text:'Hello World!'
 }
 
-app.listen(PORT, (req, res) => {
-  console.log('listening on port ', PORT);
+app.listen(port, (req, res) => {
+  console.log('listening on port ', port);
 });
 
 app.get('/message', (req,res) => {

@@ -6,17 +6,18 @@ class SearchBar extends Component{
     super(props);
     this.state = {
       'query': undefined
-    }
+    };
+    this.onSearch = this.onSearch.bind(this);
+    this.searchProducts = this.searchProducts.bind(this);
   }
 
   onSearch(e) {
     this.setState({
       'query': e.target.value
-    })
+    });
   }
 
   searchProducts(e) {
-    e.preventDefault();
     var handleSearch = this.props.handleSearch
     var query = this.state.query
     axios.get('http://localhost:3000/search', {
@@ -30,6 +31,7 @@ class SearchBar extends Component{
     .catch((err) => {
       console.log(err);
     });
+    e.preventDefault();
   }
 
   onClick() {
@@ -38,11 +40,11 @@ class SearchBar extends Component{
 
   render() {
     return (
-      <form onSubmit={this.searchProducts.bind(this)} className="search">
+      <form onSubmit={this.searchProducts} className="search">
         <div className="input-group">
-          <input id={this.state.query} className="form-control" onChange={this.onSearch.bind(this)} type="text"/>
+          <input id={this.state.query} className="form-control" onChange={this.onSearch} type="text"/>
           <span className="input-group-btn">
-            <button type="submit" id={this.state.query} onClick={this.searchProducts.bind(this)} className="searchBtn btn btn-primary">
+            <button type="submit" id={this.state.query} onClick={this.searchProducts} className="searchBtn btn btn-primary">
               Search
             </button>
           </span>

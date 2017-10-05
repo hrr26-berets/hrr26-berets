@@ -7,12 +7,15 @@ class Login extends React.Component {
       username: '',
       password: ''
     };
+    this.handleLogIn = this.handleLogIn.bind(this);
+    this.handleUsername = this.handleUsername.bind(this);
+    this.handlePassword = this.handlePassword.bind(this);
   }
 
   handleLogIn(e) {
-    e.preventDefault();
     let user = { username: this.state.username, password: this.state.password };
     this.props.onLoginSubmit(user);
+    e.preventDefault();
   }
 
   handleUsername(e) {
@@ -28,11 +31,11 @@ class Login extends React.Component {
       <div>
         <h2> Login </h2>
         <div id="login" className="pull-right">
-          <form onSubmit={this.handleLogIn.bind(this)}>
+          <form onSubmit={this.handleLogIn}>
             <label>e-mail</label>&nbsp;&nbsp;
-            <input type="email" placeholder="name@example.com" onChange={this.handleUsername.bind(this)} required></input> <br /><br />
+            <input type="email" placeholder="name@example.com" onChange={this.handleUsername} required></input> <br /><br />
             <label>password</label>&nbsp;&nbsp;
-            <input type="password" onChange={this.handlePassword.bind(this)} required></input> <br /><br />
+            <input type="password" onChange={this.handlePassword} required></input> <br /><br />
             <button type="submit"> Submit </button>
           </form>
         </div>

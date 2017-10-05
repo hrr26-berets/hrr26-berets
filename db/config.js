@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 mongoUri = 'mongodb://localhost/wishlist';
-mongoose.connect(mongoUri,{useMongoClient:true});
+mongoose.connect(process.env.MONGODB_URI || mongoUri, {useMongoClient:true});
 
 const db = mongoose.connection;
 
