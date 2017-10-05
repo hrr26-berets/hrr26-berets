@@ -222,17 +222,33 @@ let handleRequests = (product,callback) => {
 //Clothing --> '5438'
 //Electronics  ---> '3944'
 //Helth ---> '976760'
+let removeSpecialCharacter = (sentence) => {
+  return sentence.split(' ').map((word) => {
+    return  word.split('').filter((letter) => {
+      if(letter === ',' || letter === "'" || letter === '"') {
+        return false;
+      } else {
+        return true;
+      }
+      ;
+    }).join('');
+  }).join(' ');
+}
+
 exports.popularCategories = (req,res) => {
-  var categoryid = req.body.id || 976760
+  var categoryid = req.query.query || 976760
   console.log(categoryid);
   walmartReq.feeds.bestSellers(categoryid).then((items) => { 
    let arr = items.items.reduce((acc, el) => {
      let obj = {}
       if (filterWords(el.name)) {
-      obj.name = el.name;
+      var name = removeSpecialCharacter(el.name);
+      obj.name = name;
+      obj.itemId = el.itemId;
       obj.desc = el.longDescription;
       obj.imageUrl = el.largeImage;
       obj.price = el.salePrice;
+      obj.productUrl = el.productUrl;
       acc.push(obj);
      }
         return acc;
