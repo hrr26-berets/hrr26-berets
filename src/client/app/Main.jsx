@@ -13,7 +13,7 @@ class Main extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      popular: [],
+    popular: [],
     searchResults: [],
     currentList: [],
     currentListName: 'Untitled',
@@ -32,6 +32,7 @@ class Main extends Component {
     this.handleSignUp = this.handleSignUp.bind(this);
     this.handleLogOut = this.handleLogOut.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
+    this.handleNameChange = this.handleNameChange.bind(this);
 
   }
 
@@ -240,7 +241,7 @@ class Main extends Component {
         </div>
         <div className="row">
           <div className="col-xs-12">
-          <ShoppingList name={this.state.currentListName} list={this.state.currentList} removeItem={this.handleRemoveFromList} saveList={this.saveList}/>
+          <ShoppingList name={this.state.currentListName} list={this.state.currentList} removeItem={this.handleRemoveFromList} saveList={this.saveList} handleNameChange={this.handleNameChange}/>
           </div>
         </div>
       </div>

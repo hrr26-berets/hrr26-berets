@@ -4,7 +4,26 @@ import ListItem from './ListItem.jsx';
 export default class ShoppingList extends Component {
   constructor(props) {
     super(props);
+    this.handleChange = this.handleChange.bind(this);
+    this.setName = this.setName.bind(this);
+    this.state = {
+      listName: ''
+    }
   }
+
+  handleChange(e) {
+    this.setState({
+      listName: e.target.value
+    })
+
+  }
+
+  setName() {
+    var name = this.state.listName;
+    this.props.handleNameChange(name);
+  }
+
+
   //the app view will include a user's current list under 'items' in state
   //'items' starts out as an empty array/object
   //if a user changes to one of their old lists from the database we can setState ({'items': list from database}) and re-render this component
@@ -26,7 +45,14 @@ export default class ShoppingList extends Component {
     return(
       <div>
       <h1>{this.props.name}</h1>
+      <div>
+      <input onChange={this.handleChange} type="text"/>
+      <span>
+      <button className="btn" onClick={this.setName}>Change List Name</button>
+      </span>
+      </div>
       <button className="btn btn-primary" onClick={this.props.saveList}>Save</button>
+
       <div>
         {this.props.list.map(product =>
           <ListItem product={product} key={product.itemId} removeItem={this.props.removeItem}/>
@@ -41,16 +67,3 @@ export default class ShoppingList extends Component {
   }
 }
 
-    //       <Item onClick={props.onClick} product={listItem} key={listItem.itemId}/>
-    //     )}
-    //   </div>)
-    // return (
-    //   //<button className="exit" onClick={props.renderList}></button>
-    //   //<button className="save" onClick={props.saveList}</button>
-    //   <h1>{props.name}<h1/>
-    //   <button className="btn btn-primary">Save</button>
-    //   <div>
-    //   {props.list.map(listItem =>
-    //     <Item product={listItem} />
-    //     )}
-    //   </div>
