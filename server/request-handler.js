@@ -189,12 +189,12 @@ if (req.session.passport.user) {
           }
           console.log('It found duplicate key --> ',newName);
           obj[newName] = list[key].reduce((acc,el) => {
-          acc.push({ name: el['name'], itemId: el['itemId']});
+          acc.push(el);
           return acc;
           },[]);
         } else {
         obj[key] = list[key].reduce((acc,el) => {
-          acc.push({ name: el['name'], itemId: el['itemId']});
+          acc.push(el);
           return acc;
         },[]);
         }
@@ -278,6 +278,21 @@ exports.popularCategories = (req,res) => {
   res.json(arr.slice(0,5));
   })
 };
+
+
+exports.getshoppingLists = (req,res) => {
+  var currentUser = req.session.passport.user;
+  if(currentUser) {
+    User.findOne({username: currentUser}).exec((err,user) => {
+      if (err) { throw err; }
+      if(user.shoppingList) {
+          res.json(user.shoppingList);
+      } else {
+        res.json({message:'User doesn\'t have shoppingLists '});
+      }
+    })     
+  }
+}
 
 
 
