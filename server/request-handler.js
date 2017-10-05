@@ -160,7 +160,7 @@ exports.retrieve_shopping = function(req, res) {
     User.findOne({username: username}).exec((err, user) => {
       if (user) {
         res.status(201);
-        res.send(user.shoppingList);
+        res.json(user.shoppingList);
       } else {
         console.log(err);
         res.status(404);
@@ -300,19 +300,19 @@ exports.popularCategories = (req,res) => {
 };
 
 
-exports.getshoppingLists = (req,res) => {
-  var currentUser = req.session.passport.user;
-  if(currentUser) {
-    User.findOne({username: currentUser}).exec((err,user) => {
-      if (err) { throw err; }
-      if(user.shoppingList) {
-          res.json(user.shoppingList);
-      } else {
-        res.json({message:'User doesn\'t have shoppingLists '});
-      }
-    })     
-  }
-}
+// exports.getshoppingLists = (req,res) => {
+//   var currentUser = req.session.passport.user;
+//   if(currentUser) {
+//     User.findOne({username: currentUser}).exec((err,user) => {
+//       if (err) { throw err; }
+//       if(user.shoppingList) {
+//           res.json(user.shoppingList);
+//       } else {
+//         res.json({message:'User doesn\'t have shoppingLists '});
+//       }
+//     })     
+//   }
+// }
 
 
 
