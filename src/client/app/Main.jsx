@@ -31,12 +31,12 @@ class Main extends Component {
   componentDidMount() {
     this.getTrendingItems();
     this.getCatalog();
-   // this.getFeaturedList(); 
+   // this.getFeaturedList();
   }
 
   getCatalog() {
-    var arr = [1085666,5438,3944,976760] 
-    arr.forEach(item => 
+    var arr = [1085666,5438,3944,976760]
+    arr.forEach(item =>
       this.getFeaturedList(item));
   }
 
@@ -218,15 +218,15 @@ class Main extends Component {
               ? <div className="col-xs-12">
                 <SearchResults results={this.state.searchResults} addToList={this.handleAddToList}/>
               </div>
-              : 
-                  (Object.keys(this.state.catalog).length !== 0)
-                  ?  <div className="col-xs-12">
-                      <h3>Featured WishLists</h3>
-                      <FeaturedLists list={this.state.catalog}/>
-                    </div>
-                  : <div className="col-xs-12">
-                      <div> This is a test </div>
-                    </div>
+              :
+              (Object.keys(this.state.catalog).length !== 0)
+                ?  <div className="col-xs-12">
+                  <h3>Featured WishLists</h3>
+                  <FeaturedLists list={this.state.catalog} addToList={this.handleAddToList}/>
+                </div>
+                : <div className="col-xs-12">
+                  <div> This is a test </div>
+                </div>
 
           }
         </div>
