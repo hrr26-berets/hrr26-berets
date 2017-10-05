@@ -8,6 +8,8 @@ import Login from './Login.jsx';
 import Signup from './Signup.jsx';
 import SearchResults from './SearchResults.jsx';
 import ShoppingList from './ShoppingList.jsx';
+import { Route, Link, Redirect, Switch, BrowserRouter as Router } from 'react-router-dom';
+
 
 class Main extends Component {
   constructor(props) {
@@ -166,40 +168,8 @@ class Main extends Component {
             <h1 style={{ marginBottom: '0' }}>wishlist</h1>
           </div>
           <div className="col-xs-3 text-right">
-            <Modal
-              isOpen={this.state.loggingIn}
-              onRequestClose={this.handleLoggingIn}
-              contentLabel="Login"
-              style={{
-                content: {
-                  position: 'absolute',
-                  height: '320px',
-                  width: '350px',
-                  left: '35%',
-                  right: '35%',
-                  bottom: '35%'
-                }
-              }}
-            >
-              <Login onLoginSubmit={this.handleLogIn}/>
-            </Modal>
-            <Modal
-              isOpen={this.state.signingUp}
-              onRequestClose={this.handleSigningUp}
-              contentLabel="Signup"
-              style={{
-                content: {
-                  position: 'absolute',
-                  height: '320px',
-                  width: '350px',
-                  left: '35%',
-                  right: '35%',
-                  bottom: '35%'
-                }
-              }}
-            >
-              <Signup onSignupSubmit={this.handleSignUp}/>
-            </Modal>
+            <Link to="/signup" > Sign Up </Link> &emsp;
+            <Link to="/login" > Log In </Link>
             {
               (this.state.loggedIn)
                 ? <span> Welcome, <strong>{this.state.user}</strong>!&nbsp;&nbsp;<a className="btn btn-link" onClick={this.handleLogOut}>Log Out</a>&nbsp;&nbsp;</span>
@@ -250,3 +220,38 @@ class Main extends Component {
 }
 
 export default Main;
+
+// <Modal
+//               isOpen={this.state.loggingIn}
+//               onRequestClose={this.handleLoggingIn.bind(this)}
+//               contentLabel="Login"
+//               style={{
+//                 content: {
+//                   position: 'absolute',
+//                   height: '320px',
+//                   width: '350px',
+//                   left: '35%',
+//                   right: '35%',
+//                   bottom: '35%'
+//                 }
+//               }}
+//             >
+//               <Login onLoginSubmit={this.handleLogIn.bind(this)}/>
+//             </Modal>
+//             <Modal
+//               isOpen={this.state.signingUp}
+//               onRequestClose={this.handleSigningUp.bind(this)}
+//               contentLabel="Signup"
+//               style={{
+//                 content: {
+//                   position: 'absolute',
+//                   height: '320px',
+//                   width: '350px',
+//                   left: '35%',
+//                   right: '35%',
+//                   bottom: '35%'
+//                 }
+//               }}
+//             >
+//               <Signup onSignupSubmit={this.handleSignUp.bind(this)}/>
+//             </Modal>
