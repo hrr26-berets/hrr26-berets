@@ -14,6 +14,7 @@ class Main extends Component {
     super(props);
     this.handleAddToList = this.handleAddToList.bind(this)
     this.handleRemoveFromList = this.handleRemoveFromList.bind(this)
+    this.saveList = this.saveList.bind(this)
     this.state = {
       popular: [],
     searchResults: [],
@@ -112,6 +113,19 @@ class Main extends Component {
     this.setState({ currentListName: name })
   }
 
+  saveList() {
+    var saved = {}
+    saved[this.state.currentListName] = this.state.currentList;
+    console.log(saved)
+    axios.post('http://localhost:3000/save', saved)
+    .then(function(response) {
+      console.log(response)
+    })
+    .catch(function(error) {
+      console.log(error)
+    })
+  }
+
   render() {
     return (
       <div className="container">
@@ -185,7 +199,7 @@ class Main extends Component {
         </div>
         <div className="row">
           <div className="col-xs-12">
-          <ShoppingList name={this.state.currentListName} list={this.state.currentList} removeItem={this.handleRemoveFromList}/>
+          <ShoppingList name={this.state.currentListName} list={this.state.currentList} removeItem={this.handleRemoveFromList} saveList={this.saveList}/>
           </div>
         </div>
       </div>
