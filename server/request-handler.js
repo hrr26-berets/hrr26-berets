@@ -154,6 +154,26 @@ exports.storeProduct = (product) => {
   })
 };
 
+exports.retrieve_shopping = function(req, res) {
+ if (req.session.passport.user) {
+    let username =  req.session.passport.user;
+    User.findOne({username: username}).exec((err, user) => {
+      if (user) {
+        res.status(201);
+        res.send(user.shoppingList);
+      } else {
+        console.log(err);
+        res.status(404);
+        res.send('User not found!');
+      }
+    })
+
+  } else {
+    res.status(400);
+    res.send('Unauthorized access!');
+  }
+}
+
 
 exports.save_shopping = function(req,res,next) {
   let test = {techShopping: [{"name":"Apples iPod touch 16GB","price":225,"itemId":42608132},

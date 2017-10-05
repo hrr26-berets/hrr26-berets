@@ -72,6 +72,7 @@ app.get('/lookupItem', handler.lookUp);
 app.get('/feature', handler.popularCategories);
 app.get('/search', handler.search);
 app.get('/trending', handler.getTrending);
+app.get('/myLists', handler.retrieve_shopping);
 
 // handle user authentication
 app.post('/signup', handler.signUpUser);
