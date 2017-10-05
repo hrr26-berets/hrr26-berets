@@ -4,7 +4,7 @@ import { Route, Link, Redirect, Switch, BrowserRouter as Router } from 'react-ro
 import Main from './Main.jsx';
 import Signup from './Signup.jsx';
 import Login from './Login.jsx';
-
+import ProductDetails from './ProductDetails.jsx';
 
 class App extends React.Component {
   constructor(props) {
@@ -23,6 +23,8 @@ class App extends React.Component {
             <Route exact path="/" render={(props) => (<Main {...props}/>)} />
             <Route exact path="/signup" loggedIn={this.state.loggedIn} username={this.state.username} render={(props) => (<Signup {...props}/>)} />
             <Route exact path="/login" render={(props) => (<Login {...props}/>)} />
+            <Route exact path="/productDetails" render={(props) => (<ProductDetails {...props}/>)} />
+
           </Switch>
         </Router>
       </div>

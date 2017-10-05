@@ -10,7 +10,6 @@ import SearchResults from './SearchResults.jsx';
 import ShoppingList from './ShoppingList.jsx';
 import { Route, Link, Redirect, Switch, BrowserRouter as Router } from 'react-router-dom';
 
-
 class Main extends Component {
   constructor(props) {
     super(props);
