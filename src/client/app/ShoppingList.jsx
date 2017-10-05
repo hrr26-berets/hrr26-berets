@@ -38,6 +38,14 @@ export default class ShoppingList extends Component {
               <span>
                 <button className="btn btn-primary button-save" onClick={this.props.saveList}>Save</button>
               </span>
+              <span>
+                <select id="lists">
+                <option value="volvo">Volvo</option>
+                <option value="saab">Saab</option>
+                <option value="opel">Opel</option>
+                <option value="audi">Audi</option>
+                </select>
+              </span>
           </div>
         <div>
             {this.props.list.map(product =>
