@@ -11,28 +11,15 @@
   margin: 20px auto;
 }
 
-#FL-col1 {
+.FL-col1 {
   width: 200px;
   float: left;
   padding: 5px 15px;
 }
 
-#FL-col2 {
-  width: 200px;
-  float: left;
-  padding: 5px 15px;
-  margin: 0px 5px 5px 5px;
-}
 
-#FL-col3 {
-  width: 200px;
-  float: left;
-  padding: 5px 15px;
-
-#FL-col4 {
-  width: 20px;
-  float: left;
-  padding: 5px 10px;
+.aligning{
+  text-align: center;
 }
 
 .list {

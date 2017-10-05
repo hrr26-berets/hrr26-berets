@@ -1,63 +1,32 @@
 import React from 'react';
 import axios from 'axios';
+import FeaturedItem  from  './FeaturedItem.jsx';
 
-// class FeaturedList extends React.Component {
-//   constructor(props) {
-//     super(props);
-//   }
+var FeaturedLists = (props) => {
+    return (
+      <div id="FL-Container">
+        <div className="FL-col1">
+        <div className="aligning"> Electronics</div>
+        {props.list[3944].map(item =><FeaturedItem item={item} />) }
+        </div>
 
-//   render() {
+      <div className="FL-col1">
+        <div className="aligning"> Beauty</div>
+        {props.list[1085666].map(item =><FeaturedItem item={item} />) }
+        </div>
 
-//     return (
-//       <div>
-//         Featured wishLists
-//       </div>
-//     );
-//   }
-// }
+     <div className="FL-col1">
+        <div className="aligning"> Clothing</div>
+        {props.list[5438].map(item =><FeaturedItem item={item} />) }
+     </div>
 
-var FeaturedLists = (props) => (
-  <div>
-    <div id="FL-Container">
-      <section id="FL-col1">
-          PRO GAMER <br/>
-          game controller <br/>
-          gaming headset <br/>
-          gamer fuel <br/>
-          gaming glasses <br/>
-          gaming socks <br/>
-          gaming gloves <br/>
-
-      </section>
-
-      <section id="FL-col2">
-          I AM A CHEF <br />
-          crockpot <br />
-          sharp knive <br />
-          mixer <br />
-          souse vide <br />
-          apron
-      </section>
-
-      <section id="FL-col3">
-          HIPSTER WRITER <br/>
-          Vegan tote bag <br/>
-          fair trade coffee <br/>
-          macbook stickers <br/>
-          moleskin notebook <br/>
-          hemp underwear <br/>
-      </section>
-
-      <section id="FL-col4">
-         MUSCLE MANIA <br />
-          protein <br />
-          protein <br />
-          supplements <br />
-          protein <br />
-      </section>
-
-    </div>
-  </div>
+     <div className ="FL-col1">
+        <div className="aligning"> Health </div>
+        {props.list[976760].map(item =><FeaturedItem item={item} />) }
+     </div>
+   </div>
   )
+
+ }
 
 export default FeaturedLists;

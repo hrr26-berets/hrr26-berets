@@ -23,12 +23,21 @@ class Main extends Component {
     loggingIn: false,
     signingUp: false,
     loggedIn: false,
-    user: null
+    user: null,
+    catalog:{}
     };
   }
 
   componentDidMount() {
     this.getTrendingItems();
+    this.getCatalog();
+   // this.getFeaturedList(); 
+  }
+
+  getCatalog() {
+    var arr = [1085666,5438,3944,976760] 
+    arr.forEach(item => 
+      this.getFeaturedList(item));
   }
 
   getTrendingItems() {
@@ -113,6 +122,24 @@ class Main extends Component {
     this.setState({ currentListName: name })
   }
 
+
+  getFeaturedList(id) {
+  //console.log('Id --> ',id);
+  axios.get('/feature', {
+    params: {
+      query: id
+    }
+
+  })
+    .then((res) => {
+     // this.catalog[id] = res.data;
+    // console.log('Res --> ',res.data);
+     this.state.catalog[id] = res.data;
+    })
+    .catch((err) => {
+      console.log('Error ---> ', err);
+  })
+ }
   saveList() {
     var saved = {}
     saved[this.state.currentListName] = this.state.currentList;
@@ -191,10 +218,16 @@ class Main extends Component {
               ? <div className="col-xs-12">
                 <SearchResults results={this.state.searchResults} addToList={this.handleAddToList}/>
               </div>
-              : <div className="col-xs-12">
-                <h3>Featured WishLists</h3>
-                <FeaturedLists />
-              </div>
+              : 
+                  (Object.keys(this.state.catalog).length !== 0)
+                  ?  <div className="col-xs-12">
+                      <h3>Featured WishLists</h3>
+                      <FeaturedLists list={this.state.catalog}/>
+                    </div>
+                  : <div className="col-xs-12">
+                      <div> This is a test </div>
+                    </div>
+
           }
         </div>
         <div className="row">
