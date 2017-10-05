@@ -46,7 +46,7 @@ class SearchResultsEntry extends Component {
             }
           }}
         >
-          <ProductDetails itemId={item.itemId} itemUrl={item.url}/>
+          <ProductDetails itemId={item.itemId} itemUrl={item.url} addToList={this.props.addToList}/>
         </Modal>
         <div className="col-sm-3">
           <a className="btn btn-link" onClick={this.handleItemClick.bind(this)}><strong>{item.name.substring(0, 40)}</strong></a>

@@ -33,7 +33,14 @@ class ProductDetails extends Component {
   }
 
   handleAddToList() {
-    // TODO: add this item to the current wishlist
+    let item = {};
+    item.name = this.state.details.name;
+    item.image = this.state.details.thumbnailImage;
+    item.itemId = this.props.itemId;
+    item.url = this.props.itemUrl;
+    item.price = this.state.details.price;
+
+    this.props.addToList(item);
   }
 
   render() {

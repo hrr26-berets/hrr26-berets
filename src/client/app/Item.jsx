@@ -13,12 +13,17 @@ class Item extends Component {
   }
 
   handleAddItem() {
-    let item = this.props.item
+    let item = {};
+    item.name = this.props.item.name;
+    item.image = this.props.item.thumbnailImage;
+    item.itemId = this.props.item.itemId;
+    item.url = this.props.item.productUrl;
+    item.price = this.props.item.salePrice;
+
     this.props.addToList(item);
   }
 
-  handleItemClick(e) {
-    e.preventDefault();
+  handleItemClick() {
     this.setState({
       showDetails: !this.state.showDetails
     });
@@ -43,7 +48,7 @@ class Item extends Component {
             }
           }}
         >
-          <ProductDetails itemId={item.itemId} itemUrl={item.productUrl}/>
+          <ProductDetails itemId={item.itemId} itemUrl={item.productUrl} addToList={this.props.addToList}/>
         </Modal>
         <div className="item-title">
           <a className="btn-link btn-block" onClick={this.handleItemClick}><strong>{item.name.substring(0, 40)}</strong></a>
