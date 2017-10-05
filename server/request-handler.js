@@ -96,6 +96,7 @@ exports.lookUp = (req, res) => {
       details.name = item.name;
       details.desc = item.longDescription;
       details.imageUrl = item.largeImage;
+      details.thumbnailImage = item.thumbnailImage;
       details.price = item.salePrice;
       res.json(details);
     })
