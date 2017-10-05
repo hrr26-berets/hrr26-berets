@@ -17,8 +17,7 @@ class Item extends Component {
     this.props.addToList(item);
   }
 
-  handleItemClick(e) {
-    e.preventDefault();
+  handleItemClick() {
     this.setState({
       showDetails: !this.state.showDetails
     });
