@@ -124,14 +124,14 @@ exports.getTrending = (req, res) => {
 };
 
 
-exports.storeProduct = (req,res,next) => {
+exports.storeProduct = (product) => {
   let now = new Date();
-  let storingItem = req.body;
+  let storingItem = product
   Product.findOne({itemId : storingItem.itemId, name : storingItem.name }).exec((err,found) => {
     if(found) {
-     res.status(200);
+     //res.status(200);
      console.log('It exists');
-      next();
+     return;
     } else {
       let newProduct = new Product({
           name:storingItem.name,
@@ -141,10 +141,13 @@ exports.storeProduct = (req,res,next) => {
       });
       newProduct.save((err, newProduct) =>  {
         if (err) {
-          req.status(500).send(err);
+          //return req.status(500).send(err);
+          console.log('ERROR:', error)
+          return;
         }
-        res.status(200);
-        next();
+        // res.status(200);
+        // next();
+        console.log('Saved:', newProduct)
       })
     }
   })
@@ -156,12 +159,12 @@ exports.save_shopping = function(req,res,next) {
   {"name":"Xbox Ones S Battlefield 1 500 GB Bundle","price":279,"itemId":54791579},
   {"name":"LG DVD Player with USBs Direct Recording (DP132)","price":27.88,"itemId":333963490}]}
 
-let list = req.body.shoppingList || test
+let list = req.body || test
 if (req.session.passport.user) {
   for (let key in list) {
     list[key].forEach((item) => {
-      req.body = item;
-      exports.storeProduct(req,res,next);
+      //req.body = item;
+      exports.storeProduct(item);
    });
   }
   let username = req.session.passport.user;
@@ -225,7 +228,7 @@ let handleRequests = (product,callback) => {
 exports.popularCategories = (req,res) => {
   var categoryid = req.body.id || 976760
   console.log(categoryid);
-  walmartReq.feeds.bestSellers(categoryid).then((items) => { 
+  walmartReq.feeds.bestSellers(categoryid).then((items) => {
    let arr = items.items.reduce((acc, el) => {
      let obj = {}
       if (filterWords(el.name)) {

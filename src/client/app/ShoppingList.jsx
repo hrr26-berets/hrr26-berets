@@ -20,11 +20,13 @@ export default class ShoppingList extends Component {
 
 
   render() {
-    const { props } = this.props
+    const { list } = this.props;
+    // const list = this.props.list;
     if (this.props.list.length) {
     return(
       <div>
       <h1>{this.props.name}</h1>
+      <button className="btn btn-primary" onClick={this.props.saveList}>Save</button>
       <div>
         {this.props.list.map(product =>
           <ListItem product={product} key={product.itemId} removeItem={this.props.removeItem}/>
