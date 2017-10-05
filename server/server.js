@@ -66,6 +66,7 @@ app.get('/message', (req,res) => {
 // handle product information in db
 app.get('/update',handler.updateProducts);
 app.post('/save',handler.save_shopping);
+app.get('/shoppinglists',handler.getshoppingLists);
 
 // handle data fetch from Walmart API
 app.get('/lookupItem', handler.lookUp);
