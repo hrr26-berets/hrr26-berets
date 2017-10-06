@@ -1,15 +1,27 @@
 import React, { Component } from 'react';
+import { Modal, ModalBody } from 'react-modal-bootstrap';
+import ProductDetails from './ProductDetails.jsx';
 
 class ListItem extends Component {
   constructor(props){
     super(props);
-    this.handleRemove = this.handleRemove.bind(this)
+    this.state = {
+      showDetails: false
+    }
+    this.handleRemove = this.handleRemove.bind(this);
+    this.handleItemClick = this.handleItemClick.bind(this);
   }
 
 
   handleRemove() {
-    var product = this.props.product
-    this.props.removeItem(product)
+    let itemId = this.props.product.itemId;
+    this.props.removeItem(itemId);
+  }
+
+  handleItemClick() {
+    this.setState({
+      showDetails: !this.state.showDetails
+    })
   }
 
   render() {
@@ -17,8 +29,16 @@ class ListItem extends Component {
     console.log(this.props)
   return (
   <div className="row">
-          <div className="col-sm-3">
-          <a className="btn btn-link" /*onClick={this.handleItemClick.bind(this)}*/><strong>{this.props.product.name.substring(0, 30)}</strong></a>
+    <Modal
+      isOpen={this.state.showDetails}
+      onRequestHide={this.handleItemClick}
+    >
+      <ModalBody>
+        <ProductDetails itemId={this.props.product.itemId} itemUrl={this.props.product.url} removeItem={this.props.removeItem} isInList={true} currentList={this.props.currentList}/>
+      </ModalBody>
+    </Modal>
+    <div className="col-sm-3">
+      <a className="btn btn-link" onClick={this.handleItemClick}><strong>{this.props.product.name.substring(0, 30)}</strong></a>
         </div>
         <div className="col-sm-3">
           <img src={this.props.product.image} alt=""/>

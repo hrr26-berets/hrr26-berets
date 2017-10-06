@@ -7,14 +7,31 @@ class ProductDetails extends Component {
     super(props);
     this.state = {
       details: {},
-      doneLoading: false
+      doneLoading: false,
+      isInList: false
     };
 
     this.handleAddToList = this.handleAddToList.bind(this);
+    this.handleRemoveFromList = this.handleRemoveFromList.bind(this);
 
   }
   componentDidMount() {
     this.getItemDetails();
+    console.log(this.props.currentList);
+    this.checkList();
+  }
+
+  checkList() {
+    let currentList = this.props.currentList;
+    if (currentList) {
+      currentList.forEach((product) => {
+        if (product.itemId === this.props.itemId) {
+          this.setState({ isInList: true });
+        }
+      });
+    } else if (this.props.isInList) {
+      this.setState({ isInList: true });
+    }
   }
 
   getItemDetails() {
@@ -45,9 +62,13 @@ class ProductDetails extends Component {
     this.props.addToList(item);
   }
 
+  handleRemoveFromList() {
+    this.props.removeItem(this.props.itemId);
+  }
+
   render() {
     return (
-        <div>
+        <div className="product-details">
           {
             (this.state.doneLoading)
               ? <div>
@@ -58,7 +79,11 @@ class ProductDetails extends Component {
                   {Parser(Parser(''+this.state.details.desc))}
                 </div>
                 <div style={{ marginTop: '15px' }}>
-                  <a className="btn btn-default" onClick={this.handleAddToList}>Add to List</a>
+                  {
+                    (this.state.isInList)
+                      ? <a className="btn btn-default" onClick={this.handleRemoveFromList}>Remove from List</a>
+                      : <a className="btn btn-default" onClick={this.handleAddToList}>Add to List</a>
+                  }
                   <a href={this.props.itemUrl} target="_blank" className="btn btn-primary">Buy it Now!</a>
                 </div>
               </div>

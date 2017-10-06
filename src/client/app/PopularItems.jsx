@@ -6,7 +6,7 @@ var PopularItems = (props) => {
     return (
       <div className="popular-items">
         {props.products.map(item =>
-          <Item addToList={props.addToList} item={item} key={item.itemId}/>
+          <Item addToList={props.addToList} currentList={props.currentList} item={item} key={item.itemId}/>
         )}
       </div>)
   }

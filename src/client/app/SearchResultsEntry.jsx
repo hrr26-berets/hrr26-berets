@@ -38,7 +38,7 @@ class SearchResultsEntry extends Component {
           onRequestHide={this.handleItemClick}
         >
           <ModalBody>
-            <ProductDetails itemId={item.itemId} itemUrl={item.url} addToList={this.props.addToList}/>
+            <ProductDetails itemId={item.itemId} itemUrl={item.url} addToList={this.props.addToList} removeItem={this.props.removeItem} currentList={this.props.currentList}/>
           </ModalBody>
         </Modal>
         <div className="col-sm-3 item-title">
