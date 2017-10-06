@@ -25,13 +25,12 @@ class Main extends Component {
     this.handleAddToList = this.handleAddToList.bind(this);
     this.handleRemoveFromList = this.handleRemoveFromList.bind(this);
     this.saveList = this.saveList.bind(this);
-    this.handleLoggingIn = this.handleLoggingIn.bind(this);
-    this.handleSigningUp = this.handleSigningUp.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
     this.handleNameChange = this.handleNameChange.bind(this);
     this.handleListChange = this.handleListChange.bind(this);
     this.getmyList = this.getmyList.bind(this);
-
+    this.getFeaturedList = this.getFeaturedList.bind(this);
+    this.getCatalog = this.getCatalog.bind(this);
   }
 
   componentDidMount() {
@@ -39,14 +38,14 @@ class Main extends Component {
     if ( this.props.loggedIn) {
       this.getmyList();
     }
-    //this.getCatalog();
+    this.getCatalog();
   }
 
-  // getCatalog() {
+   getCatalog() {
   //   var arr = [1085666,5438,3944,976760]
   //   arr.forEach(item =>
   //     this.getFeaturedList(item));
-  // }
+  }
 
   getTrendingItems() {
     axios.get('/trending')
@@ -81,14 +80,6 @@ class Main extends Component {
       });
   }
 
-  handleLoggingIn() {
-    this.setState({ loggingIn: !this.state.loggingIn });
-  }
-
-  handleSigningUp() {
-    this.setState({ signingUp: !this.state.signingUp });
-  }
-
   handleSearch(products) {
     this.setState({ searchResults: products })
   }
@@ -121,8 +112,7 @@ class Main extends Component {
     this.setState( { currentList : list});
   }
 
-
- //  getFeaturedList(id) {
+  getFeaturedList(id) {
  //  axios.get('/feature', {
  //    params: {
  //      query: id
@@ -135,20 +125,17 @@ class Main extends Component {
  //    .catch((err) => {
  //      console.log('Error ---> ', err);
  //  })
- // }
+ }
 
   saveList() {
     let saved = {}
     saved[this.state.currentListName] = this.state.currentList;
     console.log(saved)
     let url = (this.state.shoppingList[this.state.currentListName] !== undefined) ? '/save-existing' : '/save'
-    let context = this;
-    console.log('Url --> ',url);
     axios.post(url, saved)
-    .then(function(response) {
-      context.state.myList = [];
-      context.getmyList();
-      //console.log(response)
+    .then(response => {
+      this.setState({ myList: [] })
+      this.getmyList();
     })
     .catch(function(error) {
       console.log(error)
@@ -156,12 +143,32 @@ class Main extends Component {
   }
 
   render() {
+    let ShoppingContainer = <div>Log in to see your lists!</div>
+    if(this.props.loggedIn) {
+      ShoppingContainer = (
+        <div className="col-xs-12">
+          <ShoppingList
+            name={this.state.currentListName}
+            list={this.state.currentList}
+            removeItem={this.handleRemoveFromList}
+            saveList={this.saveList}
+            handleNameChange={this.handleNameChange}
+            handleListChange={this.handleListChange}
+            myList={this.state.myList}
+            shoppingList={this.state.shoppingList}
+            currentList={this.state.currentList}/>
+          </div>
+      );
+    }
+
     return (
       <div className="container">
         <div className="row" style={{display: 'flex', alignItems: 'flex-end'}}>
           <div className="col-xs-4">
             <h1 style={{ marginBottom: '0' }}> wishList</h1>
           </div>
+          {/* Nav buttons: render Login, Signup if a user isn't logged in,
+          render 'Welcome <username>', Logout if a user is logged in */}
           <div className="col-xs-3 text-right">
 
             {
@@ -173,10 +180,12 @@ class Main extends Component {
                 </span>
             }
           </div>
+          {/* Search bar component */}
           <div className="col-xs-3">
             <SearchBar handleSearch={this.handleSearch}/>
           </div>
         </div>
+        {/* Popular items retrieved from Walmart's 'Trending' api */}
         <div className="row">
           <div className="col-xs-12">
             <br /> <h3>Popular Items</h3>
@@ -193,6 +202,7 @@ class Main extends Component {
 
           }
         </div>
+        {/* Featured wishlists based on best-selling items in the Walmart catalog */}
         <div className="row">
           {
             (Object.keys(this.state.catalog).length !== 0)
@@ -205,19 +215,9 @@ class Main extends Component {
               </div>
           }
         </div>
+        {/* User's current shopping list */}
         <div className="row">
-          {
-            (!this.props.loggedIn)
-              ? <div>Log in to see your lists!</div>
-              :<div className="col-xs-12">
-                {
-                  (this.state.myList.length > 0)
-                    ?  <ShoppingList name={this.state.currentListName} list={this.state.currentList} removeItem={this.handleRemoveFromList} saveList={this.saveList} handleNameChange={this.handleNameChange} handleListChange={this.handleListChange} myList={this.state.myList} shoppingList={this.state.shoppingList} currentList={this.state.currentList}/>
-                    :
-                    <ShoppingList name={this.state.currentListName} list={this.state.currentList} removeItem={this.handleRemoveFromList} saveList={this.saveList} handleNameChange={this.handleNameChange} currentList={this.state.currentList}/>
-       }
-          </div>
-        }
+          {ShoppingContainer}
         </div>
       </div>
       );
