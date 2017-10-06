@@ -13,11 +13,17 @@ class Main extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      popular: [],
-      searchResults: [],
-      currentList: [],
-      currentListName: 'Untitled',
-      catalog: {}
+    popular: [],
+    searchResults: [],
+    currentList: [],
+    currentListName: 'Untitled',
+    loggingIn: false,
+    signingUp: false,
+    loggedIn: false,
+    user: null,
+    catalog: {},
+    myList:[],
+    shoppingList:{}
     };
     this.handleAddToList = this.handleAddToList.bind(this);
     this.handleRemoveFromList = this.handleRemoveFromList.bind(this);
@@ -26,6 +32,7 @@ class Main extends Component {
     this.handleSigningUp = this.handleSigningUp.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
     this.handleNameChange = this.handleNameChange.bind(this);
+    this.handleListChange = this.handleListChange.bind(this);
 
   }
 
@@ -52,8 +59,26 @@ class Main extends Component {
       });
   }
 
+  getmyList() {
+   axios.get('/myLists')
+      .then((res) => {
+       if (res.data) {
+        this.state.myList = [];
+        this.state.shoppingList = res.data;
+        this.state.myList = Object.keys(res.data);
+        this.state.myList.push('New List');
+        this.state.currentListName = this.state.myList[0];
+        this.state.currentList = this.state.shoppingList[this.state.myList[0]];
+        }
+      })
+    .catch((err) => {
+        console.log(err);
+      });
+  }
+
   handleLoggingIn() {
     this.setState({ loggingIn: !this.state.loggingIn });
+    this.getmyList();
   }
 
   handleSigningUp() {
@@ -68,6 +93,9 @@ class Main extends Component {
     var list = this.state.currentList.slice()
     list.push(item)
     this.setState({ currentList: list })
+    if (this.state.currentListName === 'Untitled') {
+      this.state.myList.unshift('Untitled');
+    }
   }
 
   handleRemoveFromList(item) {
@@ -77,7 +105,16 @@ class Main extends Component {
   }
 
   handleNameChange(name) {
+    if (this.state.myList[0] === 'Untitled') {
+      if (this.state.myList.indexOf(name) === -1) {
+        this.state.myList[0] = name;
+      }
+    }
     this.setState({ currentListName: name })
+  }
+
+  handleListChange(list) {
+    this.setState( { currentList : list});
   }
 
 
@@ -97,12 +134,16 @@ class Main extends Component {
  // }
 
   saveList() {
-    var saved = {}
+    let saved = {}
     saved[this.state.currentListName] = this.state.currentList;
     console.log(saved)
-    axios.post('/save', saved)
+    let url = (this.state.shoppingList[this.state.currentListName] !== undefined) ? '/save-existing' : '/save'
+    let context = this;
+    console.log('Url --> ',url);
+    axios.post(url, saved)
     .then(function(response) {
-      console.log(response)
+      context.getmyList();
+      //console.log(response)
     })
     .catch(function(error) {
       console.log(error)
@@ -161,7 +202,12 @@ class Main extends Component {
         </div>
         <div className="row">
           <div className="col-xs-12">
-          <ShoppingList name={this.state.currentListName} list={this.state.currentList} removeItem={this.handleRemoveFromList} saveList={this.saveList} handleNameChange={this.handleNameChange}/>
+         {
+            (this.state.myList.length > 0)
+         ?  <ShoppingList name={this.state.currentListName} list={this.state.currentList} removeItem={this.handleRemoveFromList} saveList={this.saveList} handleNameChange={this.handleNameChange} handleListChange={this.handleListChange} myList={this.state.myList} shoppingList={this.state.shoppingList}/>
+         :
+            <ShoppingList name={this.state.currentListName} list={this.state.currentList} removeItem={this.handleRemoveFromList} saveList={this.saveList} handleNameChange={this.handleNameChange}/>
+       }
           </div>
         </div>
       </div>
