@@ -193,15 +193,6 @@ class Main extends Component {
         </div>
         <div className="row">
           {
-            (this.props.loggedIn)
-          ? <div className="col-xs-12">
-              <ShoppingList name={this.state.currentListName} list={this.state.currentList} removeItem={this.handleRemoveFromList} saveList={this.saveList} handleNameChange={this.handleNameChange}/>
-            </div>
-          : <div>Log In to see your lists!</div>
-        }
-        </div>
-        <div className="row">
-          {
             (Object.keys(this.state.catalog).length !== 0)
               ?  <div className="col-xs-12">
                <br /> <h3>Featured WishLists</h3>
@@ -213,7 +204,10 @@ class Main extends Component {
           }
         </div>
         <div className="row">
-          <div className="col-xs-12">
+          {
+            (!this.props.loggedIn)
+            ? <div>Log in to see your lists!</div>
+          :<div className="col-xs-12">
          {
             (this.state.myList.length > 0)
          ?  <ShoppingList name={this.state.currentListName} list={this.state.currentList} removeItem={this.handleRemoveFromList} saveList={this.saveList} handleNameChange={this.handleNameChange} handleListChange={this.handleListChange} myList={this.state.myList} shoppingList={this.state.shoppingList}/>
@@ -221,6 +215,7 @@ class Main extends Component {
             <ShoppingList name={this.state.currentListName} list={this.state.currentList} removeItem={this.handleRemoveFromList} saveList={this.saveList} handleNameChange={this.handleNameChange}/>
        }
           </div>
+        }
         </div>
       </div>
       );

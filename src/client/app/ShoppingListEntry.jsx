@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ListItem from './ListItem.jsx';
 import Select from 'react-select';
+import 'react-select/dist/react-select.css';
 
 class ShoppingListEntry extends Component {
 
@@ -10,7 +11,7 @@ class ShoppingListEntry extends Component {
 
   change(event) {
     var name = (event.target.value === 'New List') ? 'Untitled' : event.target.value;
-      
+
       this.props.handleChange(name);
       this.props.setName();
   }
@@ -18,7 +19,7 @@ class ShoppingListEntry extends Component {
   render() {
     return (
       <div>
-        { 
+        {
           (this.props.myList)
        ? <div>
         <select onChange={this.change.bind(this)}>
@@ -36,7 +37,7 @@ class ShoppingListEntry extends Component {
               <ListItem product={product} key={product.itemId} removeItem={this.props.removeItem}/>
             )}
         </div>
-      
+
 
       </div>
   )
