@@ -47,8 +47,8 @@ export default class ShoppingList extends Component {
 
   render() {
     const { list } = this.props;
-    console.log('This list ---> ',this.props.list);
-    if (this.props.list.length) {
+   // console.log('This list ---> ',this.props.list);
+    if (this.props.myList) {
     return(
       <div>
         <h1>{this.props.name}</h1>
@@ -60,15 +60,9 @@ export default class ShoppingList extends Component {
               <span>
                 <button className="btn btn-primary button-save" onClick={this.props.saveList}>Save</button>
               </span>
-    
-            {
-              (this.props.myList)
-              ?  
+     
               <ShoppingListEntry myList={this.props.myList} shoppingList={this.props.list} removeItem={this.props.removeItem} handleChange={this.handleChange} setName={this.setName} currentList={this.props.name}/>
-              :  <div clasName="selectBox">
-                <select />
-                </div>
-            }
+
           </div>
 
       </div>

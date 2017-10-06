@@ -238,15 +238,9 @@ if (req.session.passport.user) {
             i++;
           }
           console.log('It found duplicate key --> ',newName);
-          obj[newName] = list[key].reduce((acc,el) => {
-          acc.push(el);
-          return acc;
-          },[]);
+          obj[newName] = list[key]
         } else {
-        obj[key] = list[key].reduce((acc,el) => {
-          acc.push(el);
-          return acc;
-        },[]);
+        obj[key] = list[key];
         }
       }
       User.findOneAndUpdate({username:username},{"$set":{shoppingList: obj}},{upsert: true, new: true, runValidators: true,strict:false,overwrite:true}).exec((err,newUser) =>  {

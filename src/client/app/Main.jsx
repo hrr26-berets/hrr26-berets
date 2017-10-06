@@ -66,6 +66,7 @@ class Main extends Component {
    axios.get('/myLists')
       .then((res) => {
        if (res.data) {
+        this.state.myList = [];
         this.state.shoppingList = res.data;
         this.state.myList = Object.keys(res.data);
         this.state.myList.push('New List');
@@ -136,13 +137,9 @@ class Main extends Component {
   handleAddToList(item) {
     var list = this.state.currentList.slice()
     list.push(item)
-    console.log('This state -->  ',this.state.currentListName);
-    console.log('Main List --->  ',this.state.currentList);
     this.setState({ currentList: list })
     if (this.state.currentListName === 'Untitled') {
-      //this.state.myList.pop();
       this.state.myList.unshift('Untitled');
-     // this.state.push('New List');
     }
   }
 

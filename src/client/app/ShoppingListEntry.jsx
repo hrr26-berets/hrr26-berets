@@ -6,9 +6,6 @@ class ShoppingListEntry extends Component {
 
   constructor(props) {
     super(props);
-    // this.state = {
-    //   currentlist:this.props.shoppingList
-    // }
   }
 
   change(event) {
@@ -16,20 +13,31 @@ class ShoppingListEntry extends Component {
       
       this.props.handleChange(name);
       this.props.setName();
-   // this.setState({currentlist: this.props.shoppingList[name]});
   }
 
   render() {
     return (
       <div>
-         <select onChange={this.change.bind(this)}>
+        { 
+          (this.props.myList)
+       ? <div>
+        <select onChange={this.change.bind(this)}>
          {this.props.myList.map(list => <option key={list} selected={this.props.currentlist}>{list}</option>)}
          </select>
+        </div>
+        : <div>
+            <select>
+              <option value="Untitled">Untitled</option>
+              </select>
+            </div>
+        }
           <div>
             {this.props.shoppingList.map(product =>
               <ListItem product={product} key={product.itemId} removeItem={this.props.removeItem}/>
             )}
         </div>
+      
+
       </div>
   )
 
