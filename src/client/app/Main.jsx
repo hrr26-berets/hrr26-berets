@@ -129,7 +129,7 @@ class Main extends Component {
       <div className="container">
         <div className="row" style={{display: 'flex', alignItems: 'flex-end'}}>
           <div className="col-xs-4">
-            <h1 style={{ marginBottom: '0' }}>wishlist</h1>
+            <h1 style={{ marginBottom: '0' }}> wishList</h1>
           </div>
           <div className="col-xs-3 text-right">
 
@@ -137,8 +137,8 @@ class Main extends Component {
               (this.props.loggedIn)
                 ? <span> Welcome, <strong>{this.props.user}</strong>!&nbsp;&nbsp;<a className="btn btn-link" onClick={this.handleLogOut}>Log Out</a>&nbsp;&nbsp;</span>
                 : <span>
-                <Link to="/signupUser" > Sign Up </Link> &emsp;
-                <Link to="/loginUser" > Log In </Link>
+                <Link to="/signupUser" > <b>Sign Up</b> </Link> &emsp;
+                <Link to="/loginUser" > <b>Log In</b> </Link>
                 </span>
             }
           </div>
@@ -148,7 +148,7 @@ class Main extends Component {
         </div>
         <div className="row">
           <div className="col-xs-12">
-            <h3>Popular Items</h3>
+           <br /> <h3>Popular Items</h3>
           </div>
           <PopularItems products={this.state.popular} addToList={this.handleAddToList}/>
         </div>
@@ -156,7 +156,7 @@ class Main extends Component {
           {
             (this.state.searchResults.length !== 0)
               ? <div className="col-xs-12">
-                <SearchResults results={this.state.searchResults} addToList={this.handleAddToList}/>
+                <SearchResults results={this.state.searchResults} addToList={this.handleAddToList}/> <br /><br />
               </div>
               : null
 
@@ -166,7 +166,7 @@ class Main extends Component {
           {
             (Object.keys(this.state.catalog).length !== 0)
               ?  <div className="col-xs-12">
-                <h3>Featured WishLists</h3>
+               <br /> <h3>Featured WishLists</h3>
                 <FeaturedLists list={this.state.catalog} addToList={this.handleAddToList}/>
               </div>
               : <div className="col-xs-12">

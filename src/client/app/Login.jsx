@@ -36,7 +36,7 @@ class Login extends React.Component {
     return (
       <div>
         <h2> Login </h2>
-        <div id="login" className="pull-right">
+        <div id="login" className="pull-left">
           <form onSubmit={this.logIn}>
             <label>e-mail</label>&nbsp;&nbsp;
             <input type="email" placeholder="name@example.com" onChange={this.handleUsername} value={this.state.username} required></input> <br /><br />
