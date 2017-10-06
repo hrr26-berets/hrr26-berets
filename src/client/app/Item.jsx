@@ -50,15 +50,15 @@ class Item extends Component {
         >
           <ProductDetails itemId={item.itemId} itemUrl={item.productUrl} addToList={this.props.addToList}/>
         </Modal>
-        <div className="item-title">
+        <div className="item-title"> <br />
           <a className="btn-link btn-block text-link" onClick={this.handleItemClick}><strong>{item.name.substring(0, 30)}</strong></a>
         </div>
-        <div className="item-image">
+        <div className="item-image"> <br />
           <img src={item.thumbnailImage} onClick={this.handleItemClick}/>
         </div>
-        <div className="item-price">
-          ${item.salePrice}
-        </div>
+        <div className="item-price"> <p/>
+         <b> ${item.salePrice} </b>
+        </div> <br />
         <div>
           <a className="btn btn-default btn-block" onClick={this.handleAddItem}>Add to List</a>
           <a href={item.productUrl} target="_blank" className="btn btn-primary btn-block">Buy it Now!</a>

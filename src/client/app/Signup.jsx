@@ -1,22 +1,24 @@
 import React from 'react';
+import { Redirect } from 'react-router-dom';
+
 
 class Signup extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       username: '',
-      password: ''
+      password: '',
     };
 
-    this.handleSignUp = this.handleSignUp.bind(this);
+    this.signUp = this.signUp.bind(this);
     this.handleUsername = this.handleUsername.bind(this);
     this.handlePassword = this.handlePassword.bind(this);
   }
-
-  handleSignUp(e) {
-    let user = { username: this.state.username, password: this.state.password };
-    this.props.onSignupSubmit(user);
+  signUp(e) {
     e.preventDefault();
+    let user = { username: this.state.username, password: this.state.password };
+    this.props.handleSignUp(user);
+    this.setState({ password: '' })
   }
 
   handleUsername(e) {
@@ -28,19 +30,25 @@ class Signup extends React.Component {
   }
 
   render() {
+    if(this.props.loggedIn){
+      return <Redirect to='/'/>
+    }
     return (
       <div>
         <h2> Signup </h2>
-        <div id="login" className="pull-right">
+        <h5> Home </h5>
+        <div id="login" className="pull-left">
           <form onSubmit={this.handleSignUp}>
             <label>e-mail</label>&nbsp;&nbsp;
             <input type="email" placeholder="name@example.com" onChange={this.handleUsername} required></input> <br /><br />
             <label>password</label>&nbsp;&nbsp;
             <input type="password" onChange={this.handlePassword} required></input> <br /><br />
-            <button type="submit"> Submit </button>
+            <button type="submit" onClick={this.signUp}> Submit </button>
           </form>
+
         </div>
       </div>
+
     );
   }
 }
