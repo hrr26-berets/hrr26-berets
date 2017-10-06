@@ -29,8 +29,8 @@ class Main extends Component {
     this.saveList = this.saveList.bind(this);
     this.handleLoggingIn = this.handleLoggingIn.bind(this);
     this.handleSigningUp = this.handleSigningUp.bind(this);
-    this.handleLogIn = this.handleLogIn.bind(this);
-    this.handleSignUp = this.handleSignUp.bind(this);
+   // this.handleLogIn = this.handleLogIn.bind(this);
+    //this.handleSignUp = this.handleSignUp.bind(this);
     this.handleLogOut = this.handleLogOut.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
     this.handleNameChange = this.handleNameChange.bind(this);
@@ -68,34 +68,34 @@ class Main extends Component {
     this.setState({ signingUp: !this.state.signingUp });
   }
 
-  handleLogIn(user) {
-    axios.post('/login', user)
-      .then((res) => {
-        this.setState({
-          loggedIn: true,
-          user: user.username,
-          loggingIn: false
-        })
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
+  // handleLogIn(user) {
+  //   axios.post('/login', user)
+  //     .then((res) => {
+  //       this.setState({
+  //         loggedIn: true,
+  //         user: user.username,
+  //         loggingIn: false
+  //       })
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // }
 
-  handleSignUp(user) {
-    axios.post('/signup', user)
-      .then((res) => {
-        this.setState({
-          loggedIn: true,
-          user: user.username,
-          signingUp: false
-        })
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  // handleSignUp(user) {
+  //   axios.post('/signup', user)
+  //     .then((res) => {
+  //       this.setState({
+  //         loggedIn: true,
+  //         user: user.username,
+  //         signingUp: false
+  //       })
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
 
-  }
+  // }
 
   handleLogOut() {
     axios.get('/logout')
@@ -167,13 +167,14 @@ class Main extends Component {
             <h1 style={{ marginBottom: '0' }}>wishlist</h1>
           </div>
           <div className="col-xs-3 text-right">
-            <Link to="/signup" > Sign Up </Link> &emsp;
-            <Link to="/login" > Log In </Link>
+
             {
-              (this.state.loggedIn)
-                ? <span> Welcome, <strong>{this.state.user}</strong>!&nbsp;&nbsp;<a className="btn btn-link" onClick={this.handleLogOut}>Log Out</a>&nbsp;&nbsp;</span>
-                : <span><a className="btn btn-link" onClick={this.handleLoggingIn.bind(this)}>Log In</a>&nbsp;&nbsp;
-                  <a className="btn btn-link" onClick={this.handleSigningUp}>Sign Up</a>&nbsp;&nbsp;</span>
+              (this.props.loggedIn)
+                ? <span> Welcome, <strong>{this.props.user}</strong>!&nbsp;&nbsp;<a className="btn btn-link" onClick={this.handleLogOut}>Log Out</a>&nbsp;&nbsp;</span>
+                : <span>
+                <Link to="/signupUser" > Sign Up </Link> &emsp;
+                <Link to="/loginUser" > Log In </Link>
+                </span>
             }
           </div>
           <div className="col-xs-5">
@@ -219,38 +220,3 @@ class Main extends Component {
 }
 
 export default Main;
-
-// <Modal
-//               isOpen={this.state.loggingIn}
-//               onRequestClose={this.handleLoggingIn.bind(this)}
-//               contentLabel="Login"
-//               style={{
-//                 content: {
-//                   position: 'absolute',
-//                   height: '320px',
-//                   width: '350px',
-//                   left: '35%',
-//                   right: '35%',
-//                   bottom: '35%'
-//                 }
-//               }}
-//             >
-//               <Login onLoginSubmit={this.handleLogIn.bind(this)}/>
-//             </Modal>
-//             <Modal
-//               isOpen={this.state.signingUp}
-//               onRequestClose={this.handleSigningUp.bind(this)}
-//               contentLabel="Signup"
-//               style={{
-//                 content: {
-//                   position: 'absolute',
-//                   height: '320px',
-//                   width: '350px',
-//                   left: '35%',
-//                   right: '35%',
-//                   bottom: '35%'
-//                 }
-//               }}
-//             >
-//               <Signup onSignupSubmit={this.handleSignUp.bind(this)}/>
-//             </Modal>
