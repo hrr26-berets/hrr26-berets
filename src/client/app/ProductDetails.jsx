@@ -68,29 +68,29 @@ class ProductDetails extends Component {
 
   render() {
     return (
-        <div className="product-details">
-          {
-            (this.state.doneLoading)
-              ? <div>
-                <h3 className="product-name">{this.state.details.name}</h3>
-                <img src={this.state.details.imageUrl} />
-                <h4 className="sale-price">${this.state.details.price}</h4>
-                <div>
-                  {Parser(Parser(''+this.state.details.desc))}
-                </div>
-                <div style={{ marginTop: '15px' }}>
-                  {
-                    (this.state.isInList)
-                      ? <a className="btn btn-default" onClick={this.handleRemoveFromList}>Remove from List</a>
-                      : <a className="btn btn-default" onClick={this.handleAddToList}>Add to List</a>
-                  }
-                  <a href={this.props.itemUrl} target="_blank" className="btn btn-primary">Buy it Now!</a>
-                </div>
+      <div className="product-details">
+        {
+          (this.state.doneLoading)
+            ? <div>
+              <h3 className="product-name">{this.state.details.name}</h3>
+              <img src={this.state.details.imageUrl} />
+              <h4 className="sale-price">${this.state.details.price}</h4>
+              <div>
+                {Parser(Parser('' + this.state.details.desc))}
               </div>
-              : <div>Loading...</div>
-          }
-        </div>
-    )
+              <div style={{ marginTop: '15px' }}>
+                {
+                  (this.state.isInList)
+                    ? <a className="btn btn-default" onClick={this.handleRemoveFromList}>Remove from List</a>
+                    : <a className="btn btn-default" onClick={this.handleAddToList}>Add to List</a>
+                }
+                <a href={this.props.itemUrl} target="_blank" className="btn btn-primary">Buy it Now!</a>
+              </div>
+            </div>
+            : <div>Loading...</div>
+        }
+      </div>
+    );
   }
 }
 

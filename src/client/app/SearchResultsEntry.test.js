@@ -13,25 +13,25 @@ const testProps = {
     itemId: 5,
     url: 'http://www.example.com'
   }
-}
+};
 
 describe('SearchResultsEntry component', () => {
-  const entry = shallow(<SearchResultsEntry {...testProps}/>)
+  const entry = shallow(<SearchResultsEntry {...testProps}/>);
 
   it('should have the product name that is less than 40 characters', () => {
-    expect(entry.find('.item-title').text()).toBe(testProps.item.name.substring(0, 40))
+    expect(entry.find('.item-title').text()).toBe(testProps.item.name.substring(0, 40));
   });
 
   it('should have the product image', () => {
-    expect(entry.find('img').prop('src')).toBe(testProps.item.image)
+    expect(entry.find('img').prop('src')).toBe(testProps.item.image);
   });
 
   it('should have the product price', () => {
-    expect(entry.find('.item-price').text()).toBe('$' + testProps.item.price)
+    expect(entry.find('.item-price').text()).toBe('$' + testProps.item.price);
   });
 
   it('should show ProductDetails when product name is clicked', () => {
-    entry.find('.item-title > a').simulate('click')
+    entry.find('.item-title > a').simulate('click');
     expect(entry.state('showDetails')).toBe(true);
   });
 });

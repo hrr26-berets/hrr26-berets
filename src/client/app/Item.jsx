@@ -32,7 +32,7 @@ class Item extends Component {
   render() {
     const { item } = this.props;
 
-    return(
+    return (
       <div className="popular-item col-xs-2">
         <Modal
           isOpen={this.state.showDetails}
@@ -49,14 +49,14 @@ class Item extends Component {
           <img src={item.thumbnailImage} onClick={this.handleItemClick}/>
         </div>
         <div className="item-price"> <p/>
-         <b> ${item.salePrice} </b>
+          <b> ${item.salePrice} </b>
         </div> <br />
         <div>
           <a className="btn btn-default btn-block" onClick={this.handleAddItem}>Add to List</a>
           <a href={item.productUrl} target="_blank" className="btn btn-primary btn-block">Buy it Now!</a>
         </div>
       </div>
-    )
+    );
   }
 }
 

@@ -7,7 +7,7 @@ Enzyme.configure({ adapter: new Adapter() });
 
 const testProps = {
   handleSearch: jest.fn()
-}
+};
 
 describe('SearchBar component', () => {
   it('should run search on button click', () => {
@@ -38,4 +38,4 @@ describe('SearchBar component', () => {
     wrapper.find('input').simulate('change');
     expect(spy).toHaveBeenCalledTimes(3);
   });
-})
+});

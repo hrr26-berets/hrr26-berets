@@ -7,16 +7,16 @@ class SearchResults extends Component {
   }
 
   render() {
-    return(
+    return (
       <div>
         <h3>Search Results</h3>
         {
           this.props.results.map(result =>
             <SearchResultsEntry item={result} key={result.itemId} addToList={this.props.addToList} removeItem={this.props.removeItem} currentList={this.props.currentList}/>
-            )
+          )
         }
       </div>
-    )
+    );
   }
 }
 

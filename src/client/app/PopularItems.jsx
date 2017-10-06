@@ -8,14 +8,14 @@ var PopularItems = (props) => {
         {props.products.map(item =>
           <Item addToList={props.addToList} currentList={props.currentList} item={item} removeItem={props.removeItem} key={item.itemId}/>
         )}
-      </div>)
+      </div>);
   }
-    return (
-      <div classname="popular-items">
+  return (
+    <div classname="popular-items">
         No products here!
-      </div>
-      )
-}
+    </div>
+  );
+};
 
 
 //render one box for each item

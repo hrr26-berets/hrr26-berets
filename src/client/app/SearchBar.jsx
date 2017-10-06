@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
-class SearchBar extends Component{
+class SearchBar extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -18,24 +18,24 @@ class SearchBar extends Component{
   }
 
   searchProducts(e) {
-    var handleSearch = this.props.handleSearch
-    var query = this.state.query
+    var handleSearch = this.props.handleSearch;
+    var query = this.state.query;
     axios.get('/search', {
       params: {
         query: query
       }
     })
-    .then((res) => {
-    handleSearch(res.data);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+      .then((res) => {
+        handleSearch(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     e.preventDefault();
   }
 
   onClick() {
-    console.log(this.state.query)
+    console.log(this.state.query);
   }
 
   render() {

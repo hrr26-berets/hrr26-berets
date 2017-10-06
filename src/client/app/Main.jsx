@@ -13,14 +13,14 @@ class Main extends Component {
   constructor(props) {
     super(props);
     this.state = {
-    popular: [],
-    searchResults: [],
-    currentList: [],
-    currentListName: 'Untitled',
-    user: null,
-    catalog: {},
-    myList:[],
-    shoppingList:{}
+      popular: [],
+      searchResults: [],
+      currentList: [],
+      currentListName: 'Untitled',
+      user: null,
+      catalog: {},
+      myList: [],
+      shoppingList: {}
     };
     this.handleAddToList = this.handleAddToList.bind(this);
     this.handleRemoveFromList = this.handleRemoveFromList.bind(this);
@@ -41,7 +41,7 @@ class Main extends Component {
     this.getCatalog();
   }
 
-   getCatalog() {
+  getCatalog() {
   //   var arr = [1085666,5438,3944,976760]
   //   arr.forEach(item =>
   //     this.getFeaturedList(item));
@@ -61,42 +61,42 @@ class Main extends Component {
 
   getmyList() {
 
-   axios.get('/myLists')
+    axios.get('/myLists')
       .then((res) => {
-       if (res.data) {
-        let arr = Object.keys(res.data);
-        let collection = res.data;
-        arr.push('New List');
-        this.setState({
+        if (res.data) {
+          let arr = Object.keys(res.data);
+          let collection = res.data;
+          arr.push('New List');
+          this.setState({
             myList: arr,
             currentListName: arr[0],
-            shoppingList:collection,
-            currentList:collection[arr[0]]
-        });
+            shoppingList: collection,
+            currentList: collection[arr[0]]
+          });
         }
       })
-    .catch((err) => {
+      .catch((err) => {
         console.log(err);
       });
   }
 
   handleSearch(products) {
-    this.setState({ searchResults: products })
+    this.setState({ searchResults: products });
   }
 
   handleAddToList(item) {
-    if(!this.props.loggedIn){
-      return alert('Please Log In to Continue')
+    if (!this.props.loggedIn) {
+      return alert('Please Log In to Continue');
     }
-    var list = this.state.currentList.slice()
-    list.push(item)
-    this.setState({ currentList: list })
+    var list = this.state.currentList.slice();
+    list.push(item);
+    this.setState({ currentList: list });
   }
 
   handleRemoveFromList(id) {
-    var list = this.state.currentList.slice()
-    var filtered = list.filter(product => product.itemId !== id)
-    this.setState({ currentList: filtered })
+    var list = this.state.currentList.slice();
+    var filtered = list.filter(product => product.itemId !== id);
+    this.setState({ currentList: filtered });
   }
 
   handleNameChange(name) {
@@ -105,46 +105,46 @@ class Main extends Component {
         this.state.myList[0] = name;
       }
     }
-    this.setState({ currentListName: name })
+    this.setState({ currentListName: name });
   }
 
   handleListChange(list) {
-    this.setState( { currentList : list});
+    this.setState( { currentList: list});
   }
 
   getFeaturedList(id) {
- //  axios.get('/feature', {
- //    params: {
- //      query: id
- //    }
- //
- //  })
- //    .then((res) => {
- //     this.state.catalog[id] = res.data;
- //    })
- //    .catch((err) => {
- //      console.log('Error ---> ', err);
- //  })
- }
+    //  axios.get('/feature', {
+    //    params: {
+    //      query: id
+    //    }
+    //
+    //  })
+    //    .then((res) => {
+    //     this.state.catalog[id] = res.data;
+    //    })
+    //    .catch((err) => {
+    //      console.log('Error ---> ', err);
+    //   })
+  }
 
   saveList() {
-    let saved = {}
+    let saved = {};
     saved[this.state.currentListName] = this.state.currentList;
-    console.log(saved)
-    let url = (this.state.shoppingList[this.state.currentListName] !== undefined) ? '/save-existing' : '/save'
+    console.log(saved);
+    let url = (this.state.shoppingList[this.state.currentListName] !== undefined) ? '/save-existing' : '/save';
     axios.post(url, saved)
-    .then(response => {
-      this.setState({ myList: [] })
-      this.getmyList();
-    })
-    .catch(function(error) {
-      console.log(error)
-    })
+      .then(response => {
+        this.setState({ myList: [] });
+        this.getmyList();
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
   }
 
   render() {
-    let ShoppingContainer = <div>Log in to see your lists!</div>
-    if(this.props.loggedIn) {
+    let ShoppingContainer = <div>Log in to see your lists!</div>;
+    if (this.props.loggedIn) {
       ShoppingContainer = (
         <div className="col-xs-12">
           <ShoppingList
@@ -157,7 +157,7 @@ class Main extends Component {
             myList={this.state.myList}
             shoppingList={this.state.shoppingList}
             currentList={this.state.currentList}/>
-          </div>
+        </div>
       );
     }
 
@@ -206,7 +206,7 @@ class Main extends Component {
         <div className="row">
           {
             (Object.keys(this.state.catalog).length !== 0)
-              ?  <div className="col-xs-12">
+              ? <div className="col-xs-12">
                 <br /> <h3>Featured WishLists</h3>
                 <FeaturedLists list={this.state.catalog} addToList={this.handleAddToList} removeItem={this.handleRemoveFromList} currentList={this.state.currentList}/>
               </div>
@@ -220,7 +220,7 @@ class Main extends Component {
           {ShoppingContainer}
         </div>
       </div>
-      );
+    );
   }
 }
 
