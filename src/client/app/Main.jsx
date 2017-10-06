@@ -37,7 +37,6 @@ class Main extends Component {
   componentDidMount() {
     this.getTrendingItems();
     if ( this.props.loggedIn) {
-      console.log('It is working');
       this.getmyList();
     }
     //this.getCatalog();
@@ -66,13 +65,15 @@ class Main extends Component {
    axios.get('/myLists')
       .then((res) => {
        if (res.data) {
-        console.log('It should Invoke this  res.data --> ',res.data);
-        //this.state.myList = [];
-        this.state.shoppingList = res.data;
-        this.state.myList = Object.keys(res.data);
-        this.state.myList.push('New List');
-        this.state.currentListName = this.state.myList[0];
-        this.state.currentList = this.state.shoppingList[this.state.myList[0]];
+        let arr = Object.keys(res.data);
+        let collection = res.data;
+        arr.push('New List');
+        this.setState({
+            myList: arr,
+            currentListName: arr[0],
+            shoppingList:collection,
+            currentList:collection[arr[0]]
+        });
         }
       })
     .catch((err) => {

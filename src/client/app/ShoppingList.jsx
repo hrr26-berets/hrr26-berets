@@ -31,7 +31,6 @@ export default class ShoppingList extends Component {
 
   setName() {
     var name = this.state.listName;  
-    console.log('Name ---> ',name);
     this.props.handleNameChange(name);
     if (this.props.shoppingList[name]) {
       this.props.handleListChange(this.props.shoppingList[name]);
@@ -48,7 +47,7 @@ export default class ShoppingList extends Component {
   render() {
     const { list } = this.props;
    // console.log('This list ---> ',this.props.myList);
-    if (this.props.myList) {
+    if (this.props.myList || this.props.list) {
     return(
       <div>
         <h1>{this.props.name}</h1>

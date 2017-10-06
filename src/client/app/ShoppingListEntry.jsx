@@ -28,7 +28,7 @@ class ShoppingListEntry extends Component {
         </div>
         : <div>
             <select>
-              <option value="Untitled">Untitled</option>
+              <option value="New List">New List</option>
               </select>
             </div>
         }
