@@ -17,9 +17,6 @@ class Main extends Component {
     searchResults: [],
     currentList: [],
     currentListName: 'Untitled',
-    loggingIn: false,
-    signingUp: false,
-    loggedIn: false,
     user: null,
     catalog: {},
     myList:[],
@@ -33,11 +30,16 @@ class Main extends Component {
     this.handleSearch = this.handleSearch.bind(this);
     this.handleNameChange = this.handleNameChange.bind(this);
     this.handleListChange = this.handleListChange.bind(this);
+    this.getmyList = this.getmyList.bind(this);
 
   }
 
   componentDidMount() {
     this.getTrendingItems();
+    if ( this.props.loggedIn) {
+      console.log('It is working');
+      this.getmyList();
+    }
     //this.getCatalog();
   }
 
@@ -60,10 +62,12 @@ class Main extends Component {
   }
 
   getmyList() {
+
    axios.get('/myLists')
       .then((res) => {
        if (res.data) {
-        this.state.myList = [];
+        console.log('It should Invoke this  res.data --> ',res.data);
+        //this.state.myList = [];
         this.state.shoppingList = res.data;
         this.state.myList = Object.keys(res.data);
         this.state.myList.push('New List');
@@ -78,7 +82,6 @@ class Main extends Component {
 
   handleLoggingIn() {
     this.setState({ loggingIn: !this.state.loggingIn });
-    this.getmyList();
   }
 
   handleSigningUp() {
@@ -96,9 +99,6 @@ class Main extends Component {
     var list = this.state.currentList.slice()
     list.push(item)
     this.setState({ currentList: list })
-    if (this.state.currentListName === 'Untitled') {
-      this.state.myList.unshift('Untitled');
-    }
   }
 
   handleRemoveFromList(item) {
@@ -145,6 +145,7 @@ class Main extends Component {
     console.log('Url --> ',url);
     axios.post(url, saved)
     .then(function(response) {
+      context.state.myList = [];
       context.getmyList();
       //console.log(response)
     })

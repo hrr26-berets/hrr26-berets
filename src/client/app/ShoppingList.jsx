@@ -47,7 +47,7 @@ export default class ShoppingList extends Component {
 
   render() {
     const { list } = this.props;
-   // console.log('This list ---> ',this.props.list);
+   // console.log('This list ---> ',this.props.myList);
     if (this.props.myList) {
     return(
       <div>
