@@ -90,6 +90,9 @@ class Main extends Component {
   }
 
   handleAddToList(item) {
+    if(!this.props.loggedIn){
+      return alert('Please Log In to Continue')
+    }
     var list = this.state.currentList.slice()
     list.push(item)
     this.setState({ currentList: list })
@@ -187,6 +190,15 @@ class Main extends Component {
               : null
 
           }
+        </div>
+        <div className="row">
+          {
+            (this.props.loggedIn)
+          ? <div className="col-xs-12">
+              <ShoppingList name={this.state.currentListName} list={this.state.currentList} removeItem={this.handleRemoveFromList} saveList={this.saveList} handleNameChange={this.handleNameChange}/>
+            </div>
+          : <div>Log In to see your lists!</div>
+        }
         </div>
         <div className="row">
           {
