@@ -14,23 +14,17 @@ class Main extends Component {
   constructor(props) {
     super(props);
     this.state = {
-    popular: [],
-    searchResults: [],
-    currentList: [],
-    currentListName: 'Untitled',
-    loggingIn: false,
-    signingUp: false,
-    // loggedIn: false,
-    user: null,
-    catalog: {}
+      popular: [],
+      searchResults: [],
+      currentList: [],
+      currentListName: 'Untitled',
+      catalog: {}
     };
     this.handleAddToList = this.handleAddToList.bind(this);
     this.handleRemoveFromList = this.handleRemoveFromList.bind(this);
     this.saveList = this.saveList.bind(this);
     this.handleLoggingIn = this.handleLoggingIn.bind(this);
     this.handleSigningUp = this.handleSigningUp.bind(this);
-   // this.handleLogIn = this.handleLogIn.bind(this);
-    //this.handleSignUp = this.handleSignUp.bind(this);
     this.handleLogOut = this.handleLogOut.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
     this.handleNameChange = this.handleNameChange.bind(this);
