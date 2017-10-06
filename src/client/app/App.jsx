@@ -9,8 +9,9 @@ import ProductDetails from './ProductDetails.jsx';
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.handleSignUp = this.handleSignUp.bind(this)
-    this.handleLogIn = this.handleLogIn.bind(this)
+    this.handleSignUp = this.handleSignUp.bind(this);
+    this.handleLogIn = this.handleLogIn.bind(this);
+    this.handleLogOut = this.handleLogOut.bind(this);
     this.state = {
       loggedIn: false,
       user: ''
@@ -45,12 +46,25 @@ class App extends React.Component {
       });
   }
 
+  handleLogOut() {
+    axios.get('/logout')
+      .then((res) => {
+        this.setState({
+          loggedIn: false,
+          user: null
+        })
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
   render() {
     return (
       <div>
         <Router>
           <Switch>
-            <Route exact path="/" render={(props) => (<Main user={this.state.user} loggedIn={this.state.loggedIn} {...props}/>)} />
+            <Route exact path="/" render={(props) => (<Main user={this.state.user} loggedIn={this.state.loggedIn} handleLogOut={this.handleLogOut} {...props}/>)} />
             <Route exact path="/signupUser" render={(props) => (<Signup  loggedIn={this.state.loggedIn} handleSignUp={this.handleSignUp} {...props}/>)} />
             <Route exact path="/loginUser" render={(props) => (<Login handleLogIn={this.handleLogIn} loggedIn={this.state.loggedIn} {...props}/>)} />
             <Route exact path="/productDetails" render={(props) => (<ProductDetails {...props}/>)} />
