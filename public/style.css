@@ -46,3 +46,8 @@
 .list-tools {
   margin-bottom: 20px;
 }
+.selectBox {
+  display: block;
+  font-size: 16px;
+}
+

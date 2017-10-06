@@ -155,6 +155,7 @@ exports.storeProduct = (product) => {
 };
 
 exports.retrieve_shopping = function(req, res) {
+    console.log('Get User --> ',req.session.passport.user);
  if (req.session.passport.user) {
     let username =  req.session.passport.user;
     User.findOne({username: username}).exec((err, user) => {
@@ -173,7 +174,36 @@ exports.retrieve_shopping = function(req, res) {
     res.send('Unauthorized access!');
   }
 }
-
+exports.save_existing = (req,res) => {
+  let list = req.body;
+  let listName;
+  if (req.session.passport.user) {
+  for (let key in list) {
+    listName = key;
+    list[key].forEach((item) => {
+      exports.storeProduct(item);
+   });
+  } 
+  let username = req.session.passport.user;
+  let obj = {};
+  User.findOne({username: username}).exec((err,user) => {
+    if (user) {
+      obj = user.shoppingList;
+      if(obj[listName]) {
+        obj[listName] = list[listName];
+      User.findOneAndUpdate({username:username},{"$set":{shoppingList: obj}},{upsert: true, new: true, runValidators: true,strict:false,overwrite:true}).exec((err,updatedUser) => {
+            if(err) {
+            console.log('Error --> ',err);
+            } else {
+            console.log('It saved a user -> ',updatedUser);
+            res.status(200).json(updatedUser);
+           }
+        })        
+      }
+    }
+  })
+ }
+}
 
 exports.save_shopping = function(req,res,next) {
   let test = {techShopping: [{"name":"Apples iPod touch 16GB","price":225,"itemId":42608132},
