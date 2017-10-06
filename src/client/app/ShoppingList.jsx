@@ -58,7 +58,7 @@ export default class ShoppingList extends Component {
                 <button className="btn button-name" type="submit" onClick={this.changeName}>Change List Name</button>
               </span>
               <span>
-                <button className="btn btn-primary button-save" onClick={this.props.saveList}>Save</button>
+                <button className="btn btn-primary button-save" onClick={this.props.saveList}>Save</button> &emsp;
               </span>
      
               <ShoppingListEntry myList={this.props.myList} shoppingList={this.props.list} removeItem={this.props.removeItem} handleChange={this.handleChange} setName={this.setName} currentList={this.props.name}/>

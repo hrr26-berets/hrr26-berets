@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Modal from 'react-modal';
+import { Modal, ModalBody } from 'react-modal-bootstrap';
 import ProductDetails from './ProductDetails.jsx';
 
 class Item extends Component {
@@ -36,29 +36,21 @@ class Item extends Component {
       <div className="popular-item col-xs-2">
         <Modal
           isOpen={this.state.showDetails}
-          onRequestClose={this.handleItemClick}
-          contentLabel="ItemDetails"
-          style={{
-            content: {
-              position: 'absolute',
-              height: '720px',
-              width: '940px',
-              left: '15%',
-              right: '15%'
-            }
-          }}
+          onRequestHide={this.handleItemClick}
         >
-          <ProductDetails itemId={item.itemId} itemUrl={item.productUrl} addToList={this.props.addToList}/>
+          <ModalBody>
+            <ProductDetails itemId={item.itemId} itemUrl={item.productUrl} addToList={this.props.addToList}/>
+          </ModalBody>
         </Modal>
-        <div className="item-title">
+        <div className="item-title"> <br />
           <a className="btn-link btn-block text-link" onClick={this.handleItemClick}><strong>{item.name.substring(0, 30)}</strong></a>
         </div>
-        <div className="item-image">
+        <div className="item-image"> <br />
           <img src={item.thumbnailImage} onClick={this.handleItemClick}/>
         </div>
-        <div className="item-price">
-          ${item.salePrice}
-        </div>
+        <div className="item-price"> <p/>
+         <b> ${item.salePrice} </b>
+        </div> <br />
         <div>
           <a className="btn btn-default btn-block" onClick={this.handleAddItem}>Add to List</a>
           <a href={item.productUrl} target="_blank" className="btn btn-primary btn-block">Buy it Now!</a>

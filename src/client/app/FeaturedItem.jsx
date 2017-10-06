@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import ProductDetails from './ProductDetails.jsx';
-import Modal from 'react-modal';
+import { Modal, ModalBody } from 'react-modal-bootstrap';
 
 
 
@@ -25,19 +25,11 @@ class FeaturedItem extends Component {
       <div>
         <Modal
           isOpen={this.state.showDetails}
-          onRequestClose={this.handleItemClick}
-          contentLabel="ItemDetails"
-          style={{
-            content: {
-              position: 'absolute',
-              height: '720px',
-              width: '940px',
-              left: '15%',
-              right: '15%'
-            }
-          }}
+          onRequestHide={this.handleItemClick}
         >
-          <ProductDetails itemId={item.itemId} itemUrl={item.productUrl} addToList={this.props.addToList}/>
+          <ModalBody>
+            <ProductDetails itemId={item.itemId} itemUrl={item.productUrl} addToList={this.props.addToList}/>
+          </ModalBody>
         </Modal>
         <div className="item-title">
           <a className="btn-link btn-block text-link" onClick={this.handleItemClick}><strong>{item.name.split(' ').slice(0,3).join(' ')}</strong></a>

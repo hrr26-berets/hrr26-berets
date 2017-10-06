@@ -20,7 +20,7 @@ class SearchBar extends Component{
   searchProducts(e) {
     var handleSearch = this.props.handleSearch
     var query = this.state.query
-    axios.get('http://localhost:3000/search', {
+    axios.get('/search', {
       params: {
         query: query
       }
