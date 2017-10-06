@@ -142,7 +142,7 @@ class Main extends Component {
                 </span>
             }
           </div>
-          <div className="col-xs-5">
+          <div className="col-xs-3">
             <SearchBar handleSearch={this.handleSearch}/>
           </div>
         </div>
