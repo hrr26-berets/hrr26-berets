@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import Modal from 'react-modal';
+import { Modal, ModalBody } from 'react-modal-bootstrap';
 import ProductDetails from './ProductDetails.jsx';
 
 class SearchResultsEntry extends Component {
@@ -35,19 +35,11 @@ class SearchResultsEntry extends Component {
       <div className="list row">
         <Modal
           isOpen={this.state.showDetails}
-          onRequestClose={this.handleItemClick}
-          contentLabel="ItemDetails"
-          style={{
-            content: {
-              position: 'absolute',
-              height: '720px',
-              width: '940px',
-              left: '15%',
-              right: '15%'
-            }
-          }}
+          onRequestHide={this.handleItemClick}
         >
-          <ProductDetails itemId={item.itemId} itemUrl={item.url} addToList={this.props.addToList}/>
+          <ModalBody>
+            <ProductDetails itemId={item.itemId} itemUrl={item.url} addToList={this.props.addToList}/>
+          </ModalBody>
         </Modal>
         <div className="col-sm-3 item-title">
           <a className="btn btn-link" onClick={this.handleItemClick}><strong>{item.name.substring(0, 40)}</strong></a>
