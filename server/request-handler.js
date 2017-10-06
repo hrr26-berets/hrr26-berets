@@ -226,8 +226,8 @@ if (req.session.passport.user) {
         obj = user.shoppingList;
       }
       for(let key in list) {
-        if(obj[key]) {
-          let i = 2;
+        if(obj[key] || key === 'Untitled') {
+          let i = 1;
           let newName;
           while (true) {
             let temp = key + i;
