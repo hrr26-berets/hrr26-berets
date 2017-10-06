@@ -24,7 +24,6 @@ class Main extends Component {
     this.saveList = this.saveList.bind(this);
     this.handleLoggingIn = this.handleLoggingIn.bind(this);
     this.handleSigningUp = this.handleSigningUp.bind(this);
-    this.handleLogOut = this.handleLogOut.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
     this.handleNameChange = this.handleNameChange.bind(this);
 
@@ -32,14 +31,14 @@ class Main extends Component {
 
   componentDidMount() {
     this.getTrendingItems();
-    this.getCatalog();
+    //this.getCatalog();
   }
 
-  getCatalog() {
-    var arr = [1085666,5438,3944,976760]
-    arr.forEach(item =>
-      this.getFeaturedList(item));
-  }
+  // getCatalog() {
+  //   var arr = [1085666,5438,3944,976760]
+  //   arr.forEach(item =>
+  //     this.getFeaturedList(item));
+  // }
 
   getTrendingItems() {
     axios.get('/trending')
@@ -59,19 +58,6 @@ class Main extends Component {
 
   handleSigningUp() {
     this.setState({ signingUp: !this.state.signingUp });
-  }
-
-  handleLogOut() {
-    axios.get('/logout')
-      .then((res) => {
-        this.setState({
-          loggedIn: false,
-          user: null
-        })
-      })
-      .catch((err) => {
-        console.log(err);
-      });
   }
 
   handleSearch(products) {
@@ -95,20 +81,20 @@ class Main extends Component {
   }
 
 
-  getFeaturedList(id) {
-  axios.get('/feature', {
-    params: {
-      query: id
-    }
-
-  })
-    .then((res) => {
-     this.state.catalog[id] = res.data;
-    })
-    .catch((err) => {
-      console.log('Error ---> ', err);
-  })
- }
+ //  getFeaturedList(id) {
+ //  axios.get('/feature', {
+ //    params: {
+ //      query: id
+ //    }
+ //
+ //  })
+ //    .then((res) => {
+ //     this.state.catalog[id] = res.data;
+ //    })
+ //    .catch((err) => {
+ //      console.log('Error ---> ', err);
+ //  })
+ // }
 
   saveList() {
     var saved = {}
@@ -134,7 +120,7 @@ class Main extends Component {
 
             {
               (this.props.loggedIn)
-                ? <span> Welcome, <strong>{this.props.user}</strong>!&nbsp;&nbsp;<a className="btn btn-link" onClick={this.handleLogOut}>Log Out</a>&nbsp;&nbsp;</span>
+                ? <span> Welcome, <strong>{this.props.user}</strong>!&nbsp;&nbsp;<a className="btn btn-link" onClick={this.props.handleLogOut}>Log Out</a>&nbsp;&nbsp;</span>
                 : <span>
                 <Link to="/signupUser" > <b>Sign Up</b> </Link> &emsp;
                 <Link to="/loginUser" > <b>Log In</b> </Link>
