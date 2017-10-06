@@ -68,35 +68,6 @@ class Main extends Component {
     this.setState({ signingUp: !this.state.signingUp });
   }
 
-  // handleLogIn(user) {
-  //   axios.post('/login', user)
-  //     .then((res) => {
-  //       this.setState({
-  //         loggedIn: true,
-  //         user: user.username,
-  //         loggingIn: false
-  //       })
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // }
-
-  // handleSignUp(user) {
-  //   axios.post('/signup', user)
-  //     .then((res) => {
-  //       this.setState({
-  //         loggedIn: true,
-  //         user: user.username,
-  //         signingUp: false
-  //       })
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-
-  // }
-
   handleLogOut() {
     axios.get('/logout')
       .then((res) => {
