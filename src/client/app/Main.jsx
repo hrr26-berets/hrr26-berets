@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Modal from 'react-modal';
 import axios from 'axios';
 import PopularItems from './PopularItems.jsx';
 import SearchBar from './SearchBar.jsx';
