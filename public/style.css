@@ -31,6 +31,10 @@
   text-align: center;
 }
 
+.product-details {
+  text-align: left;
+}
+
 .text-link {
   cursor: pointer;
 }
@@ -50,4 +54,3 @@
   display: block;
   font-size: 16px;
 }
-

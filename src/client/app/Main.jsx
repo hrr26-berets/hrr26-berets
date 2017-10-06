@@ -102,9 +102,9 @@ class Main extends Component {
     this.setState({ currentList: list })
   }
 
-  handleRemoveFromList(item) {
+  handleRemoveFromList(id) {
     var list = this.state.currentList.slice()
-    var filtered = list.filter(product => product.itemId !== item.itemId)
+    var filtered = list.filter(product => product.itemId !== id)
     this.setState({ currentList: filtered })
   }
 
@@ -168,8 +168,8 @@ class Main extends Component {
               (this.props.loggedIn)
                 ? <span> Welcome, <strong>{this.props.user}</strong>!&nbsp;&nbsp;<a className="btn btn-link" onClick={this.props.handleLogOut}>Log Out</a>&nbsp;&nbsp;</span>
                 : <span>
-                <Link to="/signupUser" > <b>Sign Up</b> </Link> &emsp;
-                <Link to="/loginUser" > <b>Log In</b> </Link>
+                  <Link to="/signupUser" > <b>Sign Up</b> </Link> &emsp;
+                  <Link to="/loginUser" > <b>Log In</b> </Link>
                 </span>
             }
           </div>
@@ -179,15 +179,15 @@ class Main extends Component {
         </div>
         <div className="row">
           <div className="col-xs-12">
-           <br /> <h3>Popular Items</h3>
+            <br /> <h3>Popular Items</h3>
           </div>
-          <PopularItems products={this.state.popular} addToList={this.handleAddToList}/>
+          <PopularItems products={this.state.popular} addToList={this.handleAddToList} removeItem={this.handleRemoveFromList} currentList={this.state.currentList}/>
         </div>
         <div className="row">
           {
             (this.state.searchResults.length !== 0)
               ? <div className="col-xs-12">
-                <SearchResults results={this.state.searchResults} addToList={this.handleAddToList}/> <br /><br />
+                <SearchResults results={this.state.searchResults} addToList={this.handleAddToList} removeItem={this.handleRemoveFromList} currentList={this.state.currentList}/> <br /><br />
               </div>
               : null
 
@@ -197,8 +197,8 @@ class Main extends Component {
           {
             (Object.keys(this.state.catalog).length !== 0)
               ?  <div className="col-xs-12">
-               <br /> <h3>Featured WishLists</h3>
-                <FeaturedLists list={this.state.catalog} addToList={this.handleAddToList}/>
+                <br /> <h3>Featured WishLists</h3>
+                <FeaturedLists list={this.state.catalog} addToList={this.handleAddToList} removeItem={this.handleRemoveFromList} currentList={this.state.currentList}/>
               </div>
               : <div className="col-xs-12">
                 <div> Loading Featured Lists... </div>
@@ -208,13 +208,13 @@ class Main extends Component {
         <div className="row">
           {
             (!this.props.loggedIn)
-            ? <div>Log in to see your lists!</div>
-          :<div className="col-xs-12">
-         {
-            (this.state.myList.length > 0)
-         ?  <ShoppingList name={this.state.currentListName} list={this.state.currentList} removeItem={this.handleRemoveFromList} saveList={this.saveList} handleNameChange={this.handleNameChange} handleListChange={this.handleListChange} myList={this.state.myList} shoppingList={this.state.shoppingList}/>
-         :
-            <ShoppingList name={this.state.currentListName} list={this.state.currentList} removeItem={this.handleRemoveFromList} saveList={this.saveList} handleNameChange={this.handleNameChange}/>
+              ? <div>Log in to see your lists!</div>
+              :<div className="col-xs-12">
+                {
+                  (this.state.myList.length > 0)
+                    ?  <ShoppingList name={this.state.currentListName} list={this.state.currentList} removeItem={this.handleRemoveFromList} saveList={this.saveList} handleNameChange={this.handleNameChange} handleListChange={this.handleListChange} myList={this.state.myList} shoppingList={this.state.shoppingList} currentList={this.state.currentList}/>
+                    :
+                    <ShoppingList name={this.state.currentListName} list={this.state.currentList} removeItem={this.handleRemoveFromList} saveList={this.saveList} handleNameChange={this.handleNameChange} currentList={this.state.currentList}/>
        }
           </div>
         }
