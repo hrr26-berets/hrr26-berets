@@ -35,8 +35,7 @@ class Signup extends React.Component {
     }
     return (
       <div>
-        <h2> Signup </h2>
-        <h5> Home </h5>
+        <h2> &emsp; &nbsp; Signup </h2>
         <div id="login" className="pull-left">
           <form onSubmit={this.handleSignUp}>
             <label>e-mail</label>&nbsp;&nbsp;

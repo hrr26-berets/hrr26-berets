@@ -232,7 +232,7 @@ class Main extends Component {
       <div className="container">
         <div className="row" style={{display: 'flex', alignItems: 'flex-end'}}>
           <div className="col-xs-4">
-            <h1 style={{ marginBottom: '0' }}> wishList</h1>
+            <br /><br /><h1 style={{ marginBottom: '0' }}> <div id='title'> wishList </div></h1>
           </div>
           {/* Nav buttons: render Login, Signup if a user isn't logged in,
           render 'Welcome <username>', Logout if a user is logged in */}
@@ -254,11 +254,10 @@ class Main extends Component {
         </div>
         {/* Featured wishlists based on best-selling items in the Walmart catalog */}
         <div className="row">
-          {FeaturedListContainer}
         </div>
         {/* User's current shopping list */}
         <div className="row">
-          {ShoppingContainer}
+          { ShoppingContainer}
         </div>
       </div>
     );
