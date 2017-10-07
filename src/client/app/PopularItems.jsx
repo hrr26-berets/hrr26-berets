@@ -1,5 +1,4 @@
 import React from 'react';
-import Item from './Item.jsx';
 import ListItem from './ListItem.jsx';
 
 const PopularItems = (props) => {

@@ -6,6 +6,7 @@ import Adapter from 'enzyme-adapter-react-15';
 Enzyme.configure({ adapter: new Adapter() });
 
 const testProps = {
+  currentList: [],
   results: [
     {
       name: 'tiny mouse',
@@ -42,6 +43,7 @@ const testProps = {
 };
 
 const emptyProps = {
+  currentList: [],
   results: [],
   addToList: jest.fn()
 };
