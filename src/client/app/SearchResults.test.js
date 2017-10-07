@@ -7,7 +7,7 @@ Enzyme.configure({ adapter: new Adapter() });
 
 const testProps = {
   results: [
-      {
+    {
       name: 'tiny mouse',
       thumbnailImage: 'tiny.jpeg',
       salePrice: '30.00',
@@ -52,10 +52,10 @@ describe('SearchResults component', () => {
 
   it('should render each result using the SearchResultsEntry component', () => {
     expect((results).find('SearchResultsEntry').length).toBe(testProps.results.length);
-  })
+  });
 
   // We'll modify this test with whatever we decide to render if no results are fetched.
   it('should not render SearchResultsEntry component if no results are fetched', () => {
     expect((noResults).find('SearchResultsEntry').length).toBe(0);
-  })
+  });
 });

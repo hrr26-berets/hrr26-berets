@@ -14,10 +14,10 @@ class Login extends React.Component {
   }
 
   logIn(e) {
-     e.preventDefault();
+    e.preventDefault();
     let user = { username: this.state.username, password: this.state.password };
     this.props.handleLogIn(user);
-    this.setState({ password: '' })
+    this.setState({ password: '' });
 
   }
 
@@ -30,8 +30,8 @@ class Login extends React.Component {
   }
 
   render() {
-    if(this.props.loggedIn) {
-      return <Redirect to='/'/>
+    if (this.props.loggedIn) {
+      return <Redirect to='/'/>;
     }
     return (
       <div>

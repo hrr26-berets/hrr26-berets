@@ -13,7 +13,7 @@ const testProps = {
     url: 'http://www.getithere.com'
   },
   removeItem: jest.fn()
-}
+};
 
 describe('ListItem component', () => {
   const wrapper = shallow(<ListItem {...testProps} />);
@@ -22,9 +22,9 @@ describe('ListItem component', () => {
     wrapper.instance();
     wrapper.find('.btn .btn-default').simulate('click');
     expect(testProps.removeItem).toHaveBeenCalled();
-  })
+  });
 
   it('should have the product image', () => {
-    expect(wrapper.find('img').prop('src')).toBe(testProps.product.image)
+    expect(wrapper.find('img').prop('src')).toBe(testProps.product.image);
   });
-})
+});

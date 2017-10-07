@@ -18,7 +18,7 @@ class Signup extends React.Component {
     e.preventDefault();
     let user = { username: this.state.username, password: this.state.password };
     this.props.handleSignUp(user);
-    this.setState({ password: '' })
+    this.setState({ password: '' });
   }
 
   handleUsername(e) {
@@ -30,8 +30,8 @@ class Signup extends React.Component {
   }
 
   render() {
-    if(this.props.loggedIn){
-      return <Redirect to='/'/>
+    if (this.props.loggedIn) {
+      return <Redirect to='/'/>;
     }
     return (
       <div>
@@ -45,7 +45,6 @@ class Signup extends React.Component {
             <input type="password" onChange={this.handlePassword} required></input> <br /><br />
             <button type="submit" onClick={this.signUp}> Submit </button>
           </form>
-
         </div>
       </div>
 

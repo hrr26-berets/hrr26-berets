@@ -33,18 +33,18 @@ const emptyProps = {
 };
 
 describe('PopularItems component', () => {
-  const popular = shallow(<PopularItems {...testProps}/>)
-  const boring = shallow(<PopularItems {...emptyProps}/>)
+  const popular = shallow(<PopularItems {...testProps}/>);
+  const boring = shallow(<PopularItems {...emptyProps}/>);
   // console.log(node)
   it('should render an Item to the page for each item in props', () => {
     expect((popular).find('Item').length).toBe(testProps.products.length);
-    expect((boring).find('Item').length).toBe(0)
+    expect((boring).find('Item').length).toBe(0);
     // expect((node).find('.item-title').text()).toBe(testProps.products[2].name)
 
-  })
+  });
   it('should not explode if no props are passed to it', () => {
-    const unpopular = shallow(<PopularItems />)
+    const unpopular = shallow(<PopularItems />);
     expect((unpopular)).toBeDefined();
-    expect((unpopular).text()).toBe('No products here!')
-  })
-})
+    expect((unpopular).text()).toBe('No products here!');
+  });
+});

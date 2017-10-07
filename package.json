@@ -6,9 +6,14 @@
   "scripts": {
     "start": "nodemon server/server.js",
     "test": "jest",
+    "lint": "eslint src server --ignore-path .gitignore --ext .js --ext .jsx --ext .test.js ",
     "dev": "webpack -d --watch",
     "build": "webpack -p",
-    "postinstall": "webpack -p --config ./webpack.config.js --progress"
+    "postinstall": "webpack -p --config ./webpack.config.js --progress",
+    "precommit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.{js,jsx}": ["eslint --fix", "git add"]
   },
   "repository": {
     "type": "git",
@@ -55,11 +60,20 @@
     "webpack": "^3.6.0"
   },
   "devDependencies": {
+    "babel-eslint": "^8.0.1",
     "babel-jest": "^21.2.0",
     "css-loader": "^0.28.7",
     "enzyme": "^3.0.0",
     "enzyme-adapter-react-15": "^1.0.0",
+    "eslint": "^4.8.0",
+    "eslint-config-hackreactor": "github:hackreactor-labs/eslint-config-hackreactor",
+    "eslint-config-react": "^1.1.7",
+    "eslint-plugin-react": "^7.4.0",
+    "husky": "^0.14.3",
+    "install": "^0.10.1",
     "jest": "^21.2.1",
+    "lint-staged": "^4.2.3",
+    "npm": "^5.4.2",
     "react-test-renderer": "^15.6.2",
     "regenerator-runtime": "^0.11.0",
     "style-loader": "^0.19.0"

@@ -6,7 +6,7 @@ import ProductDetails from './ProductDetails.jsx';
 class SearchResultsEntry extends Component {
   constructor(props) {
     super(props);
-    this.handleAddItem = this.handleAddItem.bind(this)
+    this.handleAddItem = this.handleAddItem.bind(this);
     this.state = {
       showDetails: false,
       details: {}
@@ -17,8 +17,8 @@ class SearchResultsEntry extends Component {
 
   handleAddItem(e) {
     e.preventDefault();
-    var item = this.props.item
-    this.props.addToList(item)
+    var item = this.props.item;
+    this.props.addToList(item);
     // TODO: add item to current list in memory
   }
 
@@ -31,7 +31,7 @@ class SearchResultsEntry extends Component {
   render() {
     const { item } = this.props;
 
-    return(
+    return (
       <div className="list row">
         <Modal
           isOpen={this.state.showDetails}

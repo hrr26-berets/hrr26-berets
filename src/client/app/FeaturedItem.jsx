@@ -2,20 +2,18 @@ import React, {Component} from 'react';
 import ProductDetails from './ProductDetails.jsx';
 import { Modal, ModalBody } from 'react-modal-bootstrap';
 
-
-
 class FeaturedItem extends Component {
-    constructor(props) {
-      super(props);
-      this.state = {
-        showDetails:false
-      };
-      this.handleItemClick = this.handleItemClick.bind(this);
-    }
+  constructor(props) {
+    super(props);
+    this.state = {
+      showDetails: false
+    };
+    this.handleItemClick = this.handleItemClick.bind(this);
+  }
 
-    handleItemClick() {
-      this.setState({
-        showDetails: !this.state.showDetails
+  handleItemClick() {
+    this.setState({
+      showDetails: !this.state.showDetails
     });
   }
 
@@ -32,12 +30,11 @@ class FeaturedItem extends Component {
           </ModalBody>
         </Modal>
         <div className="item-title">
-          <a className="btn-link btn-block text-link" onClick={this.handleItemClick}><strong>{item.name.split(' ').slice(0,3).join(' ')}</strong></a>
+          <a className="btn-link btn-block text-link" onClick={this.handleItemClick}><strong>{item.name.split(' ').slice(0, 3).join(' ')}</strong></a>
         </div>
       </div>
     );
   }
-
 }
 
 export default FeaturedItem;
