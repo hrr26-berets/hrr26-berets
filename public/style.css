@@ -29,6 +29,7 @@
 .popular-item {
   padding-left: 50px;
   text-align: center;
+  min-width: 200px;
 }
 
 .product-details {
