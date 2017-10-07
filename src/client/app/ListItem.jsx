@@ -38,11 +38,11 @@ class ListItem extends Component {
           onRequestHide={this.handleItemClick}
         >
           <ModalBody>
-            <ProductDetails itemId={item.itemId} itemUrl={item.url} removeItem={this.props.removeItem} isInList={this.props.isInList} />
+            <ProductDetails itemId={item.itemId} itemUrl={item.url} addToList={this.props.addToList} removeItem={this.props.removeItem} isInList={this.props.isInList} />
           </ModalBody>
         </Modal>
         <div className={vertical ? '' : 'col-sm-3'}>
-          <a onClick={this.handleItemClick}><strong>{item.name.substring(0, 30)}</strong></a>
+          <a className="text-link" onClick={this.handleItemClick}><strong>{item.name.substring(0, 30)}</strong></a>
         </div>
         <div className={vertical ? '' : 'col-sm-3'}>
           <img src={item.image} alt=""/>
@@ -53,12 +53,12 @@ class ListItem extends Component {
         <div className={vertical ? '' : 'col-sm-2'}>
           {
             (this.props.isInList)
-              ? <a className="btn btn-default" onClick={this.handleRemove}>Remove From List</a>
-              : <a className="btn btn-default" onClick={this.handleAdd}>Add to List</a>
+              ? <a className="btn btn-default btn-block" onClick={this.handleRemove}>Remove From List</a>
+              : <a className="btn btn-default btn-block" onClick={this.handleAdd}>Add to List</a>
           }
         </div>
         <div className={vertical ? '' : 'col-sm-2'}>
-          <a href={item.url} target="_blank" className="btn btn-primary">Buy it Now!</a>
+          <a href={item.url} target="_blank" className="btn btn-primary btn-block">Buy it Now!</a>
         </div>
       </div>
     );
