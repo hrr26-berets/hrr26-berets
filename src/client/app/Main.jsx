@@ -143,7 +143,7 @@ class Main extends Component {
   }
 
   render() {
-    let ShoppingContainer = <div>Log in to see your lists!</div>;
+    let ShoppingContainer = <div> &emsp; Log in to see your lists!</div>;
     if (this.props.loggedIn) {
       ShoppingContainer = (
         <div className="col-xs-12">
@@ -165,7 +165,7 @@ class Main extends Component {
       <div className="container">
         <div className="row" style={{display: 'flex', alignItems: 'flex-end'}}>
           <div className="col-xs-4">
-            <h1 style={{ marginBottom: '0' }}> wishList</h1>
+            <br /><br /><h1 style={{ marginBottom: '0' }}> <div id='title'> wishList </div></h1>
           </div>
           {/* Nav buttons: render Login, Signup if a user isn't logged in,
           render 'Welcome <username>', Logout if a user is logged in */}
@@ -188,7 +188,7 @@ class Main extends Component {
         {/* Popular items retrieved from Walmart's 'Trending' api */}
         <div className="row">
           <div className="col-xs-12">
-            <br /> <h3>Popular Items</h3>
+            <br /><br /><h3> <div id='title'> Popular Items </div></h3>
           </div>
           <PopularItems products={this.state.popular} addToList={this.handleAddToList} removeItem={this.handleRemoveFromList} currentList={this.state.currentList}/>
         </div>
@@ -210,14 +210,14 @@ class Main extends Component {
                 <br /> <h3>Featured WishLists</h3>
                 <FeaturedLists list={this.state.catalog} addToList={this.handleAddToList} removeItem={this.handleRemoveFromList} currentList={this.state.currentList}/>
               </div>
-              : <div className="col-xs-12">
-                <div> Loading Featured Lists... </div>
+              : <div className="col-xs-12"> <br />
+                <div> Loading Featured Lists... </div> <br />
               </div>
           }
         </div>
         {/* User's current shopping list */}
         <div className="row">
-          {ShoppingContainer}
+          { ShoppingContainer}
         </div>
       </div>
     );
