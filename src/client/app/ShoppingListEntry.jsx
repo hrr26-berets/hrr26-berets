@@ -18,18 +18,21 @@ class ShoppingListEntry extends Component {
   render() {
     return (
       <div>
-        { this.props.myList ?
-          <div>
-            <select onChange={this.change.bind(this)}>
-              {this.props.myList.map(list => <option key={list} selected={this.props.currentlist}>{list}</option>)}
-            </select>
-          </div> :
-          <div>
-            <select>
-              <option value="Untitled">Untitled</option>
-            </select>
-          </div>
-        }
+        <div>
+          { this.props.myList ?
+            <span>
+              <select onChange={this.change.bind(this)}>
+                {this.props.myList.map(list => <option key={list} selected={this.props.currentlist}>{list}</option>)}
+              </select>
+            </span> :
+            <span>
+              <select>
+                <option value="Untitled">Untitled</option>
+              </select>
+            </span>
+          }
+          <button className="btn btn-success button-save btn-xs" onClick={this.props.saveList}>Save List</button>
+        </div>
         <div>
           {this.props.shoppingList.map(product =>
             <ListItem

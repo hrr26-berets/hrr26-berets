@@ -67,9 +67,9 @@ class Main extends Component {
           arr.push('New List');
           this.setState({
             myList: arr,
-            currentListName: arr[0],
+            currentListName: (this.state.currentListName) ? this.state.currentListName : arr[0],
             shoppingList: collection,
-            currentList: collection[arr[0]]
+            currentList: (this.state.currentList) ? this.state.currentList : collection[arr[0]]
           });
         }
       })
@@ -135,7 +135,7 @@ class Main extends Component {
     let url = (this.state.shoppingList[this.state.currentListName] !== undefined) ? '/save-existing' : '/save';
     axios.post(url, saved)
       .then(response => {
-        this.setState({ myList: [] });
+        // this.setState({ myList: [] });
         this.getmyList();
       })
       .catch(function(error) {
