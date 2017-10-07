@@ -17,7 +17,6 @@ class Main extends Component {
       searchResults: [],
       currentList: [],
       currentListName: 'Untitled',
-      user: null,
       catalog: {},
       myList: [],
       shoppingList: {}
@@ -38,13 +37,12 @@ class Main extends Component {
     if ( this.props.loggedIn) {
       this.getmyList();
     }
-    this.getCatalog();
+    //this.getCatalog();
   }
 
   getCatalog() {
-  //   var arr = [1085666,5438,3944,976760]
-  //   arr.forEach(item =>
-  //     this.getFeaturedList(item));
+    var arr = [1085666, 5438, 3944, 976760];
+    arr.forEach(item => this.getFeaturedList(item));
   }
 
   getTrendingItems() {
@@ -113,18 +111,19 @@ class Main extends Component {
   }
 
   getFeaturedList(id) {
-    //  axios.get('/feature', {
-    //    params: {
-    //      query: id
-    //    }
-    //
-    //  })
-    //    .then((res) => {
-    //     this.state.catalog[id] = res.data;
-    //    })
-    //    .catch((err) => {
-    //      console.log('Error ---> ', err);
-    //   })
+    axios.get('/feature', {
+      params: {
+        query: id
+      }
+    })
+      .then((res) => {
+        let catalog = Object.assign({}, this.state.catalog);
+        catalog[id] = res.data;
+        this.setState({ catalog });
+      })
+      .catch((err) => {
+        console.log('Error ---> ', err);
+      });
   }
 
   saveList() {
@@ -143,6 +142,60 @@ class Main extends Component {
   }
 
   render() {
+    let NavContainer = (
+      <span>
+        <Link to="/signupUser" > <b>Sign Up</b> </Link> &emsp;
+        <Link to="/loginUser" > <b>Log In</b> </Link>
+      </span>
+    );
+    if (this.props.loggedIn) {
+      NavContainer = (
+        <span> Welcome, <strong>{this.props.user}</strong>!&nbsp;&nbsp;
+          <a className="btn btn-link" onClick={this.props.handleLogOut}>
+          Log Out
+          </a>
+        &nbsp;
+        &nbsp;
+        </span>
+      );
+    }
+
+    let PopularItemsContainer = (
+      <div className="col-xs-12">
+        <br />
+        <h3>Popular Items</h3>
+        <div>Loading Popular Items...</div>
+      </div>
+    );
+    if (this.state.popular.length) {
+      PopularItemsContainer = (
+        <div className="col-xs-12">
+          <br />
+          <h3>Popular Items</h3>
+          <PopularItems
+            products={this.state.popular}
+            addToList={this.handleAddToList}
+            removeItem={this.handleRemoveFromList}
+            currentList={this.state.currentList}/>
+        </div>
+      );
+    }
+
+    let SearchResultsContainer = null;
+    if (this.state.searchResults.length) {
+      SearchResultsContainer = (
+        <div className="col-xs-12">
+          <SearchResults
+            results={this.state.searchResults}
+            addToList={this.handleAddToList}
+            removeItem={this.handleRemoveFromList}
+            currentList={this.state.currentList}/>
+          <br />
+          <br />
+        </div>
+      );
+    }
+
     let ShoppingContainer = <div>Log in to see your lists!</div>;
     if (this.props.loggedIn) {
       ShoppingContainer = (
@@ -161,24 +214,30 @@ class Main extends Component {
       );
     }
 
+    let FeaturedListContainer = <div>Loading Featured Lists...</div>;
+    if (Object.keys(this.state.catalog).length !== 0) {
+      FeaturedListContainer = (
+        <div className="col-xs-12">
+          <br /> <h3>Featured WishLists</h3>
+          <FeaturedLists
+            list={this.state.catalog}
+            addToList={this.handleAddToList}
+            removeItem={this.handleRemoveFromList}
+            currentList={this.state.currentList}/>
+        </div>
+      );
+    }
+
     return (
       <div className="container">
         <div className="row" style={{display: 'flex', alignItems: 'flex-end'}}>
           <div className="col-xs-4">
-            <h1 style={{ marginBottom: '0' }}>wishList</h1>
+            <br /><br /><h1 style={{ marginBottom: '0' }}> <div id='title'> wishList </div></h1>
           </div>
           {/* Nav buttons: render Login, Signup if a user isn't logged in,
           render 'Welcome <username>', Logout if a user is logged in */}
           <div className="col-xs-3 text-right">
-
-            {
-              (this.props.loggedIn)
-                ? <span> Welcome, <strong>{this.props.user}</strong>!&nbsp;&nbsp;<a className="btn btn-link" onClick={this.props.handleLogOut}>Log Out</a>&nbsp;&nbsp;</span>
-                : <span>
-                  <Link to="/signupUser"><b>Sign Up</b></Link> &emsp;
-                  <Link to="/loginUser"><b>Log In</b></Link>
-                </span>
-            }
+            {NavContainer}
           </div>
           {/* Search bar component */}
           <div className="col-xs-3">
@@ -187,37 +246,18 @@ class Main extends Component {
         </div>
         {/* Popular items retrieved from Walmart's 'Trending' api */}
         <div className="row">
-          <div className="col-xs-12">
-            <br/><h3>Popular Items</h3>
-          </div>
-          <PopularItems products={this.state.popular} addToList={this.handleAddToList} removeItem={this.handleRemoveFromList} currentList={this.state.currentList}/>
+          {PopularItemsContainer}
         </div>
+        {/* Search results render here */}
         <div className="row">
-          {
-            (this.state.searchResults.length !== 0)
-              ? <div className="col-xs-12">
-                <SearchResults results={this.state.searchResults} addToList={this.handleAddToList} removeItem={this.handleRemoveFromList} currentList={this.state.currentList}/><br/><br/>
-              </div>
-              : null
-
-          }
+          {SearchResultsContainer}
         </div>
         {/* Featured wishlists based on best-selling items in the Walmart catalog */}
         <div className="row">
-          {
-            (Object.keys(this.state.catalog).length !== 0)
-              ? <div className="col-xs-12">
-                <br/><h3>Featured WishLists</h3>
-                <FeaturedLists list={this.state.catalog} addToList={this.handleAddToList} removeItem={this.handleRemoveFromList} currentList={this.state.currentList}/>
-              </div>
-              : <div className="col-xs-12">
-                <div>Loading Featured Lists...</div>
-              </div>
-          }
         </div>
         {/* User's current shopping list */}
         <div className="row">
-          {ShoppingContainer}
+          { ShoppingContainer}
         </div>
       </div>
     );

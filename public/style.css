@@ -1,3 +1,11 @@
+body {
+  background-color: #d4f7f0;
+}
+
+#title {
+  color: #224153;
+}
+
 #login {
   height: 180px;
   width: 280px;
