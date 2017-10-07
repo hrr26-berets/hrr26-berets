@@ -165,13 +165,14 @@ class Main extends Component {
     let PopularItemsContainer = (
       <div className="col-xs-12">
         <br />
-        <h3>Popular Items</h3>
-        <div>Loading Popular Items...</div>
+        <h3> Popular Items</h3>
+        <div>Loading Popular Items...</div><br />
       </div>
     );
     if (this.state.popular.length) {
       PopularItemsContainer = (
-        <div className="col-xs-12">
+        // <div id='whitebox-popular'>
+        <div className="col-xs-12" id="whitebox-popular">
           <br />
           <h3>Popular Items</h3>
           <PopularItems
@@ -180,6 +181,7 @@ class Main extends Component {
             removeItem={this.handleRemoveFromList}
             currentList={this.state.currentList}/>
         </div>
+        // </div>
       );
     }
 
@@ -202,7 +204,7 @@ class Main extends Component {
     if (this.props.loggedIn) {
       ShoppingContainer = (
         <div className="col-xs-12">
-          <ShoppingList
+          <br /><ShoppingList
             name={this.state.currentListName}
             list={this.state.currentList}
             removeItem={this.handleRemoveFromList}
@@ -245,11 +247,11 @@ class Main extends Component {
           <div className="col-xs-3">
             <SearchBar handleSearch={this.handleSearch}/>
           </div>
-        </div>
+        </div><br /><br />
         {/* Popular items retrieved from Walmart's 'Trending' api */}
         <div className="row">
           {PopularItemsContainer}
-        </div>
+        </div><br />
         {/* Search results render here */}
         <div className="row">
           {SearchResultsContainer}
