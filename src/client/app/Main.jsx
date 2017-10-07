@@ -100,7 +100,9 @@ class Main extends Component {
   handleNameChange(name) {
     if (this.state.myList[0] === 'Untitled') {
       if (this.state.myList.indexOf(name) === -1) {
-        this.state.myList[0] = name;
+        let list = this.state.myList.slice();
+        list[0] = name;
+        this.setState({myList: list});
       }
     }
     this.setState({ currentListName: name });

@@ -8,13 +8,14 @@ class ListItem extends Component {
     this.state = {
       showDetails: false
     };
+    this.handleAdd = this.handleAdd.bind(this);
     this.handleRemove = this.handleRemove.bind(this);
     this.handleItemClick = this.handleItemClick.bind(this);
   }
 
 
   handleRemove() {
-    let itemId = this.props.product.itemId;
+    let itemId = this.props.item.itemId;
     this.props.removeItem(itemId);
   }
 
@@ -22,6 +23,10 @@ class ListItem extends Component {
     this.setState({
       showDetails: !this.state.showDetails
     });
+  }
+
+  handleAdd() {
+    this.props.addToList(this.props.item);
   }
 
   render() {
@@ -33,23 +38,27 @@ class ListItem extends Component {
           onRequestHide={this.handleItemClick}
         >
           <ModalBody>
-            <ProductDetails itemId={this.props.product.itemId} itemUrl={this.props.product.url} removeItem={this.props.removeItem} isInList={true} currentList={this.props.currentList}/>
+            <ProductDetails itemId={item.itemId} itemUrl={item.url} removeItem={this.props.removeItem} isInList={true} currentList={this.props.currentList}/>
           </ModalBody>
         </Modal>
         <div className="col-sm-3">
-          <a className="btn btn-link" onClick={this.handleItemClick}><strong>{this.props.product.name.substring(0, 30)}</strong></a>
+          <a className="btn btn-link" onClick={this.handleItemClick}><strong>{item.name.substring(0, 30)}</strong></a>
         </div>
         <div className="col-sm-3">
-          <img src={this.props.product.image} alt=""/>
+          <img src={item.image} alt=""/>
         </div>
         <div className="col-sm-2">
-          <b> ${this.props.product.price} </b>
+          <b> ${item.price} </b>
         </div>
         <div className="col-sm-2">
-          <a className="btn btn-default" onClick={this.handleRemove}>Remove From List</a>
+          {
+            (this.props.isInList)
+              ? <a className="btn btn-default" onClick={this.handleRemove}>Remove From List</a>
+              : <a className="btn btn-default" onClick={this.handleAdd}>Add to List</a>
+          }
         </div>
         <div className="col-sm-2">
-          <a href={this.props.product.url} target="_blank" className="btn btn-primary">Buy it Now!</a>
+          <a href={item.url} target="_blank" className="btn btn-primary">Buy it Now!</a>
         </div>
       </div>
     );
