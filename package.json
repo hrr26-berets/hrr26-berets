@@ -13,7 +13,7 @@
     "precommit": "lint-staged"
   },
   "lint-staged": {
-    "*.js": ["eslint --fix", "git add"]
+    "*.{js,jsx}": ["eslint --fix", "git add"]
   },
   "repository": {
     "type": "git",
