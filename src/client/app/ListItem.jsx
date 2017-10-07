@@ -26,7 +26,6 @@ class ListItem extends Component {
 
   render() {
     const { item } = this.props;
-    console.log(this.props);
     return (
       <div className="row">
         <Modal

@@ -1,7 +1,7 @@
 import React from 'react';
 import Item from './Item.jsx';
 
-var PopularItems = (props) => {
+const PopularItems = (props) => {
   if (props.products) {
     return (
       <div className="popular-items">
@@ -11,7 +11,7 @@ var PopularItems = (props) => {
       </div>);
   }
   return (
-    <div classname="popular-items">
+    <div className="popular-items">
         No products here!
     </div>
   );

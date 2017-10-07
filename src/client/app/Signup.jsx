@@ -35,15 +35,15 @@ class Signup extends React.Component {
     }
     return (
       <div>
-        <h2> Signup </h2>
-        <h5> Home </h5>
+        <h2>Signup</h2>
+        <h5>Home</h5>
         <div id="login" className="pull-left">
           <form onSubmit={this.handleSignUp}>
             <label>e-mail</label>&nbsp;&nbsp;
-            <input type="email" placeholder="name@example.com" onChange={this.handleUsername} required></input> <br /><br />
+            <input type="email" placeholder="name@example.com" onChange={this.handleUsername} required></input> <br/><br/>
             <label>password</label>&nbsp;&nbsp;
-            <input type="password" onChange={this.handlePassword} required></input> <br /><br />
-            <button type="submit" onClick={this.signUp}> Submit </button>
+            <input type="password" onChange={this.handlePassword} required></input><br/><br/>
+            <button type="submit" onClick={this.signUp}>Submit</button>
           </form>
         </div>
       </div>
