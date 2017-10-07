@@ -1,5 +1,5 @@
 body {
-  background-color: #d4f7f0;
+  background-color: #d9e8f7;
 }
 
 #title {
@@ -17,6 +17,12 @@ body {
   width: 1000px;
   padding: 5px;
   margin: 20px auto;
+}
+
+#whitebox-popular {
+  background-color: white;
+  border-radius: 10px;
+  width: 100%;
 }
 
 .FL-col1 {

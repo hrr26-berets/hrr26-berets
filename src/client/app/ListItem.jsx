@@ -43,13 +43,13 @@ class ListItem extends Component {
         </Modal>
         <div className={vertical ? '' : 'col-sm-3'}>
           <a className="text-link" onClick={this.handleItemClick}><strong>{item.name.substring(0, 30)}</strong></a>
-        </div>
+        </div><br />
         <div className={vertical ? '' : 'col-sm-3'}>
           <img src={item.image} alt=""/>
         </div>
         <div className={vertical ? '' : 'col-sm-2'}>
           <b> ${item.price} </b>
-        </div>
+        </div><br />
         <div className={vertical ? '' : 'col-sm-2'}>
           {
             (this.props.isInList)
@@ -58,7 +58,7 @@ class ListItem extends Component {
           }
         </div>
         <div className={vertical ? '' : 'col-sm-2'}>
-          <a href={item.url} target="_blank" className="btn btn-primary btn-block">Buy it Now!</a>
+          <a href={item.url} target="_blank" className="btn btn-primary btn-block">Buy it Now!</a><br /><br /><p/>
         </div>
       </div>
     );
