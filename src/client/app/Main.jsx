@@ -135,7 +135,7 @@ class Main extends Component {
     let url = (this.state.shoppingList[this.state.currentListName] !== undefined) ? '/save-existing' : '/save';
     axios.post(url, saved)
       .then(response => {
-        this.setState({ myList: [] });
+        // this.setState({ myList: [] });
         this.getmyList();
       })
       .catch(function(error) {

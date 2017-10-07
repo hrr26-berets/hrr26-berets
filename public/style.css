@@ -70,6 +70,13 @@ body {
 .list-tools {
   margin-bottom: 20px;
 }
+
+.divider {
+  width: 5px;
+  height: auto;
+  display: inline-block;
+}
+
 .selectBox {
   display: block;
   font-size: 16px;

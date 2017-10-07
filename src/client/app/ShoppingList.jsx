@@ -8,9 +8,11 @@ export default class ShoppingList extends Component {
     this.handleName = this.handleName.bind(this);
     this.setName = this.setName.bind(this);
     this.changeName = this.changeName.bind(this);
+    this.handleRename = this.handleRename.bind(this);
     this.state = {
       listName: '',
-      currentList: this.props.list
+      currentList: this.props.list,
+      renaming: false
     };
   }
 
@@ -22,12 +24,16 @@ export default class ShoppingList extends Component {
     } else {
       this.state.currentList = [];
     }
+    this.setState({ renaming: false });
   }
 
   handleName(e) {
-    this.setState({listName: e.target.value});
+    this.setState({ listName: e.target.value });
   }
 
+  handleRename() {
+    this.setState({ renaming: !this.state.renaming });
+  }
 
   setName() {
     var name = this.state.listName;
@@ -37,30 +43,28 @@ export default class ShoppingList extends Component {
     } else {
       this.props.handleListChange([]);
     }
+    this.setState({ renaming: false });
   }
+
   changeName() {
     var name = this.state.listName;
     this.props.handleNameChange(name);
+    this.setState({ renaming: false });
   }
-
 
   render() {
     const { list } = this.props;
-    // console.log('This list ---> ',this.props.myList);
     if (this.props.myList || this.props.list) {
       return (
         <div>
-          <h1>{this.props.name}</h1>
           <div className="list-tools">
-            <input onChange={this.handleName} type="text"/>
-            <span>
-              <button className="btn button-name" type="submit" onClick={this.changeName}>Change List Name</button>
-            </span>
-            <span>
-              <button className="btn btn-primary button-save" onClick={this.props.saveList}>Save</button> &emsp;
-            </span>
+            {
+              (this.state.renaming)
+                ? <span><h3><input onChange={this.handleName} type="text" placeholder={this.props.name}/><button className="btn button-name btn-success btn-xs" type="submit" onClick={this.changeName}>Save</button></h3></span>
+                : <span><h3>{this.props.name}<div className="divider"/><input onClick={this.handleRename} type="button" className="btn btn-xs" value="Rename"/></h3></span>
+            }
 
-            <ShoppingListEntry myList={this.props.myList} shoppingList={this.props.list} removeItem={this.props.removeItem} handleChange={this.handleChange} setName={this.setName} currentList={this.props.name}/>
+            <ShoppingListEntry myList={this.props.myList} shoppingList={this.props.list} removeItem={this.props.removeItem} handleChange={this.handleChange} setName={this.setName} currentList={this.props.name} saveList={this.props.saveList}/>
 
           </div>
 
