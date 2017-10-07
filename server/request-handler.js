@@ -117,7 +117,16 @@ exports.getTrending = (req, res) => {
   };
   rp(options)
     .then((result) => {
-      res.json(result.items.slice(0, 5));
+      let items = result.items.slice(0, 5).map(item => {
+        return {
+          name: item.name,
+          image: item.thumbnailImage,
+          itemId: item.itemId,
+          price: item.salePrice,
+          url: item.productUrl
+        };
+      });
+      res.json(items);
     })
     .catch((err) => {
       console.log(err);
