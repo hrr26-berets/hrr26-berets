@@ -17,7 +17,6 @@ class ProductDetails extends Component {
   }
   componentDidMount() {
     this.getItemDetails();
-    console.log(this.props.currentList);
     this.checkList();
   }
 
