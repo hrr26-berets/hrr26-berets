@@ -17,20 +17,6 @@ class ProductDetails extends Component {
   }
   componentDidMount() {
     this.getItemDetails();
-    this.checkList();
-  }
-
-  checkList() {
-    let currentList = this.props.currentList;
-    if (currentList) {
-      currentList.forEach((product) => {
-        if (product.itemId === this.props.itemId) {
-          this.setState({ isInList: true });
-        }
-      });
-    } else if (this.props.isInList) {
-      this.setState({ isInList: true });
-    }
   }
 
   getItemDetails() {
@@ -79,7 +65,7 @@ class ProductDetails extends Component {
               </div>
               <div style={{ marginTop: '15px' }}>
                 {
-                  (this.state.isInList)
+                  (this.props.isInList)
                     ? <a className="btn btn-default" onClick={this.handleRemoveFromList}>Remove from List</a>
                     : <a className="btn btn-default" onClick={this.handleAddToList}>Add to List</a>
                 }

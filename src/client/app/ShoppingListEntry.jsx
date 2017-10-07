@@ -32,7 +32,11 @@ class ShoppingListEntry extends Component {
         }
         <div>
           {this.props.shoppingList.map(product =>
-            <ListItem product={product} key={product.itemId} removeItem={this.props.removeItem}/>
+            <ListItem
+              isInList={true}
+              item={product}
+              key={product.itemId}
+              removeItem={this.props.removeItem}/>
           )}
         </div>
       </div>

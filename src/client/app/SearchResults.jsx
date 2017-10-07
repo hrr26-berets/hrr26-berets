@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import SearchResultsEntry from './SearchResultsEntry.jsx';
+import ListItem from './ListItem.jsx';
 
 class SearchResults extends Component {
   constructor(props) {
@@ -11,9 +11,18 @@ class SearchResults extends Component {
       <div>
         <h3>Search Results</h3>
         {
-          this.props.results.map(result =>
-            <SearchResultsEntry item={result} key={result.itemId} addToList={this.props.addToList} removeItem={this.props.removeItem} currentList={this.props.currentList}/>
-          )
+          this.props.results.map(result => {
+            let isInList = !!this.props.currentList.find(itm => itm.itemId === result.itemId);
+            return (
+              <ListItem
+                item={result}
+                key={result.itemId}
+                addToList={this.props.addToList}
+                removeItem={this.props.removeItem}
+                isInList={isInList}
+              />
+            );
+          })
         }
       </div>
     );

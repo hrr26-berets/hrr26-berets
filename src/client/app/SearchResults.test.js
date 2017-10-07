@@ -6,6 +6,7 @@ import Adapter from 'enzyme-adapter-react-15';
 Enzyme.configure({ adapter: new Adapter() });
 
 const testProps = {
+  currentList: [],
   results: [
     {
       name: 'tiny mouse',
@@ -42,6 +43,7 @@ const testProps = {
 };
 
 const emptyProps = {
+  currentList: [],
   results: [],
   addToList: jest.fn()
 };
@@ -50,12 +52,12 @@ describe('SearchResults component', () => {
   const results = shallow(<SearchResults {...testProps}/>);
   const noResults = shallow(<SearchResults {...emptyProps}/>);
 
-  it('should render each result using the SearchResultsEntry component', () => {
-    expect((results).find('SearchResultsEntry').length).toBe(testProps.results.length);
+  it('should render each result using the ListItem component', () => {
+    expect((results).find('ListItem').length).toBe(testProps.results.length);
   });
 
   // We'll modify this test with whatever we decide to render if no results are fetched.
-  it('should not render SearchResultsEntry component if no results are fetched', () => {
-    expect((noResults).find('SearchResultsEntry').length).toBe(0);
+  it('should not render ListItem component if no results are fetched', () => {
+    expect((noResults).find('ListItem').length).toBe(0);
   });
 });

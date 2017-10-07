@@ -6,11 +6,13 @@ import Adapter from 'enzyme-adapter-react-15';
 Enzyme.configure({ adapter: new Adapter() });
 
 const testProps = {
-  product: {
+  isInList: true,
+  item: {
     name: 'this really cool thing',
     image: 'coolthing.jpg',
     price: 5.99,
-    url: 'http://www.getithere.com'
+    url: 'http://www.getithere.com',
+    itemId: '12345'
   },
   removeItem: jest.fn()
 };
@@ -25,6 +27,6 @@ describe('ListItem component', () => {
   });
 
   it('should have the product image', () => {
-    expect(wrapper.find('img').prop('src')).toBe(testProps.product.image);
+    expect(wrapper.find('img').prop('src')).toBe(testProps.item.image);
   });
 });
