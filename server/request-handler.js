@@ -11,7 +11,8 @@ const Product = require('../db/models/product');
 const walmartKey = require('./api-keys');
 const walmartReq = require('walmart')(walmartKey.walmartKey);
 const nodemailer = require('nodemailer');
-
+const cache = require('./api-requests');
+const _ = require('lodash');
 passport.use(User.createStrategy());
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
@@ -151,13 +152,9 @@ exports.storeProduct = (product) => {
       });
       newProduct.save((err, newProduct) => {
         if (err) {
-          //return req.status(500).send(err);
           console.log('ERROR:', error);
           return;
         }
-        // res.status(200);
-        // next();
-      //  console.log('Saved:', newProduct)
       });
     }
   });
@@ -310,9 +307,10 @@ let removeSpecialCharacter = (sentence) => {
   }).join(' ');
 };
 
-exports.popularCategories = (req, res) => {
-  var categoryid = req.query.query || 976760;
-  console.log(categoryid);
+// exports.popularCategories = (req, res) => {
+  let getWishlist = (categoryid,cb) => {
+   //let categoryid = req.query.query || 976760;
+  //console.log(categoryid);
   walmartReq.feeds.bestSellers(categoryid).then((items) => {
     let arr = items.items.reduce((acc, el) => {
       let obj = {};
@@ -328,24 +326,41 @@ exports.popularCategories = (req, res) => {
       }
       return acc;
     }, []);
-    res.json(arr.slice(0, 5));
+   cb(arr.slice(0, 5))
   });
 };
 
+let storeitemsInCache = _.debounce((categoryid,res) => {
+  console.log('It is being invoked');
+   getWishlist(categoryid, list => {
+      cache.hmset(categoryid,{array:JSON.stringify(list)}, (err,result) => {
+        if(err) { console.log('Error --> ',err) }
+        console.log('MyList -->  ',result)
+       res.json(list);
+      })
+    })
+},1500, {leading: true, trailing: true})
 
-// exports.getshoppingLists = (req,res) => {
-//   var currentUser = req.session.passport.user;
-//   if(currentUser) {
-//     User.findOne({username: currentUser}).exec((err,user) => {
-//       if (err) { throw err; }
-//       if(user.shoppingList) {
-//           res.json(user.shoppingList);
-//       } else {
-//         res.json({message:'User doesn\'t have shoppingLists '});
-//       }
-//     })
-//   }
-// }
+
+exports.cachedWishlist = (req,res) => {
+  let categoryid = req.query.query;
+
+  cache.hgetall(categoryid, (err, list ) => {
+    if (list) {
+      var arr = JSON.parse(list.array)
+       console.log('It stored inside of Cache !! ---> ',arr[0]);
+        res.json(arr);
+        // It will update feature wishlist in 10 minutes
+        cache.expire(categoryid,1200);
+    } else {
+    storeitemsInCache(categoryid,res);
+   }
+  });
+}
+
+
+
+
 
 
 
