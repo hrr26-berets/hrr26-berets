@@ -9,6 +9,7 @@ export default class ShoppingList extends Component {
     this.setName = this.setName.bind(this);
     this.changeName = this.changeName.bind(this);
     this.handleRename = this.handleRename.bind(this);
+    this.cancelRename = this.cancelRename.bind(this);
     this.state = {
       listName: '',
       currentList: this.props.list,
@@ -33,6 +34,11 @@ export default class ShoppingList extends Component {
 
   handleRename() {
     this.setState({ renaming: !this.state.renaming });
+  }
+
+  cancelRename() {
+    this.setState({ renaming: false });
+
   }
 
   setName() {
@@ -60,11 +66,11 @@ export default class ShoppingList extends Component {
           <div className="list-tools">
             {
               (this.state.renaming)
-                ? <span><h3><input onChange={this.handleName} type="text" placeholder={this.props.name}/><button className="btn button-name btn-success btn-xs" type="submit" onClick={this.changeName}>Save</button></h3></span>
+                ? <span><h3><input onChange={this.handleName} type="text" placeholder={this.props.name}/><button className="btn button-name btn-success btn-xs" type="submit" onClick={this.changeName}>Save</button><button className="btn button-name btn-warning btn-xs" type="submit" onClick={this.cancelRename}>Cancel</button></h3></span>
                 : <span><h3>{this.props.name}<div className="divider"/><input onClick={this.handleRename} type="button" className="btn btn-xs" value="Rename"/></h3></span>
             }
 
-            <ShoppingListEntry myList={this.props.myList} shoppingList={this.props.list} removeItem={this.props.removeItem} handleChange={this.handleChange} setName={this.setName} currentList={this.props.name} saveList={this.props.saveList}/>
+            <ShoppingListEntry myList={this.props.myList} shoppingList={this.props.list} removeItem={this.props.removeItem} handleChange={this.handleChange} setName={this.setName} currentList={this.props.name} saveList={this.props.saveList} removeList={this.props.removeList}/>
 
           </div>
 
