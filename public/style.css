@@ -26,10 +26,20 @@
   padding: 30px;
 }
 
+.is-table-row {
+  display: table;
+  float: left;
+}
+
+.is-table-row [class*="col-"] {
+  float: none;
+  display: table-cell;
+  vertical-align: bottom;
+}
+
 .popular-item {
-  padding-left: 50px;
   text-align: center;
-  min-width: 200px;
+  min-width: 100px;
 }
 
 .product-details {
