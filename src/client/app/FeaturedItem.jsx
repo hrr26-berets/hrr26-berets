@@ -29,6 +29,7 @@ class FeaturedItem extends Component {
             <ProductDetails itemId={item.itemId} itemUrl={item.productUrl} addToList={this.props.addToList}/>
           </ModalBody>
         </Modal>
+
         <div className="item-title">
           <a className="btn-link btn-block text-link" onClick={this.handleItemClick}><strong>{item.name.split(' ').slice(0, 3).join(' ')}</strong></a>
         </div>
@@ -38,3 +39,4 @@ class FeaturedItem extends Component {
 }
 
 export default FeaturedItem;
+
