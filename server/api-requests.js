@@ -1,20 +1,13 @@
-const keys = require('./api-keys');
+const redis = require('redis');
+const client = redis.createClient();
 
-exports.walmartRequest = (item) => {
+client.on('error', (err) => {
+  console.log('Err ---> ',err);
+})
 
-  let url = 'http://api.walmartlabs.com/v1/search?apiKey=${keys.walmartKey}&lsPublisherId=${keys.publisherId}&query=${item}';
+client.on('connect', function() {
+    console.log('connected');
+});
 
-  $.ajax({
-    url: url,
-    type: 'GET',
-    contentType: 'application/json',
-    success: (res) => {
-      console.log('Response -> ', res);
-    },
-    error: (err) => {
-      console.log('Error -> ', err);
-    }
 
-  });
-
-};
+module.exports = client;

@@ -70,7 +70,7 @@ app.post('/save-existing', handler.saveExisting);
 
 // handle data fetch from Walmart API
 app.get('/lookupItem', handler.lookUp);
-app.get('/feature', handler.popularCategories);
+app.get('/feature', handler.cachedWishlist);
 app.get('/search', handler.search);
 app.get('/trending', handler.getTrending);
 app.get('/myLists', handler.retrieveShopping);
