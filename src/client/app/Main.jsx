@@ -120,6 +120,7 @@ class Main extends Component {
       }
     })
       .then((res) => {
+        console.log('res.data --> ',res.data[0])
         let catalog = Object.assign({}, this.state.catalog);
         catalog[id] = res.data;
         this.setState({ catalog });
@@ -221,7 +222,7 @@ class Main extends Component {
     }
 
     let FeaturedListContainer = <div>Loading Featured Lists...</div>;
-    if (Object.keys(this.state.catalog).length !== 0) {
+    if (Object.keys(this.state.catalog).length === 4) {
       FeaturedListContainer = (
         <div className="col-xs-12">
           <br /> <h3>Featured WishLists</h3>
