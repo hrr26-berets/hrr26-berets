@@ -54,7 +54,7 @@ export default class ShoppingList extends Component {
 
   changeName() {
     var name = this.state.listName;
-    this.props.handleNameChange(name);
+    this.props.handleRenameList(name);
     this.setState({ renaming: false });
   }
 
@@ -66,11 +66,11 @@ export default class ShoppingList extends Component {
           <div className="list-tools">
             {
               (this.state.renaming)
-                ? <span><h3><input onChange={this.handleName} type="text" placeholder={this.props.name}/><button className="btn button-name btn-success btn-xs" type="submit" onClick={this.changeName}>Save</button><button className="btn button-name btn-warning btn-xs" type="submit" onClick={this.cancelRename}>Cancel</button></h3></span>
-                : <span><h3>{this.props.name}<div className="divider"/><input onClick={this.handleRename} type="button" className="btn btn-xs" value="Rename"/></h3></span>
+                ? <span><h3><input onChange={this.handleName} type="text" placeholder={this.props.currentListName}/><button className="btn button-name btn-success btn-xs" type="submit" onClick={this.changeName}>Save</button><button className="btn button-name btn-warning btn-xs" type="submit" onClick={this.cancelRename}>Cancel</button></h3></span>
+                : <span><h3>{this.props.currentListName}<div className="divider"/><input onClick={this.handleRename} type="button" className="btn btn-xs" value="Rename"/></h3></span>
             }
 
-            <ShoppingListEntry myList={this.props.myList} shoppingList={this.props.list} removeItem={this.props.removeItem} handleChange={this.handleChange} setName={this.setName} currentList={this.props.name} saveList={this.props.saveList} removeList={this.props.removeList}/>
+            <ShoppingListEntry myList={this.props.myList} shoppingList={this.props.list} removeItem={this.props.removeItem} handleChange={this.handleChange} setName={this.setName} currentListName={this.props.currentListName} newList={this.props.newList} saveList={this.props.saveList} removeList={this.props.removeList}/>
 
           </div>
 

@@ -23,6 +23,7 @@ class Main extends Component {
     };
     this.handleAddToList = this.handleAddToList.bind(this);
     this.handleRemoveFromList = this.handleRemoveFromList.bind(this);
+    this.newList = this.newList.bind(this);
     this.saveList = this.saveList.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
     this.handleNameChange = this.handleNameChange.bind(this);
@@ -31,6 +32,8 @@ class Main extends Component {
     this.getFeaturedList = this.getFeaturedList.bind(this);
     this.getCatalog = this.getCatalog.bind(this);
     this.removeList = this.removeList.bind(this);
+    this.handleRenameList = this.handleRenameList.bind(this);
+    this.renameList = this.renameList.bind(this);
   }
 
   componentDidMount() {
@@ -66,12 +69,11 @@ class Main extends Component {
         if (res.data) {
           let arr = Object.keys(res.data);
           let collection = res.data;
-          arr.push('New List');
           this.setState({
             myList: arr,
-            currentListName: (this.state.currentListName) ? this.state.currentListName : arr[0],
+            currentListName: arr[0],
             shoppingList: collection,
-            currentList: (this.state.currentList) ? this.state.currentList : collection[arr[0]]
+            currentList: collection[arr[0]]
           });
         }
       })
@@ -100,12 +102,10 @@ class Main extends Component {
   }
 
   handleNameChange(name) {
-    if (this.state.myList[0] === 'Untitled') {
-      if (this.state.myList.indexOf(name) === -1) {
-        let listNames = this.state.myList.slice();
-        listNames[0] = name;
-        this.setState({myList: listNames});
-      }
+    if (this.state.myList[0] === 'Untitled' && this.state.myList.indexOf(name) === -1) {
+      let listNames = this.state.myList.slice();
+      listNames[0] = name;
+      this.setState({myList: listNames});
     }
     let oldName = this.state.currentListName;
     let oldList = this.state.shoppingList[oldName];
@@ -113,7 +113,7 @@ class Main extends Component {
   }
 
   handleListChange(list) {
-    this.setState( { currentList: list});
+    this.setState( { currentList: list });
   }
 
   getFeaturedList(id) {
@@ -123,7 +123,7 @@ class Main extends Component {
       }
     })
       .then((res) => {
-        console.log('res.data --> ',res.data[0])
+        console.log('res.data --> ', res.data[0]);
         let catalog = Object.assign({}, this.state.catalog);
         catalog[id] = res.data;
         this.setState({ catalog });
@@ -134,15 +134,26 @@ class Main extends Component {
       });
   }
 
+  newList() {
+    this.setState({
+      currentList: [],
+      currentListName: 'Untitled',
+    });
+  }
+
   saveList() {
     let saved = {};
     saved[this.state.currentListName] = this.state.currentList;
-    console.log(saved);
     let url = (this.state.shoppingList[this.state.currentListName] !== undefined) ? '/save-existing' : '/save';
     axios.post(url, saved)
-      .then(res => {
-        // this.setState({ myList: [] });
-        this.getmyList();
+      .then((res) => {
+        let updatedList = res.data.shoppingList;
+        this.setState({
+          shoppingList: updatedList,
+          currentList: (updatedList[this.state.currentListName]) ? updatedList[this.state.currentListName] : [],
+          currentListName: (this.state.currentListName) ? this.state.currentListName : 'Untitled',
+          myList: Object.keys(updatedList)
+        });
       })
       .catch((err) => {
         console.log(err);
@@ -154,6 +165,28 @@ class Main extends Component {
     axios.put('/remove-list', currentListName)
       .then((res) => {
         this.getmyList();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  handleRenameList(newName) {
+    let oldName = this.state.currentListName;
+    this.renameList(oldName, newName);
+  }
+
+  renameList(oldName, newName) {
+    let names = [oldName, newName];
+    axios.put('/rename-list', names)
+      .then((res) => {
+        let updatedList = res.data.shoppingList;
+        this.setState({
+          shoppingList: updatedList,
+          currentList: updatedList[newName],
+          currentListName: newName,
+          myList: Object.keys(updatedList)
+        });
       })
       .catch((err) => {
         console.log(err);
@@ -222,13 +255,15 @@ class Main extends Component {
       ShoppingContainer = (
         <div className="col-xs-12">
           <br /><ShoppingList
-            name={this.state.currentListName}
+            currentListName={this.state.currentListName}
             list={this.state.currentList}
             removeItem={this.handleRemoveFromList}
             removeList={this.removeList}
+            newList={this.newList}
             saveList={this.saveList}
             handleNameChange={this.handleNameChange}
             handleListChange={this.handleListChange}
+            handleRenameList={this.handleRenameList}
             myList={this.state.myList}
             shoppingList={this.state.shoppingList}
             currentList={this.state.currentList}/>
