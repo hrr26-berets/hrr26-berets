@@ -196,13 +196,32 @@ class Main extends Component {
     let names = [oldName, newName];
     axios.put('/rename-list', names)
       .then((res) => {
-        let updatedList = res.data.shoppingList;
-        this.setState({
-          shoppingList: updatedList,
-          currentList: updatedList[newName],
-          currentListName: newName,
-          myList: Object.keys(updatedList)
-        });
+        return res.data.shoppingList;
+      })
+      .then((updatedList) => {
+        const oldListNames = this.state.myList;
+        const newListNames = Object.keys(updatedList);
+
+        if (!oldListNames.includes(newName)) {
+          this.setState({
+            shoppingList: updatedList,
+            currentList: updatedList[newName],
+            currentListName: newName,
+            myList: Object.keys(updatedList)
+          });
+        } else {
+          newListNames.forEach((name) => {
+            if (!(oldListNames.includes(name))) {
+              this.setState({
+                shoppingList: updatedList,
+                currentList: updatedList[name],
+                currentListName: name,
+                myList: Object.keys(updatedList)
+              });
+              return;
+            }
+          });
+        }
       })
       .catch((err) => {
         console.log(err);
