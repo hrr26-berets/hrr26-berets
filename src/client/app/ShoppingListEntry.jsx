@@ -7,22 +7,28 @@ class ShoppingListEntry extends Component {
 
   constructor(props) {
     super(props);
+    this.handleListChange = this.handleListChange.bind(this);
+    this.handleNewList = this.handleNewList.bind(this);
   }
 
-  change(event) {
-    var name = (event.target.value === 'New List') ? 'Untitled' : event.target.value;
+  handleListChange(e) {
+    let name = e.target.value;
     this.props.handleChange(name);
     this.props.setName();
+  }
+
+  handleNewList() {
+    this.props.newList();
   }
 
   render() {
     return (
       <div>
-        <div>
-          { this.props.myList ?
+        <div className="col-xs-4">
+          { (this.props.myList) ?
             <span>
-              <select onChange={this.change.bind(this)}>
-                {this.props.myList.map(list => <option key={list} selected={this.props.currentlist}>{list}</option>)}
+              <select className="form-control" onChange={this.handleListChange} defaultValue={this.props.currentListName}>
+                {this.props.myList.map(list => <option key={list}>{list}</option>)}
               </select>
             </span> :
             <span>
@@ -31,10 +37,13 @@ class ShoppingListEntry extends Component {
               </select>
             </span>
           }
-          <button className="btn btn-success button-save btn-xs" onClick={this.props.saveList}>Save List</button>
-          <button className="btn btn-warning btn-xs" onClick={this.props.removeList}>Remove List</button>
+          <div style={{'marginTop': '5px', 'marginBottom': '10px'}}>
+            <button className="btn btn-info button-name btn-xs" onClick={this.handleNewList}>New List</button>
+            <button className="btn btn-success button-name btn-xs" onClick={this.props.saveList}>Save List</button>
+            <button className="btn btn-danger button-name btn-xs" onClick={this.props.removeList}>Remove List</button>
+          </div>
         </div>
-        <div>
+        <div className="col-xs-12">
           {this.props.shoppingList.map(product =>
             <ListItem
               isInList={true}
