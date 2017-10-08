@@ -32,6 +32,7 @@ class ShoppingListEntry extends Component {
             </span>
           }
           <button className="btn btn-success button-save btn-xs" onClick={this.props.saveList}>Save List</button>
+          <button className="btn btn-warning btn-xs" onClick={this.props.removeList}>Remove List</button>
         </div>
         <div>
           {this.props.shoppingList.map(product =>

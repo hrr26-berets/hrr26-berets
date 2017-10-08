@@ -117,8 +117,8 @@ let storeproductsInCache = (itemId,res) => {
   setTimeout( () => {
     lookUp(itemId, list => {
       cache.hmset(itemId,{array:JSON.stringify(list)}, (err,result) => {
-        if(err) { 
-          console.log('Error --> ',err) 
+        if(err) {
+          console.log('Error --> ',err)
         }
         else {
         console.log('MyList -->  ',result)
@@ -251,6 +251,23 @@ exports.saveExisting = (req, res) => {
   }
 };
 
+exports.removeList = (req, res) => {
+  let username = req.session.passport.user;
+  let listName = Object.keys(req.body)[0];
+  console.log(listName);
+  // User.update({username: username}, {'$unset': { shoppingList: {listName} }}, { safe: true, multi: true })
+  User.findOne({username: username}).exec((err, user) => {
+    if (user) {
+      let obj = user.shoppingList;
+      delete obj[listName];
+      User.findOneAndUpdate({username: username}, {'$set': { shoppingList: obj }}, {upsert: true, new: true, runValidators: true, strict: false, overwrite: true}).exec((err, updatedUser) => {
+        if (err) { console.log(err); }
+        res.json(updatedUser);
+      });
+    }
+  });
+};
+
 exports.saveShopping = function(req, res, next) {
   let test = {techShopping: [{'name': 'Apples iPod touch 16GB', 'price': 225, 'itemId': 42608132},
     {'name': 'Xbox Ones S Battlefield 1 500 GB Bundle', 'price': 279, 'itemId': 54791579},
@@ -348,8 +365,8 @@ let removeSpecialCharacter = (sentence) => {
 };
 
 // exports.popularCategories = (req, res) => {
-  let getWishlist = (categoryid,cb) => {
-   //let categoryid = req.query.query || 976760;
+let getWishlist = (categoryid, cb) => {
+  //let categoryid = req.query.query || 976760;
   //console.log(categoryid);
   walmartReq.feeds.bestSellers(categoryid).then((items) => {
     let arr = items.items.reduce((acc, el) => {
@@ -366,7 +383,7 @@ let removeSpecialCharacter = (sentence) => {
       }
       return acc;
     }, []);
-   cb(arr.slice(0, 5))
+    cb(arr.slice(0, 5));
   });
 };
 
@@ -377,8 +394,8 @@ let storeitemsInCache = (categoryid,res,count) => {
 
    getWishlist(categoryid, list => {
       cache.hmset(categoryid,{array:JSON.stringify(list)}, (err,result) => {
-        if(err) { 
-          console.log('Error --> ',err) 
+        if(err) {
+          console.log('Error --> ',err)
           console.log('Count --> ',count);
         }
         else {
@@ -393,7 +410,7 @@ let storeitemsInCache = (categoryid,res,count) => {
 //},1500, {leading: true, trailing: true})
 
 
-exports.cachedWishlist = (req,res) => {
+exports.cachedWishlist = (req, res) => {
   let categoryid = req.query.query;
   let count = 0;
   cache.hgetall(categoryid, (err, list ) => {
@@ -407,7 +424,7 @@ exports.cachedWishlist = (req,res) => {
     storeitemsInCache(categoryid,res,count + 1);
    }
   });
-}
+};
 
 
 

@@ -6,3 +6,4 @@ bundle.js
 iisnode.yml
 npm-debug.log
 api-keys.js
+dump.rdb

@@ -30,6 +30,7 @@ class Main extends Component {
     this.getmyList = this.getmyList.bind(this);
     this.getFeaturedList = this.getFeaturedList.bind(this);
     this.getCatalog = this.getCatalog.bind(this);
+    this.removeList = this.removeList.bind(this);
   }
 
   componentDidMount() {
@@ -37,7 +38,7 @@ class Main extends Component {
     if ( this.props.loggedIn) {
       this.getmyList();
     }
-    this.getCatalog();
+    // this.getCatalog();
   }
 
   getCatalog() {
@@ -87,25 +88,27 @@ class Main extends Component {
     if (!this.props.loggedIn) {
       return alert('Please Log In to Continue');
     }
-    var list = this.state.currentList.slice();
+    let list = this.state.currentList.slice();
     list.push(item);
     this.setState({ currentList: list });
   }
 
   handleRemoveFromList(id) {
-    var list = this.state.currentList.slice();
-    var filtered = list.filter(product => product.itemId !== id);
+    let list = this.state.currentList.slice();
+    let filtered = list.filter(product => product.itemId !== id);
     this.setState({ currentList: filtered });
   }
 
   handleNameChange(name) {
     if (this.state.myList[0] === 'Untitled') {
       if (this.state.myList.indexOf(name) === -1) {
-        let list = this.state.myList.slice();
-        list[0] = name;
-        this.setState({myList: list});
+        let listNames = this.state.myList.slice();
+        listNames[0] = name;
+        this.setState({myList: listNames});
       }
     }
+    let oldName = this.state.currentListName;
+    let oldList = this.state.shoppingList[oldName];
     this.setState({ currentListName: name });
   }
 
@@ -124,7 +127,7 @@ class Main extends Component {
         let catalog = Object.assign({}, this.state.catalog);
         catalog[id] = res.data;
         this.setState({ catalog });
-       // console.log('Catalog --> ',this.state.catalog);
+        // console.log('Catalog --> ',this.state.catalog);
       })
       .catch((err) => {
         console.log('Error ---> ', err);
@@ -137,12 +140,23 @@ class Main extends Component {
     console.log(saved);
     let url = (this.state.shoppingList[this.state.currentListName] !== undefined) ? '/save-existing' : '/save';
     axios.post(url, saved)
-      .then(response => {
+      .then(res => {
         // this.setState({ myList: [] });
         this.getmyList();
       })
-      .catch(function(error) {
-        console.log(error);
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  removeList() {
+    let currentListName = this.state.currentListName;
+    axios.put('/remove-list', currentListName)
+      .then((res) => {
+        this.getmyList();
+      })
+      .catch((err) => {
+        console.log(err);
       });
   }
 
@@ -211,6 +225,7 @@ class Main extends Component {
             name={this.state.currentListName}
             list={this.state.currentList}
             removeItem={this.handleRemoveFromList}
+            removeList={this.removeList}
             saveList={this.saveList}
             handleNameChange={this.handleNameChange}
             handleListChange={this.handleListChange}
@@ -259,7 +274,7 @@ class Main extends Component {
         <div className="row">
           {SearchResultsContainer}
         </div>
-        {FeaturedListContainer}
+        {/* {FeaturedListContainer} */}
         <div className="row">
         </div>
         {/* User's current shopping list */}
