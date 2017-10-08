@@ -16,14 +16,14 @@ class Main extends Component {
       popular: [],
       searchResults: [],
       currentList: [],
-      currentListName: 'Untitled',
+      currentListName: '',
       catalog: {},
       myList: [],
       shoppingList: {}
     };
     this.handleAddToList = this.handleAddToList.bind(this);
     this.handleRemoveFromList = this.handleRemoveFromList.bind(this);
-    this.newList = this.newList.bind(this);
+    this.createList = this.createList.bind(this);
     this.saveList = this.saveList.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
     this.handleNameChange = this.handleNameChange.bind(this);
@@ -38,7 +38,7 @@ class Main extends Component {
 
   componentDidMount() {
     this.getTrendingItems();
-    if ( this.props.loggedIn) {
+    if (this.props.loggedIn) {
       this.getmyList();
     }
     this.getCatalog();
@@ -63,7 +63,6 @@ class Main extends Component {
   }
 
   getmyList() {
-
     axios.get('/myLists')
       .then((res) => {
         if (res.data) {
@@ -133,13 +132,6 @@ class Main extends Component {
       });
   }
 
-  newList() {
-    this.setState({
-      currentList: [],
-      currentListName: 'Untitled',
-    });
-  }
-
   saveList() {
     let saved = {};
     saved[this.state.currentListName] = this.state.currentList;
@@ -152,6 +144,31 @@ class Main extends Component {
           currentList: (updatedList[this.state.currentListName]) ? updatedList[this.state.currentListName] : [],
           currentListName: (this.state.currentListName) ? this.state.currentListName : 'Untitled',
           myList: Object.keys(updatedList)
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  createList() {
+    axios.post('/create-list')
+      .then((res) => {
+        return res.data.shoppingList;
+      })
+      .then((updatedList) => {
+        const oldListNames = this.state.myList;
+        const newListNames = Object.keys(updatedList);
+        newListNames.forEach((name) => {
+          if (!(oldListNames.includes(name))) {
+            this.setState({
+              shoppingList: updatedList,
+              currentList: updatedList[name],
+              currentListName: name,
+              myList: Object.keys(updatedList)
+            });
+            return;
+          }
         });
       })
       .catch((err) => {
@@ -179,13 +196,32 @@ class Main extends Component {
     let names = [oldName, newName];
     axios.put('/rename-list', names)
       .then((res) => {
-        let updatedList = res.data.shoppingList;
-        this.setState({
-          shoppingList: updatedList,
-          currentList: updatedList[newName],
-          currentListName: newName,
-          myList: Object.keys(updatedList)
-        });
+        return res.data.shoppingList;
+      })
+      .then((updatedList) => {
+        const oldListNames = this.state.myList;
+        const newListNames = Object.keys(updatedList);
+
+        if (!oldListNames.includes(newName)) {
+          this.setState({
+            shoppingList: updatedList,
+            currentList: updatedList[newName],
+            currentListName: newName,
+            myList: Object.keys(updatedList)
+          });
+        } else {
+          newListNames.forEach((name) => {
+            if (!(oldListNames.includes(name))) {
+              this.setState({
+                shoppingList: updatedList,
+                currentList: updatedList[name],
+                currentListName: name,
+                myList: Object.keys(updatedList)
+              });
+              return;
+            }
+          });
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -258,7 +294,7 @@ class Main extends Component {
             list={this.state.currentList}
             removeItem={this.handleRemoveFromList}
             removeList={this.removeList}
-            newList={this.newList}
+            newList={this.createList}
             saveList={this.saveList}
             handleNameChange={this.handleNameChange}
             handleListChange={this.handleListChange}

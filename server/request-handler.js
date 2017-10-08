@@ -22,9 +22,13 @@ passport.deserializeUser(User.deserializeUser());
 exports.signUpUser = (req, res) => {
   User.register(new User({ username: req.body.username }), req.body.password, (err, user) => {
     if (err) { return res.send(err); }
-    passport.authenticate('local')(req, res, () => {
-      console.log('Req.user -> ', req.session);
-      res.json({ message: 'signup success' });
+    let obj = { 'My WishList': [] };
+    User.findOneAndUpdate({username: req.body.username}, {'$set': { shoppingList: obj }}, {upsert: true, new: true, runValidators: true, strict: false, overwrite: true}).exec((err, updatedUser) => {
+      if (err) { console.log(err); }
+      passport.authenticate('local')(req, res, () => {
+        console.log('Req.user -> ', req.session);
+        res.json({ message: 'signup success' });
+      });
     });
   });
 };
@@ -115,7 +119,6 @@ let storeproductsInCache = (itemId, res) => {
         if (err) {
           console.log('Error --> ', err);
         } else {
-          console.log('MyList -->  ', result);
           res.json(list);
         }
       });
@@ -131,7 +134,6 @@ exports.cachedProductDetails = (req, res) => {
     if (list) {
       var obj = JSON.parse(list.array);
       res.json(obj);
-      // It will update feature wishlist in 10 minutes
       cache.expire(itemId, 3600);
     } else {
       storeproductsInCache(itemId, res);
@@ -244,10 +246,38 @@ exports.saveExisting = (req, res) => {
   }
 };
 
+exports.createList = (req, res) => {
+  let username = req.session.passport.user;
+  let newName = 'Untitled';
+  User.findOne({username: username}).exec((err, user) => {
+    if (user) {
+      let obj = user.shoppingList;
+      if (obj[newName]) {
+        let i = 1;
+        let newNewName;
+        while (true) {
+          let temp = newName + ' ' + i;
+          if (!obj[temp]) {
+            newNewName = temp;
+            break;
+          }
+          i++;
+        }
+        obj[newNewName] = [];
+      } else {
+        obj[newName] = [];
+      }
+      User.findOneAndUpdate({username: username}, {'$set': { shoppingList: obj }}, {upsert: true, new: true, runValidators: true, strict: false, overwrite: true}).exec((err, updatedUser) => {
+        if (err) { console.log(err); }
+        res.json(updatedUser);
+      });
+    }
+  });
+};
+
 exports.removeList = (req, res) => {
   let username = req.session.passport.user;
   let listName = Object.keys(req.body)[0];
-  // User.update({username: username}, {'$unset': { shoppingList: {listName} }}, { safe: true, multi: true })
   User.findOne({username: username}).exec((err, user) => {
     if (user) {
       let obj = user.shoppingList;
@@ -260,6 +290,8 @@ exports.removeList = (req, res) => {
   });
 };
 
+
+
 exports.renameList = (req, res) => {
   let username = req.session.passport.user;
   let oldName = req.body[0];
@@ -267,7 +299,21 @@ exports.renameList = (req, res) => {
   User.findOne({username: username}).exec((err, user) => {
     if (user) {
       let obj = user.shoppingList;
-      obj[newName] = obj[oldName];
+      if (obj[newName]) {
+        let i = 1;
+        let newNewName;
+        while (true) {
+          let temp = newName + ' ' + i;
+          if (!obj[temp]) {
+            newNewName = temp;
+            break;
+          }
+          i++;
+        }
+        obj[newNewName] = obj[oldName];
+      } else {
+        obj[newName] = obj[oldName];
+      }
       delete obj[oldName];
       User.findOneAndUpdate({username: username}, {'$set': { shoppingList: obj }}, {upsert: true, new: true, runValidators: true, strict: false, overwrite: true}).exec((err, updatedUser) => {
         if (err) { console.log(err); }
@@ -302,7 +348,7 @@ exports.saveShopping = function(req, res, next) {
             let i = 1;
             let newName;
             while (true) {
-              let temp = key + i;
+              let temp = key + ' ' + i;
               if (!obj[temp]) {
                 newName = temp;
                 break;
@@ -424,7 +470,7 @@ exports.cachedWishlist = (req, res) => {
       var arr = JSON.parse(list.array);
       res.json(arr);
       // It will update feature wishlist in 10 minutes
-      cache.expire(categoryid, 1200);
+      cache.expire(categoryid, 12000);
     } else {
       storeitemsInCache(categoryid, res, count + 1);
     }
