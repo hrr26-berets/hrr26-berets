@@ -67,6 +67,7 @@ app.get('/message', (req, res) => {
 app.get('/update', handler.updateProducts);
 app.post('/save', handler.saveShopping);
 app.post('/save-existing', handler.saveExisting);
+app.post('/create-list', handler.createList);
 app.put('/remove-list', handler.removeList);
 app.put('/rename-list', handler.renameList);
 
