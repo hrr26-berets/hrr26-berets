@@ -12,7 +12,7 @@ class ShoppingListEntry extends Component {
   }
 
   handleListChange(e) {
-    let name = e.target.value;
+    let name = (e.target.value) ? e.target.value : 'Untitled';
     this.props.handleChange(name);
     this.props.setName();
   }

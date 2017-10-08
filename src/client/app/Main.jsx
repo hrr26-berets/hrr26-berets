@@ -135,7 +135,7 @@ class Main extends Component {
   newList() {
     this.setState({
       currentList: [],
-      currentListName: '',
+      currentListName: 'Untitled',
     });
   }
 
@@ -145,12 +145,11 @@ class Main extends Component {
     let url = (this.state.shoppingList[this.state.currentListName] !== undefined) ? '/save-existing' : '/save';
     axios.post(url, saved)
       .then((res) => {
-        console.log('wee data!!', res.data.shoppingList);
         let updatedList = res.data.shoppingList;
         this.setState({
           shoppingList: updatedList,
-          currentListName: this.state.currentListName,
-          currentList: updatedList[this.state.currentListName],
+          currentList: (updatedList[this.state.currentListName]) ? updatedList[this.state.currentListName] : [],
+          currentListName: (this.state.currentListName) ? this.state.currentListName : 'Untitled',
           myList: Object.keys(updatedList)
         });
       })
