@@ -41,7 +41,7 @@ class Main extends Component {
     if ( this.props.loggedIn) {
       this.getmyList();
     }
-    // this.getCatalog();
+    this.getCatalog();
   }
 
   getCatalog() {
@@ -123,14 +123,13 @@ class Main extends Component {
       }
     })
       .then((res) => {
-        console.log('res.data --> ', res.data[0]);
         let catalog = Object.assign({}, this.state.catalog);
         catalog[id] = res.data;
         this.setState({ catalog });
         // console.log('Catalog --> ',this.state.catalog);
       })
       .catch((err) => {
-        console.log('Error ---> ', err);
+        console.log(err);
       });
   }
 
@@ -309,8 +308,9 @@ class Main extends Component {
         <div className="row">
           {SearchResultsContainer}
         </div>
-        {/* {FeaturedListContainer} */}
+        {/* Featured wishlists based on best-selling items in the Walmart catalog */}
         <div className="row">
+          {FeaturedListContainer}
         </div>
         {/* User's current shopping list */}
         <div className="row">

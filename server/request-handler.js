@@ -72,9 +72,7 @@ exports.search = (req, res) => {
         obj.itemId = el.itemId;
         acc.push(obj);
       }
-      // if(acc.length === 1) {
-      //   console.log('El --> ',el);
-      // }
+
       return acc;
     }, []);
     res.json(arr.slice(0, 5));
@@ -82,7 +80,6 @@ exports.search = (req, res) => {
 };
 
 
-//exports.lookUp = (req, res) => {
 let lookUp = (itemId, cb) => {
   let options = {
     uri: 'http://api.walmartlabs.com/v1/items/' + itemId,
@@ -100,7 +97,6 @@ let lookUp = (itemId, cb) => {
       details.imageUrl = item.largeImage;
       details.thumbnailImage = item.thumbnailImage;
       details.price = item.salePrice;
-      //res.json(details);
       cb(details);
     })
     .catch((err) => {
@@ -113,7 +109,6 @@ let lookUp = (itemId, cb) => {
 
 
 let storeproductsInCache = (itemId, res) => {
-//_.debounce((categoryid,res) => {
   setTimeout( () => {
     lookUp(itemId, list => {
       cache.hmset(itemId, {array: JSON.stringify(list)}, (err, result) => {
@@ -135,7 +130,6 @@ exports.cachedProductDetails = (req, res) => {
   cache.hgetall(itemId, (err, list ) => {
     if (list) {
       var obj = JSON.parse(list.array);
-      //console.log('Object inside of Cache  ---> ');
       res.json(obj);
       // It will update feature wishlist in 10 minutes
       cache.expire(itemId, 3600);
@@ -413,7 +407,6 @@ let storeitemsInCache = (categoryid, res, count) => {
           console.log('Error --> ', err);
           console.log('Count --> ', count);
         } else {
-          console.log('MyList -->  ', result);
           res.json(list);
         }
       });
@@ -421,7 +414,6 @@ let storeitemsInCache = (categoryid, res, count) => {
   }, 1000);
 };
 
-//},1500, {leading: true, trailing: true})
 
 
 exports.cachedWishlist = (req, res) => {
@@ -430,7 +422,6 @@ exports.cachedWishlist = (req, res) => {
   cache.hgetall(categoryid, (err, list ) => {
     if (list) {
       var arr = JSON.parse(list.array);
-      //console.log('It stored inside of Cache !! ---> ');
       res.json(arr);
       // It will update feature wishlist in 10 minutes
       cache.expire(categoryid, 1200);
