@@ -54,7 +54,7 @@ export default class ShoppingList extends Component {
 
   changeName() {
     var name = this.state.listName;
-    this.props.handleNameChange(name);
+    this.props.handleRenameList(name);
     this.setState({ renaming: false });
   }
 

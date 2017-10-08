@@ -32,6 +32,8 @@ class Main extends Component {
     this.getFeaturedList = this.getFeaturedList.bind(this);
     this.getCatalog = this.getCatalog.bind(this);
     this.removeList = this.removeList.bind(this);
+    this.handleRenameList = this.handleRenameList.bind(this);
+    this.renameList = this.renameList.bind(this);
   }
 
   componentDidMount() {
@@ -169,6 +171,28 @@ class Main extends Component {
       });
   }
 
+  handleRenameList(newName) {
+    let oldName = this.state.currentListName;
+    this.renameList(oldName, newName);
+  }
+
+  renameList(oldName, newName) {
+    let names = [oldName, newName];
+    axios.put('/rename-list', names)
+      .then((res) => {
+        let updatedList = res.data.shoppingList;
+        this.setState({
+          shoppingList: updatedList,
+          currentList: updatedList[newName],
+          currentListName: newName,
+          myList: Object.keys(updatedList)
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
   render() {
     let NavContainer = (
       <span>
@@ -239,6 +263,7 @@ class Main extends Component {
             saveList={this.saveList}
             handleNameChange={this.handleNameChange}
             handleListChange={this.handleListChange}
+            handleRenameList={this.handleRenameList}
             myList={this.state.myList}
             shoppingList={this.state.shoppingList}
             currentList={this.state.currentList}/>

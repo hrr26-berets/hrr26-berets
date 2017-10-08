@@ -83,7 +83,7 @@ exports.search = (req, res) => {
 
 
 //exports.lookUp = (req, res) => {
-  let lookUp = (itemId,cb) => {
+let lookUp = (itemId, cb) => {
   let options = {
     uri: 'http://api.walmartlabs.com/v1/items/' + itemId,
     qs: {
@@ -112,39 +112,38 @@ exports.search = (req, res) => {
 
 
 
-let storeproductsInCache = (itemId,res) => {
+let storeproductsInCache = (itemId, res) => {
 //_.debounce((categoryid,res) => {
   setTimeout( () => {
     lookUp(itemId, list => {
-      cache.hmset(itemId,{array:JSON.stringify(list)}, (err,result) => {
-        if(err) {
-          console.log('Error --> ',err)
+      cache.hmset(itemId, {array: JSON.stringify(list)}, (err, result) => {
+        if (err) {
+          console.log('Error --> ', err);
+        } else {
+          console.log('MyList -->  ', result);
+          res.json(list);
         }
-        else {
-        console.log('MyList -->  ',result)
-       res.json(list);
-        }
-      })
-    })
- }, 1000);
-}
+      });
+    });
+  }, 1000);
+};
 
 
 
-exports.cachedProductDetails = (req,res) => {
+exports.cachedProductDetails = (req, res) => {
   let itemId = req.query.query;
   cache.hgetall(itemId, (err, list ) => {
     if (list) {
-      var obj = JSON.parse(list.array)
-       //console.log('Object inside of Cache  ---> ');
-        res.json(obj);
-        // It will update feature wishlist in 10 minutes
-        cache.expire(itemId,3600);
+      var obj = JSON.parse(list.array);
+      //console.log('Object inside of Cache  ---> ');
+      res.json(obj);
+      // It will update feature wishlist in 10 minutes
+      cache.expire(itemId, 3600);
     } else {
-    storeproductsInCache(itemId,res);
-   }
+      storeproductsInCache(itemId, res);
+    }
   });
-}
+};
 
 
 exports.getTrending = (req, res) => {
@@ -254,12 +253,28 @@ exports.saveExisting = (req, res) => {
 exports.removeList = (req, res) => {
   let username = req.session.passport.user;
   let listName = Object.keys(req.body)[0];
-  console.log(listName);
   // User.update({username: username}, {'$unset': { shoppingList: {listName} }}, { safe: true, multi: true })
   User.findOne({username: username}).exec((err, user) => {
     if (user) {
       let obj = user.shoppingList;
       delete obj[listName];
+      User.findOneAndUpdate({username: username}, {'$set': { shoppingList: obj }}, {upsert: true, new: true, runValidators: true, strict: false, overwrite: true}).exec((err, updatedUser) => {
+        if (err) { console.log(err); }
+        res.json(updatedUser);
+      });
+    }
+  });
+};
+
+exports.renameList = (req, res) => {
+  let username = req.session.passport.user;
+  let oldName = req.body[0];
+  let newName = req.body[1];
+  User.findOne({username: username}).exec((err, user) => {
+    if (user) {
+      let obj = user.shoppingList;
+      obj[newName] = obj[oldName];
+      delete obj[oldName];
       User.findOneAndUpdate({username: username}, {'$set': { shoppingList: obj }}, {upsert: true, new: true, runValidators: true, strict: false, overwrite: true}).exec((err, updatedUser) => {
         if (err) { console.log(err); }
         res.json(updatedUser);
@@ -387,25 +402,24 @@ let getWishlist = (categoryid, cb) => {
   });
 };
 
-let storeitemsInCache = (categoryid,res,count) => {
+let storeitemsInCache = (categoryid, res, count) => {
 //_.debounce((categoryid,res) => {
   setTimeout( () => {
- // console.log('It is being invoked');
+    // console.log('It is being invoked');
 
-   getWishlist(categoryid, list => {
-      cache.hmset(categoryid,{array:JSON.stringify(list)}, (err,result) => {
-        if(err) {
-          console.log('Error --> ',err)
-          console.log('Count --> ',count);
+    getWishlist(categoryid, list => {
+      cache.hmset(categoryid, {array: JSON.stringify(list)}, (err, result) => {
+        if (err) {
+          console.log('Error --> ', err);
+          console.log('Count --> ', count);
+        } else {
+          console.log('MyList -->  ', result);
+          res.json(list);
         }
-        else {
-        console.log('MyList -->  ',result)
-       res.json(list);
-        }
-      })
-    })
- }, 1000);
-}
+      });
+    });
+  }, 1000);
+};
 
 //},1500, {leading: true, trailing: true})
 
@@ -415,14 +429,14 @@ exports.cachedWishlist = (req, res) => {
   let count = 0;
   cache.hgetall(categoryid, (err, list ) => {
     if (list) {
-      var arr = JSON.parse(list.array)
-       //console.log('It stored inside of Cache !! ---> ');
-        res.json(arr);
-        // It will update feature wishlist in 10 minutes
-        cache.expire(categoryid,1200);
+      var arr = JSON.parse(list.array);
+      //console.log('It stored inside of Cache !! ---> ');
+      res.json(arr);
+      // It will update feature wishlist in 10 minutes
+      cache.expire(categoryid, 1200);
     } else {
-    storeitemsInCache(categoryid,res,count + 1);
-   }
+      storeitemsInCache(categoryid, res, count + 1);
+    }
   });
 };
 
