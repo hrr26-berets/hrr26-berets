@@ -18,7 +18,7 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-
+// signUp user with passport
 exports.signUpUser = (req, res) => {
   User.register(new User({ username: req.body.username }), req.body.password, (err, user) => {
     if (err) { return res.send(err); }
@@ -33,7 +33,7 @@ exports.signUpUser = (req, res) => {
   });
 };
 
-
+// logs in user with wishlist
 exports.logInUser = (req, res) => {
   let username = req.body.username;
   let password = req.body.password;
@@ -49,6 +49,7 @@ exports.logOutUser = (req, res) => {
   res.redirect('/');
 };
 
+// filter the item name if it has words refurbished or used
 let filterWords = (name) => {
   return name.split(' ').reduce( (acc, el) => {
     if (el.toLowerCase() === 'refurbished' || el.toLowerCase() === 'used') {
@@ -58,7 +59,7 @@ let filterWords = (name) => {
   }, true);
 };
 
-
+// search for items using walmart api
 exports.search = (req, res) => {
   let test = req.query.query;
   walmartReq.search(test).then((products) => {
@@ -83,7 +84,7 @@ exports.search = (req, res) => {
   });
 };
 
-
+// looks up item details
 let lookUp = (itemId, cb) => {
   let options = {
     uri: 'http://api.walmartlabs.com/v1/items/' + itemId,
@@ -111,7 +112,7 @@ let lookUp = (itemId, cb) => {
 
 
 
-
+/// stores products in our cache database if product details wasn't find
 let storeproductsInCache = (itemId, res) => {
   setTimeout( () => {
     lookUp(itemId, list => {
@@ -127,7 +128,7 @@ let storeproductsInCache = (itemId, res) => {
 };
 
 
-
+// checks if we stored item details for provided itemID
 exports.cachedProductDetails = (req, res) => {
   let itemId = req.query.query;
   cache.hgetall(itemId, (err, list ) => {
@@ -141,7 +142,7 @@ exports.cachedProductDetails = (req, res) => {
   });
 };
 
-
+// gets items for popularitems container
 exports.getTrending = (req, res) => {
   let options = {
     uri: 'http://api.walmartlabs.com/v1/trends',
@@ -169,7 +170,7 @@ exports.getTrending = (req, res) => {
     });
 };
 
-
+// stores products to databse
 exports.storeProduct = (product) => {
   let now = new Date();
   let storingItem = product;
@@ -195,8 +196,8 @@ exports.storeProduct = (product) => {
   });
 };
 
+// retrieves shopping list for logged in user 
 exports.retrieveShopping = function(req, res) {
-  console.log('Get User --> ', req.session.passport.user);
   if (req.session.passport.user) {
     let username = req.session.passport.user;
     User.findOne({username: username}).exec((err, user) => {
@@ -215,6 +216,7 @@ exports.retrieveShopping = function(req, res) {
     res.send('Unauthorized access!');
   }
 };
+// saving existing shopping list after changes were made
 exports.saveExisting = (req, res) => {
   let list = req.body;
   let listName;
@@ -245,7 +247,7 @@ exports.saveExisting = (req, res) => {
     });
   }
 };
-
+//create a new shoppinglist if shopping list doesn't exist inside of User.shoppinglist object
 exports.createList = (req, res) => {
   let username = req.session.passport.user;
   let newName = 'Untitled';
@@ -274,7 +276,7 @@ exports.createList = (req, res) => {
     }
   });
 };
-
+// remove shopping list from User database
 exports.removeList = (req, res) => {
   let username = req.session.passport.user;
   let listName = Object.keys(req.body)[0];
@@ -291,7 +293,7 @@ exports.removeList = (req, res) => {
 };
 
 
-
+// rename the shoppingList function
 exports.renameList = (req, res) => {
   let username = req.session.passport.user;
   let oldName = req.body[0];
@@ -322,7 +324,7 @@ exports.renameList = (req, res) => {
     }
   });
 };
-
+// saving shopping list inside of User database
 exports.saveShopping = function(req, res, next) {
   let test = {techShopping: [{'name': 'Apples iPod touch 16GB', 'price': 225, 'itemId': 42608132},
     {'name': 'Xbox Ones S Battlefield 1 500 GB Bundle', 'price': 279, 'itemId': 54791579},
@@ -374,6 +376,8 @@ exports.saveShopping = function(req, res, next) {
   }
 };
 
+
+// next two function are used for nodemailer
 let smtTransport = nodemailer.createTransport({
   service: 'gmail',
   host: 'beretsberet@gmail.com',
@@ -385,13 +389,12 @@ let smtTransport = nodemailer.createTransport({
 
 let mailOptions = {
   from: 'Admin <beretsberet@gmail.com',
-  to: 'bois.bb18@gmail.com',
+  to: 'test@test.com',
   subject: 'Hello World!',
   text: 'Hello World!'
 };
 
 let handleRequests = (product, callback) => {
-  console.log(' Products --> ', product);
   if (product) {
     walmartReq.getItem(product.itemId).then((item) => {
 
@@ -406,6 +409,7 @@ let handleRequests = (product, callback) => {
 //Clothing --> '5438'
 //Electronics  ---> '3944'
 //Helth ---> '976760'
+// filters the name for featured wishlist item
 let removeSpecialCharacter = (sentence) => {
   return sentence.split(' ').map((word) => {
     return word.split('').filter((letter) => {
@@ -419,10 +423,8 @@ let removeSpecialCharacter = (sentence) => {
   }).join(' ');
 };
 
-// exports.popularCategories = (req, res) => {
+//get the items for featuredWIshlist by using walmartReq.bestSellers
 let getWishlist = (categoryid, cb) => {
-  //let categoryid = req.query.query || 976760;
-  //console.log(categoryid);
   walmartReq.feeds.bestSellers(categoryid).then((items) => {
     let arr = items.items.reduce((acc, el) => {
       let obj = {};
@@ -442,16 +444,13 @@ let getWishlist = (categoryid, cb) => {
   });
 };
 
-let storeitemsInCache = (categoryid, res, count) => {
-//_.debounce((categoryid,res) => {
+// store featuredList items in cache database
+let storeitemsInCache = (categoryid, res) => {
   setTimeout( () => {
-    // console.log('It is being invoked');
-
     getWishlist(categoryid, list => {
       cache.hmset(categoryid, {array: JSON.stringify(list)}, (err, result) => {
         if (err) {
           console.log('Error --> ', err);
-          console.log('Count --> ', count);
         } else {
           res.json(list);
         }
@@ -461,7 +460,7 @@ let storeitemsInCache = (categoryid, res, count) => {
 };
 
 
-
+// it will items from cache(database);
 exports.cachedWishlist = (req, res) => {
   let categoryid = req.query.query;
   let count = 0;
@@ -470,9 +469,9 @@ exports.cachedWishlist = (req, res) => {
       var arr = JSON.parse(list.array);
       res.json(arr);
       // It will update feature wishlist in 10 minutes
-      cache.expire(categoryid, 12000);
+      cache.expire(categoryid, 600);
     } else {
-      storeitemsInCache(categoryid, res, count + 1);
+      storeitemsInCache(categoryid, res);
     }
   });
 };
@@ -482,7 +481,7 @@ exports.cachedWishlist = (req, res) => {
 
 
 
-
+// it will notify if price for any product in User database has changed
 exports.updateProducts = (req, res) => {
   Product.find({}, (err, items) => {
     if (err) {
@@ -495,7 +494,6 @@ exports.updateProducts = (req, res) => {
           handleRequests(item, (newItem) => {
             item.price = newItem.product.buyingOptions.price.currencyAmount;
             item.updatedAt = new Date();
-
 
             mailOptions.subject = 'Price changed!';
             mailOptions.text = 'New price is $' + item.price + ' for ' + item.name;

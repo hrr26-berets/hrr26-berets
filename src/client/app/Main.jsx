@@ -41,7 +41,7 @@ class Main extends Component {
     if (this.props.loggedIn) {
       this.getmyList();
     }
-    this.getCatalog();
+     this.getCatalog();
   }
 
   getCatalog() {
