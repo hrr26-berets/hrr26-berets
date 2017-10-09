@@ -23,7 +23,7 @@ exports.signUpUser = (req, res) => {
   User.register(new User({ username: req.body.username }), req.body.password, (err, user) => {
     if (err) { return res.send(err); }
     let obj = { 'My WishList': [] };
-    User.findOneAndUpdate({username: req.body.username}, {'$set': { shoppingList: obj }}, {upsert: true, new: true, runValidators: true, strict: false, overwrite: true}).exec((err, updatedUser) => {
+    User.findOneAndUpdate({username: req.body.username}, { shoppingList: obj }, {upsert: true, new: true}).exec((err, updatedUser) => {
       if (err) { console.log(err); }
       passport.authenticate('local')(req, res, () => {
         console.log('Req.user -> ', req.session);
@@ -232,7 +232,7 @@ exports.saveExisting = (req, res) => {
         obj = user.shoppingList;
         if (obj[listName]) {
           obj[listName] = list[listName];
-          User.findOneAndUpdate({username: username}, {'$set': {shoppingList: obj}}, {upsert: true, new: true, runValidators: true, strict: false, overwrite: true}).exec((err, updatedUser) => {
+          User.findOneAndUpdate({username: username}, { shoppingList: obj }, {upsert: true, new: true}).exec((err, updatedUser) => {
             if (err) {
               console.log('Error --> ', err);
             } else {
@@ -267,7 +267,7 @@ exports.createList = (req, res) => {
       } else {
         obj[newName] = [];
       }
-      User.findOneAndUpdate({username: username}, {'$set': { shoppingList: obj }}, {upsert: true, new: true, runValidators: true, strict: false, overwrite: true}).exec((err, updatedUser) => {
+      User.findOneAndUpdate({username: username}, { shoppingList: obj }, {upsert: true, new: true}).exec((err, updatedUser) => {
         if (err) { console.log(err); }
         res.json(updatedUser);
       });
@@ -282,7 +282,7 @@ exports.removeList = (req, res) => {
     if (user) {
       let obj = user.shoppingList;
       delete obj[listName];
-      User.findOneAndUpdate({username: username}, {'$set': { shoppingList: obj }}, {upsert: true, new: true, runValidators: true, strict: false, overwrite: true}).exec((err, updatedUser) => {
+      User.findOneAndUpdate({username: username}, { shoppingList: obj }, {upsert: true, new: true}).exec((err, updatedUser) => {
         if (err) { console.log(err); }
         res.json(updatedUser);
       });
@@ -315,7 +315,7 @@ exports.renameList = (req, res) => {
         obj[newName] = obj[oldName];
       }
       delete obj[oldName];
-      User.findOneAndUpdate({username: username}, {'$set': { shoppingList: obj }}, {upsert: true, new: true, runValidators: true, strict: false, overwrite: true}).exec((err, updatedUser) => {
+      User.findOneAndUpdate({username: username}, { shoppingList: obj }, {upsert: true, new: true}).exec((err, updatedUser) => {
         if (err) { console.log(err); }
         res.json(updatedUser);
       });
@@ -361,7 +361,7 @@ exports.saveShopping = function(req, res, next) {
             obj[key] = list[key];
           }
         }
-        User.findOneAndUpdate({username: username}, {'$set': {shoppingList: obj}}, {upsert: true, new: true, runValidators: true, strict: false, overwrite: true}).exec((err, newUser) => {
+        User.findOneAndUpdate({username: username}, { shoppingList: obj }, {upsert: true, new: true}).exec((err, newUser) => {
           if (err) {
             console.log('Error --> ', err);
           } else {
