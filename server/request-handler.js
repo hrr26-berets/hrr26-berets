@@ -8,6 +8,7 @@ const LocalStrategy = require('passport-local').Strategy;
 
 const User = require('../db/models/user');
 const Product = require('../db/models/product');
+// Please sign up at https://developer.walmartlabs.com/ for API KEY.
 const walmartKey = require('./api-keys');
 const walmartReq = require('walmart')(walmartKey.walmartKey);
 const nodemailer = require('nodemailer');
@@ -196,7 +197,7 @@ exports.storeProduct = (product) => {
   });
 };
 
-// retrieves shopping list for logged in user 
+// retrieves shopping list for logged in user
 exports.retrieveShopping = function(req, res) {
   if (req.session.passport.user) {
     let username = req.session.passport.user;
